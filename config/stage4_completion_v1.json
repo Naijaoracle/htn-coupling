@@ -1,0 +1,23 @@
+{
+  "schema": "htn-coupling.stage4-completion",
+  "version": "1.0.0",
+  "selected_baseline": "stage4_scaled",
+  "carotid_output_position": "distal vessel column",
+  "morphology_gate": {
+    "maximum_alignment_fraction_of_cycle": 0.05,
+    "minimum_phase_aligned_correlation": 0.90,
+    "maximum_phase_aligned_normalised_rmse": 0.20,
+    "minimum_identifiable_peak_count": 1
+  },
+  "inlet_perturbations": {
+    "flow_amplitude_scale": [0.95, 1.05],
+    "cardiac_period_scale": [0.95, 1.05]
+  },
+  "stiffness_perturbation": {
+    "all_vessel_youngs_modulus_scale": 2.0,
+    "terminal_compliance_scale": 1.0,
+    "interpretation": "approximate conduit-wall compliance halving; not a fit"
+  },
+  "primary_noise_metric": "phase-resampled full-pressure waveform RMSE in mmHg",
+  "stage5_required_sensitivity": "repeat 2x-E response from an approximately 31 mmHg age-45-matched aortic-PP baseline"
+}

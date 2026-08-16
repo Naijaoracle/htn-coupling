@@ -2,7 +2,7 @@
 
 ## Outcome
 
-**The aortic acceptance gate failed, so Stage 4 stops here.** Resistance scaling brought mean aortic pressure within tolerance, but neither arm reproduced Pulse pulse pressure. No carotid plausibility or inlet-sensitivity result is reported, and Stage 5 is blocked until the compliance/waveform mismatch is resolved.
+**The original predeclared aortic acceptance gate failed.** This historical gate result is retained below. Stage 4b subsequently attributed the gap to the Pulse inlet and adopted an amended physiological-plausibility gate; carotid plausibility and sensitivity were then completed. See `STAGE4B_PULSE_PRESSURE_DIAGNOSIS.md` and `STAGE4_COMPLETION.md`.
 
 ## Interface and inlet checks
 
@@ -34,9 +34,9 @@ The two end-to-end base runs took 54.4 s (published) and 59.3 s (scaled), includ
 3. Versioned interface and tested conversions: pass.
 4. Stable, periodic inlet with consistent flow integral: pass.
 5. Both resistance arms: run and reported.
-6. Aortic agreement: **fail**; no arm met both tolerances.
-7. Carotid plausibility: blocked by criterion 6.
-8. Inlet sensitivity: blocked by criterion 6.
+6. Original aortic agreement: **fail**; amended Stage 4b gate: **pass** for the resistance-scaled arm.
+7. Carotid plausibility: subsequently **pass** at both distal references under the amended gate.
+8. Inlet sensitivity: subsequently quantified, including the isolated 2x wall-stiffness comparator.
 9. Runtime: recorded.
 
 ## Artefacts

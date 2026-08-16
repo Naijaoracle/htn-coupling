@@ -1,0 +1,59 @@
+{
+  "openbf_revision": "928c046906687c1347bf5496b47325acd0b2c032",
+  "base_yaml": "{OPENBF_ROOT}/models/boileau2015/adan56/adan56.yaml",
+  "selected_baseline": "stage4_scaled",
+  "global_resistance_scale": 1.0533248717747048,
+  "stiffness_decision": "All vessel E doubled as an approximate conduit-wall compliance halving; terminal Cc unchanged to isolate distributed stiffness.",
+  "cases": [
+    {
+      "case": "sensitivity_flow_low",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_flow_low/sensitivity_flow_low.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_flow_low/sensitivity_flow_low_inlet.dat",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "inlet_flow_scale": 0.95,
+      "cardiac_period_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "sensitivity_flow_high",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_flow_high/sensitivity_flow_high.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_flow_high/sensitivity_flow_high_inlet.dat",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "inlet_flow_scale": 1.05,
+      "cardiac_period_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "sensitivity_period_low",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_period_low/sensitivity_period_low.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_period_low/sensitivity_period_low_inlet.dat",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "inlet_flow_scale": 1.0,
+      "cardiac_period_scale": 0.95,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "sensitivity_period_high",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_period_high/sensitivity_period_high.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_period_high/sensitivity_period_high_inlet.dat",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "inlet_flow_scale": 1.0,
+      "cardiac_period_scale": 1.05,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "sensitivity_wall_stiffness_2x",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_wall_stiffness_2x/sensitivity_wall_stiffness_2x.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4_completion/configs/sensitivity_wall_stiffness_2x/sensitivity_wall_stiffness_2x_inlet.dat",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "inlet_flow_scale": 1.0,
+      "cardiac_period_scale": 1.0,
+      "wall_youngs_modulus_scale": 2.0
+    }
+  ]
+}

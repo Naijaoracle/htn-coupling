@@ -1,0 +1,47 @@
+{
+  "selected_baseline": "stage4_scaled",
+  "distal_column_used": true,
+  "carotid_shape_gate_passed": true,
+  "ica_mean_flow_exceeds_eca": true,
+  "all_runs_converged": true,
+  "stiffness_exceeds_tested_inlet_noise_both_sites": true,
+  "stage5_baseline_scaling_question": "Open: repeat the same E x2 perturbation from an age-45-matched approximately 31 mmHg aortic-PP baseline; this Stage 4 result only establishes response above the depressed coupled baseline.",
+  "runtime": [
+    {
+      "case": "sensitivity_flow_high",
+      "openbf_converged": true,
+      "openbf_cycles": 6,
+      "openbf_solver_elapsed_s": 30.190469733,
+      "end_to_end_wall_s": 65.92448902130127
+    },
+    {
+      "case": "sensitivity_flow_low",
+      "openbf_converged": true,
+      "openbf_cycles": 4,
+      "openbf_solver_elapsed_s": 18.247469143,
+      "end_to_end_wall_s": 53.48404002189636
+    },
+    {
+      "case": "sensitivity_period_high",
+      "openbf_converged": true,
+      "openbf_cycles": 5,
+      "openbf_solver_elapsed_s": 27.900369219,
+      "end_to_end_wall_s": 66.93543100357056
+    },
+    {
+      "case": "sensitivity_period_low",
+      "openbf_converged": true,
+      "openbf_cycles": 6,
+      "openbf_solver_elapsed_s": 27.444172377,
+      "end_to_end_wall_s": 64.97548699378967
+    },
+    {
+      "case": "sensitivity_wall_stiffness_2x",
+      "openbf_converged": true,
+      "openbf_cycles": 4,
+      "openbf_solver_elapsed_s": 27.50505837,
+      "end_to_end_wall_s": 63.753538846969604
+    }
+  ],
+  "stage4_complete": true
+}

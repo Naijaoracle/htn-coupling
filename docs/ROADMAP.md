@@ -28,15 +28,19 @@ normotensive resting-pressure gate. See
 
 ## Stage 4 — One-way bridge
 
-Gate failed at the aorta. Resistance scaling matched mean pressure within the
-predeclared tolerance, but both arms underestimated Pulse pulse pressure by
-about 20 mmHg. Carotid and sensitivity work is blocked pending an explicit
-compliance/waveform-resolution experiment. See
-[the Stage 4 report](STAGE4_PULSE_OPENBF_BRIDGE.md).
+Completed. Stage 4b attributed the original pulse-pressure gate failure to the
+genuine Pulse inlet and replaced that gate with mean agreement plus
+physiological plausibility. Distal ECA and ICA morphology passes the bounded
+shape screen, and a 2x wall-stiffness perturbation exceeds the tested +/-5%
+inlet-noise floor at both sites. See [the original gate report](STAGE4_PULSE_OPENBF_BRIDGE.md),
+[the diagnosis](STAGE4B_PULSE_PRESSURE_DIAGNOSIS.md), and
+[the completion report](STAGE4_COMPLETION.md).
 
 ## Stage 5 — Hypertension through both models
 
-Blocked by the Stage 4 aortic gate.
+Ready. First repeat the 2x-E response from an approximately 31 mmHg
+age-45-matched aortic-PP baseline and compare it with the depressed 20.45 mmHg
+coupled baseline; do not assume response scaling.
 
 Apply the Tier 0 phenotype, propagate it through the bridge, and map stiffness
 and peripheral resistance to openBF E and R2. Check pulse-pressure widening and

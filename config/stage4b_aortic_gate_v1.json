@@ -1,0 +1,16 @@
+{
+  "schema": "htn-coupling.stage4b-aortic-gate",
+  "version": "1.0.0",
+  "supersedes": "config/stage4_interface_v1.json#aortic_acceptance",
+  "control_patient": {"name": "StandardMale@0s", "age_years": 44},
+  "acceptance": {
+    "mean_pressure_error_vs_pulse_absolute_max_mmHg": 5.0,
+    "aortic_pulse_pressure_reference_interval_mmHg": [18.0, 43.0],
+    "reference_population_age_years": [25, 44],
+    "requires_finite_periodic_single_ejection_waveform": true,
+    "requires_material_shape_differences_reported": true
+  },
+  "decision": "agreement in mean; physiological plausibility in pulse pressure and shape",
+  "selected_arm": "resistance-scaled",
+  "selected_arm_passed": true
+}

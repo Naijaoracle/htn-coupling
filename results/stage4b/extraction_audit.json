@@ -1,0 +1,24 @@
+{
+  "raw_sampling_interval_s": 0.019999999999999574,
+  "raw_sampling_rate_Hz": 50.000000000001066,
+  "raw_cycle_peaks_mL_s": [
+    434.7421955896758,
+    434.7458308778895,
+    434.7957780825179,
+    434.7957780825179,
+    434.7952775425152,
+    434.7952775425152,
+    434.7526810796304,
+    434.79472595822506
+  ],
+  "raw_peak_mean_mL_s": 434.77719309443586,
+  "raw_peak_range_mL_s": [
+    434.7421955896758,
+    434.7957780825179
+  ],
+  "averaged_201_peak_mL_s": 434.750256454,
+  "averaging_peak_attenuation_percent": 0.006195504470722901,
+  "cycle_alignment_max_rmse_fraction_of_peak": 7.99401466042376e-05,
+  "source_semantics": "Pulse VascularCompartment::Aorta InFlow; the Aorta compartment's incoming liquid link is LeftHeartToAorta, mapped to circuit path LeftHeart1ToAorta2 (SetupCircuitsAndCompartments.cpp:1123-1124).",
+  "zero_and_start": "Values below 1e-10 m3/s use ADAN56's nonzero convention; cycle starts immediately before maximum systolic upstroke. A rejected peak-start/exact-zero probe produced non-finite pressure."
+}

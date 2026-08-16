@@ -1,0 +1,47 @@
+{
+  "bodies_n": 20,
+  "runs_n": 80,
+  "all_runs_successful": true,
+  "primary_endpoint": "time_to_30pct_map_fall_s",
+  "paired_results": [
+    {
+      "phenotype_vs_normotensive": "resistance_dominant",
+      "paired_bodies_n": 20,
+      "median_time_difference_s": -57.00000000023803,
+      "mean_time_difference_s": -53.150000000241526,
+      "bootstrap_95pct_low_s": -62.50000000023297,
+      "bootstrap_95pct_high_s": -42.50000000025125,
+      "earlier_n": 20,
+      "later_n": 0,
+      "equal_n": 0,
+      "wilcoxon_p": 1.9073486328125e-06,
+      "holm_adjusted_p": 5.7220458984375e-06
+    },
+    {
+      "phenotype_vs_normotensive": "compliance_dominant",
+      "paired_bodies_n": 20,
+      "median_time_difference_s": 6.999999999703789,
+      "mean_time_difference_s": 7.999999999702834,
+      "bootstrap_95pct_low_s": 6.999999999703675,
+      "bootstrap_95pct_high_s": 7.9999999997028794,
+      "earlier_n": 0,
+      "later_n": 20,
+      "equal_n": 0,
+      "wilcoxon_p": 1.9073486328125e-06,
+      "holm_adjusted_p": 5.7220458984375e-06
+    },
+    {
+      "phenotype_vs_normotensive": "combined",
+      "paired_bodies_n": 20,
+      "median_time_difference_s": -49.500000000244825,
+      "mean_time_difference_s": -47.20000000024697,
+      "bootstrap_95pct_low_s": -54.500000000240306,
+      "bootstrap_95pct_high_s": -39.500000000254005,
+      "earlier_n": 20,
+      "later_n": 0,
+      "equal_n": 0,
+      "wilcoxon_p": 1.9073486328125e-06,
+      "holm_adjusted_p": 5.7220458984375e-06
+    }
+  ]
+}

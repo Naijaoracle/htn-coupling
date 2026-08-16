@@ -1,0 +1,12 @@
+{
+  "augmentation_pressure_reported_with_index": true,
+  "figure": "{HTN_COUPLING_ROOT}/results/stage5_followup/reflection_detector_annotated_overlays.png",
+  "classification_status": "complete: cross-arm reflection phase withdrawn after feature substitution audit",
+  "cross_arm_comparisons_n": 12,
+  "invalid_ambiguous_or_missing_n": 8,
+  "marker_key": {
+    "primary": "filled triangle up",
+    "trough": "filled triangle down",
+    "selected_secondary": "open circle"
+  }
+}

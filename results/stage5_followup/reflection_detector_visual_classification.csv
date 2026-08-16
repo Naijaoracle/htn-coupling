@@ -1,0 +1,13 @@
+phenotype,arm,vessel,feature_identity,cross_arm_phase_valid,rationale
+normotensive,uniform_E2p5,external_carotid_R,missing,false,Uniform trace has one detected maximum and no selected secondary feature
+normotensive,uniform_E2p5,internal_carotid_R,different_feature,false,Selector moves from early systolic shoulder to a late notch on the stiffened plateau
+normotensive,central_only_E2p5,external_carotid_R,same_feature,true,Selected secondary shoulder remains visually aligned near phase 0.30
+normotensive,central_only_E2p5,internal_carotid_R,same_feature,true,Selected secondary shoulder remains visually aligned near phase 0.32
+compliance_dominant,uniform_E2p5,external_carotid_R,missing,false,Uniform trace has one detected maximum and no selected secondary feature
+compliance_dominant,uniform_E2p5,internal_carotid_R,different_feature,false,Selector moves from early systolic shoulder to a late notch on the stiffened plateau
+compliance_dominant,central_only_E2p5,external_carotid_R,ambiguous,false,Broad plateau changes enough that the phases 0.37 and 0.32 extrema cannot be identified as the same feature confidently
+compliance_dominant,central_only_E2p5,internal_carotid_R,same_feature,true,Selected secondary shoulder remains visually aligned near phase 0.33
+combined,uniform_E2p5,external_carotid_R,different_feature,false,Baseline late hump and uniform plateau notch are not the same morphological feature
+combined,uniform_E2p5,internal_carotid_R,different_feature,false,Selector moves from early second systolic peak to a late plateau notch
+combined,central_only_E2p5,external_carotid_R,different_feature,false,Baseline selector marks a late hump near 0.54 while central stiffening marks the early systolic shoulder near 0.28
+combined,central_only_E2p5,internal_carotid_R,same_feature,true,Early second systolic peak is preserved near phase 0.28

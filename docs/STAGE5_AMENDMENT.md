@@ -2,7 +2,7 @@
 
 ## Decision
 
-The original Stage 5 conclusion is **not overturned** under the predeclared amendment rule. The numerical shape signal remains real; the question here is whether central-only stiffening restores wider pulse pressure, earlier identifiable reflection, and increased augmentation at both carotids.
+The numerical shape signal remains real. The historical amendment gate below did not pass, but its reflection-phase component was later withdrawn after annotated-waveform review showed feature substitution. The recognisability result is therefore unassessable under that detector rather than a confirmed physiological failure; see `docs/STAGE5_FOLLOWUP.md`.
 
 ## Taper audit
 
@@ -72,4 +72,4 @@ Baseline is each run's median MAP over scenario seconds 0–29. Crossings are re
 | normotensive        |          4 |                     95.213 |                       425.500 |                       462.500 |                       487.500 |
 | resistance_dominant |          4 |                    119.995 |                       374.500 |                       412.500 |                       435.500 |
 
-These fractional endpoints should accompany, and take interpretive precedence over, the absolute MAP-65 ordering when baseline pressures differ.
+These fractional endpoints should accompany, and take interpretive precedence over, the absolute MAP-65 ordering when baseline pressures differ. The later predeclared 20-body paired expansion supersedes this exploratory four-body panel; see `docs/STAGE5_FOLLOWUP.md`.

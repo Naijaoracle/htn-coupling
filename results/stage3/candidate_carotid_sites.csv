@@ -1,0 +1,15 @@
+model,label,shortest_graph_root_to_distal_m,direct_carotid_route_to_distal_m,distal_radius_mm,terminal_by_topology,outlet,relationship_to_facial_territory,physical_optical_site
+adan56,common_carotid_R,0.20298440140000001,0.20298440140000001,3.32624,False,,upstream of both facial territories,False
+adan56,external_carotid_R,0.2638812788,0.2638812788,2.26547,True,wk3,upstream reference for ECA-supplied facial skin,False
+adan56,internal_carotid_R,0.33509436420000005,0.33509436420000005,2.76538,True,wk3,upstream reference for ICA/ophthalmic-supplied facial skin,False
+adan56,common_carotid_L,0.2053366411,0.2053366411,3.32624,False,,upstream of both facial territories,False
+adan56,external_carotid_L,0.266233701,0.266233701,2.26547,True,wk3,upstream reference for ECA-supplied facial skin,False
+adan56,internal_carotid_L,0.3374470246,0.3374470246,2.76538,True,wk3,upstream reference for ICA/ophthalmic-supplied facial skin,False
+alastruey2007,5-L-commoncarotid,0.268,0.268,2.5,False,,upstream of both facial territories,False
+alastruey2007,6-R-commoncarotid,0.251,0.251,2.5,False,,upstream of both facial territories,False
+alastruey2007,10-L-ext-carotid,0.445,0.445,1.5,True,wk3,upstream reference for ECA-supplied facial skin,False
+alastruey2007,11-L-int-carotidI,0.445,0.445,2.0,False,,upstream reference for ICA/ophthalmic-supplied facial skin,False
+alastruey2007,12-R-int-carotidI,0.428,0.428,2.0,False,,upstream reference for ICA/ophthalmic-supplied facial skin,False
+alastruey2007,13-R-ext-carotid,0.428,0.428,1.5,True,wk3,upstream reference for ECA-supplied facial skin,False
+alastruey2007,18-L-int-carotidII,0.31000000000000005,0.45,2.0,False,,upstream reference for ICA/ophthalmic-supplied facial skin,False
+alastruey2007,21-R-int-carotidII,0.31000000000000005,0.433,2.0,False,,upstream reference for ICA/ophthalmic-supplied facial skin,False

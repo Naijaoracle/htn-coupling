@@ -19,8 +19,12 @@ pressures using the stock engine. Tabulate the mapping and calibration error.
 
 ## Stage 3 — Facial territory gate
 
-Determine whether adan56 reaches the facial artery, identify the nearest usable
-external-carotid output, and scope any network extension before bridge work.
+Completed: neither shipped network reaches a physical facial-rPPG site. Use
+separate distal external- and internal-carotid outputs as upstream references,
+with an explicit unmodelled cutaneous transfer. The stock Circle-of-Willis
+example is anatomically closer to the ophthalmic route but fails the
+normotensive resting-pressure gate. See
+[the Stage 3 report](STAGE3_OPTICAL_SITE_REACHABILITY.md).
 
 ## Stage 4 — One-way bridge
 

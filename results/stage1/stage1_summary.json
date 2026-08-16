@@ -151,5 +151,151 @@
     ]
   },
   "strict_readings_2_and_3_complete_n": 4875,
-  "comparator_status": "not run: no local HRS or ELSA dataset supplied"
+  "elsa_wave8": {
+    "source_rows": 3525,
+    "valid_derived_pressure_n": 3317,
+    "pressure": {
+      "group": "All",
+      "n": 3317,
+      "inside_pressure_box_n": 630,
+      "inside_pressure_box_pct": 18.993066023515226,
+      "pressure_box_excluded_n": 2687,
+      "pressure_box_excluded_pct": 81.00693397648477,
+      "too_high_any_component_n": 2476,
+      "too_high_any_component_pct": 74.64576424479952,
+      "too_low_any_component_n": 385,
+      "too_low_any_component_pct": 11.606873681037081,
+      "high_without_any_low_n": 2302,
+      "high_without_any_low_pct": 69.40006029544769,
+      "low_without_any_high_n": 211,
+      "low_without_any_high_pct": 6.361169731685258,
+      "mixed_high_and_low_n": 174,
+      "mixed_high_and_low_pct": 5.245703949351824,
+      "outside_one_component_only_n": 1811,
+      "outside_one_component_only_pct": 54.597527886644556,
+      "systolic_only_outside_n": 1581,
+      "systolic_only_outside_pct": 47.66355140186916,
+      "diastolic_only_outside_n": 230,
+      "diastolic_only_outside_pct": 6.9339764847754,
+      "both_components_outside_n": 876,
+      "both_components_outside_pct": 26.409406089840218,
+      "narrow_pulse_additional_exclusion_n": 0,
+      "narrow_pulse_additional_exclusion_pct": 0.0,
+      "full_pressure_rules_excluded_n": 2687,
+      "full_pressure_rules_excluded_pct": 81.00693397648477
+    },
+    "anthropometry": [
+      {
+        "constraint": "height outside sex-specific typical range (warning)",
+        "n_assessed": 3502,
+        "n_outside": 293,
+        "pct_outside": 8.366647629925756,
+        "engine_effect": "warning"
+      },
+      {
+        "constraint": "height outside 4.5-7.0 ft hard range",
+        "n_assessed": 3502,
+        "n_outside": 0,
+        "pct_outside": 0.0,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "BMI below 16 kg/m2",
+        "n_assessed": 3448,
+        "n_outside": 5,
+        "pct_outside": 0.14501160092807425,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "BMI above 30 kg/m2",
+        "n_assessed": 3448,
+        "n_outside": 1064,
+        "pct_outside": 30.858468677494198,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "BMI outside 16-30 kg/m2",
+        "n_assessed": 3448,
+        "n_outside": 1069,
+        "pct_outside": 31.003480278422273,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "weight alone",
+        "n_assessed": 3468,
+        "n_outside": 0,
+        "pct_outside": 0.0,
+        "engine_effect": "no standalone bound; weight is constrained through BMI"
+      }
+    ],
+    "complete_case_constraints": [
+      {
+        "constraint": "pressure_engine_excluded",
+        "n_complete": 3254,
+        "n_excluded": 2637,
+        "pct_excluded": 81.03872157344806
+      },
+      {
+        "constraint": "age_excluded",
+        "n_complete": 3254,
+        "n_excluded": 2165,
+        "pct_excluded": 66.53349723417332
+      },
+      {
+        "constraint": "height_hard_excluded",
+        "n_complete": 3254,
+        "n_excluded": 0,
+        "pct_excluded": 0.0
+      },
+      {
+        "constraint": "bmi_excluded",
+        "n_complete": 3254,
+        "n_excluded": 1002,
+        "pct_excluded": 30.792870313460355
+      },
+      {
+        "constraint": "any_excluded",
+        "n_complete": 3254,
+        "n_excluded": 3049,
+        "pct_excluded": 93.700061462815
+      },
+      {
+        "constraint": "pressure_engine_excluded_only",
+        "n_complete": 3254,
+        "n_excluded": 505,
+        "pct_excluded": 15.519360786724032
+      },
+      {
+        "constraint": "age_excluded_only",
+        "n_complete": 3254,
+        "n_excluded": 258,
+        "pct_excluded": 7.928703134603565
+      },
+      {
+        "constraint": "height_hard_excluded_only",
+        "n_complete": 3254,
+        "n_excluded": 0,
+        "pct_excluded": 0.0
+      },
+      {
+        "constraint": "bmi_excluded_only",
+        "n_complete": 3254,
+        "n_excluded": 69,
+        "pct_excluded": 2.120467117393977
+      }
+    ]
+  },
+  "elsa_wave8_extraction": {
+    "release": "UK Data Service Study 5050",
+    "wave": 8,
+    "fieldwork": "2016-2017",
+    "nurse_source_rows": 3525,
+    "valid_bp_rule": "bprespc == 1 and positive sysval/diaval",
+    "valid_bp_n": 3317,
+    "bp_fields": "published valid mean systolic/diastolic BP",
+    "valid_means_equal_readings_2_and_3": true,
+    "age_height_weight_source": "Gateway harmonized ELSA h, Wave 8",
+    "sex_source": "Wave 8 nurse indsex",
+    "nurse_vs_harmonized_sex_disagreements": 1
+  }
 }

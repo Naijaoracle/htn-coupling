@@ -1,0 +1,10 @@
+constraint,n_complete,n_excluded,pct_excluded
+pressure_engine_excluded,3254,2637,81.03872157344806
+age_excluded,3254,2165,66.53349723417332
+height_hard_excluded,3254,0,0.0
+bmi_excluded,3254,1002,30.792870313460355
+any_excluded,3254,3049,93.700061462815
+pressure_engine_excluded_only,3254,505,15.519360786724032
+age_excluded_only,3254,258,7.928703134603565
+height_hard_excluded_only,3254,0,0.0
+bmi_excluded_only,3254,69,2.120467117393977

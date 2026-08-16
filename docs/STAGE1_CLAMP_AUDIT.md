@@ -1,10 +1,19 @@
-# Stage 1: HAALSI Wave 1 versus the Pulse patient envelope
+# Stage 1: HAALSI and ELSA versus the Pulse patient envelope
 
 ## Headline
 
-**3,953 of 4,895 HAALSI Wave 1 adults with valid published derived blood
-pressure (80.76%) are outside Pulse's 90--120 mmHg systolic by 60--80 mmHg
-diastolic baseline box.** Only 942 (19.24%) are inside it.
+The exclusion is not specific to HAALSI or to an African population:
+
+| Cohort | Valid measured BP n | Outside pressure box n | Outside % |
+|---|---:|---:|---:|
+| HAALSI Wave 1 | 4,895 | 3,953 | 80.76 |
+| ELSA Wave 8 health visit | 3,317 | 2,687 | 81.01 |
+
+**Roughly four in five measured adults are outside Pulse's 90--120 mmHg
+systolic by 60--80 mmHg diastolic baseline box in both a rural South African
+cohort and an English ageing cohort.** The finding is therefore a limitation
+of the engine's narrow normal-patient envelope across these two older-adult
+populations, not evidence of a uniquely African mismatch.
 
 Pulse does not clamp these inputs. A real-engine test accepted the in-range
 114/73.5 mmHg control and returned failure, with an explicit error, for each
@@ -12,7 +21,7 @@ one-unit-outside test (121/73.5, 89/73.5, 114/81, and 114/59 mmHg). None of the
 logs mentioned clamping. The operational finding is therefore exclusion, not
 silent substitution.
 
-## Pressure decomposition
+## HAALSI pressure decomposition
 
 | Classification | n | % of 4,895 |
 |---|---:|---:|
@@ -78,13 +87,44 @@ the second and third readings where available. Requiring all four raw values
 sample of 4,875; this is recorded for sensitivity analysis and does not replace
 the prespecified valid-derived-pressure denominator.
 
-## Comparator gate
+## ELSA Wave 8 comparator
 
-No HRS or ELSA microdata are present locally, and the available local NHANES
-extract contains age, sex, height, weight, and haemoglobin but no blood
-pressure. The non-African comparator therefore has **not** been run. It is an
-explicit external-data gate, not an unlabelled substitution. The audit script
-accepts a comparator once registered HRS or ELSA data are supplied.
+ELSA Wave 8 (2016--17) was selected because it is the health-visit wave closest
+in calendar time to HAALSI Wave 1. The source contains 3,525 nurse visits.
+ELSA's own validity flag identifies 3,317 records with valid mean systolic and
+diastolic pressure; no missing BP was imputed. Age and measured height/weight
+were joined from Gateway Harmonized ELSA by `idauniq`. One nurse-versus-
+harmonized sex-code disagreement was resolved in favour of the contemporaneous
+Wave 8 nurse field and is recorded in the machine-readable extraction metadata.
+
+ELSA's crude pressure-box exclusion is 2,687/3,317 (81.01%), only 0.25
+percentage points above HAALSI. Its composition differs, however:
+
+| Classification | ELSA n | ELSA % | HAALSI % |
+|---|---:|---:|---:|
+| Outside pressure box | 2,687 | 81.01 | 80.76 |
+| At least one component too high | 2,476 | 74.65 | 78.77 |
+| At least one component too low | 385 | 11.61 | 2.51 |
+| Exactly one component outside | 1,811 | 54.60 | 28.48 |
+| Both components outside | 876 | 26.41 | 52.28 |
+
+ELSA men are excluded more often than women: 1,244/1,481 (84.00%) versus
+1,443/1,836 (78.59%). Age-specific exclusion is 68.68% at 50--59, 79.13% at
+60--69, 83.37% at 70--79, and 89.49% at 80+. Only two valid ELSA observations
+are aged 40--49, so that cell is not interpretable.
+
+Measured anthropometry gives the same secondary result: 1,069/3,448 (31.00%)
+are outside Pulse's BMI range, while none of 3,502 measured heights violates
+the hard 4.5--7.0 ft limit. Among 3,254 records complete on all assessed
+variables, 3,049 (93.70%) fail at least one hard rule; ELSA's older age
+distribution makes Pulse's age ceiling particularly consequential.
+
+These are unweighted health-visit samples, not prevalence estimates for all
+adults in South Africa or England. ELSA is substantially older than HAALSI:
+66.53% of its complete cases exceed Pulse's age ceiling versus 34.95% in
+HAALSI. The near-identical crude pressure exclusion therefore supports a
+cross-cohort engine-envelope finding, but it should not be described as an
+age-standardized equality or generalized to young adults.
 
 ## Reproduction
 

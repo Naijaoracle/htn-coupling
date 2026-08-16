@@ -49,3 +49,8 @@ results/stage5/**
 !results/stage5/*.csv
 !results/stage5/*.json
 !results/stage5/*.png
+!results/stage5_amendment/
+results/stage5_amendment/**
+!results/stage5_amendment/*.csv
+!results/stage5_amendment/*.json
+!results/stage5_amendment/*.png

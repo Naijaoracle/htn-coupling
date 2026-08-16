@@ -1,8 +1,12 @@
 # Stage 5: hypertension through the coupled pipeline
 
+## Abstract
+
+The optical-relevant result is positive: normalised carotid waveform shape was not attenuated by Pulse’s low-pulsatility inlet even though pulse-pressure response was attenuated by 40% at ECA and 59% at ICA. A 25% Young’s-modulus increase, rather than a doubling, was the smallest tested change clearing the predeclared shape floor at both sites. A subsequent amendment also retained shape separation after resistance and compliance phenotypes were matched to within 0.382 mmHg MAP (3.56 times the ECA floor and 6.25 times the ICA floor). The remaining negative result is narrower: neither uniform nor central-only stiffening produced the full predeclared reflection-plus-augmentation direction at both carotids, so the detectable model signature is not yet a validated physiological hypertension signature. See `docs/STAGE5_AMENDMENT.md`.
+
 ## Outcome
 
-The coupled pipeline resolves carotid waveform changes above the tested inlet-noise floor, but **does not pass the physiological-recognisability gate**. A 25% global Young's-modulus increase was the smallest tested change clearing the normalised-shape floor at both carotids. However, resistance-only and compliance-only Pulse states differed in MAP by 24.0 mmHg, and the mapped stiffening did not consistently produce the predeclared earlier reflected wave and increased augmentation. Stage 5 therefore does not support an optical hypertension signature; it supplies a quantified detectable model perturbation with an unresolved physiological mapping.
+The coupled pipeline resolves carotid waveform changes above the tested inlet-noise floor, but **does not pass the physiological-recognisability gate**. A 25% global Young’s-modulus increase was the smallest tested change clearing the normalised-shape floor at both carotids. The original resistance-only and compliance-only Pulse states differed in MAP by 24.0 mmHg; the amendment removed that gap to 0.382 mmHg and retained shape separation at 3.56 and 6.25 times the ECA and ICA floors. Central-only stiffening improved reflection timing and augmentation for the combined ECA case, but not at both sites or in the compliance-only state. Stage 5 therefore establishes a robust detectable shape perturbation, but not yet a validated optical hypertension signature.
 
 No Pulse or openBF source was changed. Stage 0 remains byte-identical at SHA-256 `462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a` and all 16 openBF cases converged.
 

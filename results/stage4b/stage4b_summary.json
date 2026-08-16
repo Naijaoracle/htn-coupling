@@ -1,0 +1,43 @@
+{
+  "diagnosis": "inlet waveform",
+  "published_terminal_inlet_effect_mmHg": -13.835589061648818,
+  "default_inlet_terminal_scaling_effect_mmHg": -0.35858941754156604,
+  "pulse_inlet_terminal_scaling_effect_mmHg": -0.12429834693894293,
+  "reference": {
+    "standard_patient_age_years": 44,
+    "observed_25_to_44_reference_interval_mmHg": [
+      18,
+      43
+    ],
+    "healthy_male_40_to_49_median_mmHg": 32,
+    "healthy_male_40_to_49_p10_p90_mmHg": [
+      25,
+      45
+    ],
+    "charlton_virtual_age_pp_mmHg": {
+      "25": 25.4,
+      "35": 27.3,
+      "45": 31.2,
+      "55": 34.5,
+      "65": 38.8,
+      "75": 43.4
+    }
+  },
+  "wall_property_branch_reached": false,
+  "wall_property_reason": "Not reached: the swap test implicated the inlet.",
+  "gate_decision": "agreement in mean, physiological pulse-pressure plausibility, and waveform-shape plausibility",
+  "gate_limits": {
+    "mean_error_vs_pulse_mmHg": 5.0,
+    "pulse_pressure_reference_interval_mmHg_age_25_to_44": [
+      18,
+      43
+    ]
+  },
+  "coupled_scaled_gate": {
+    "mean_error_vs_pulse_mmHg": -3.8834124718206198,
+    "mean_pass": true,
+    "pulse_pressure_in_reference_interval": true,
+    "shape_caveat": "low-tail PP caused by the genuine Pulse inlet; retain as a known coupling property",
+    "passed": true
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "openbf_revision": "928c046906687c1347bf5496b47325acd0b2c032",
+  "base_yaml": "{OPENBF_ROOT}/models/boileau2015/adan56/adan56.yaml",
+  "global_resistance_scale": 1.0533248717747048,
+  "terminal_compliance_scale": 1.0,
+  "cases": [
+    {
+      "case": "default_published",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4b/configs/default_published/default_published.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4b/configs/default_published/default_published_inlet.dat",
+      "resistance_scale": 1.0
+    },
+    {
+      "case": "default_scaled",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4b/configs/default_scaled/default_scaled.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4b/configs/default_scaled/default_scaled_inlet.dat",
+      "resistance_scale": 1.0533248717747048
+    },
+    {
+      "case": "pulse_single_201_published",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4b/configs/pulse_single_201_published/pulse_single_201_published.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4b/configs/pulse_single_201_published/pulse_single_201_published_inlet.dat",
+      "resistance_scale": 1.0
+    },
+    {
+      "case": "pulse_average_1001_published",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4b/configs/pulse_average_1001_published/pulse_average_1001_published.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4b/configs/pulse_average_1001_published/pulse_average_1001_published_inlet.dat",
+      "resistance_scale": 1.0
+    }
+  ]
+}

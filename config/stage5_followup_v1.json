@@ -1,0 +1,14 @@
+{
+  "schema": "htn-coupling.stage5-followup",
+  "version": 1,
+  "expanded_acute_bodies": 20,
+  "bodies_per_sex": 10,
+  "age_range_years": [40, 65],
+  "selection": "evenly spaced ranks of within-sex BMI among engine-admissible bodies in the fixed Stage 2 HAALSI sample",
+  "duration_s": 900,
+  "primary_fractional_map_fall": 0.3,
+  "secondary_fractional_map_falls": [0.2, 0.4],
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20260817,
+  "multiplicity": "Holm correction across resistance-dominant, compliance-dominant, and combined paired comparisons"
+}

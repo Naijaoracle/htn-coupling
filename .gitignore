@@ -54,3 +54,12 @@ results/stage5_amendment/**
 !results/stage5_amendment/*.csv
 !results/stage5_amendment/*.json
 !results/stage5_amendment/*.png
+!results/stage5_followup/
+results/stage5_followup/**
+!results/stage5_followup/*.csv
+!results/stage5_followup/*.json
+!results/stage5_followup/*.png
+results/stage5_followup/expanded_acute_body_panel.csv
+results/stage5_followup/expanded_acute_fractional_endpoints.csv
+results/stage5_followup/expanded_acute_run_results.csv
+results/stage5_followup/expanded_acute_paired_30pct_map_fall.png

@@ -2,11 +2,11 @@
 
 ## Abstract
 
-The optical-relevant result is positive: normalised carotid waveform shape was not attenuated by Pulse’s low-pulsatility inlet even though pulse-pressure response was attenuated by 40% at ECA and 59% at ICA. A 25% Young’s-modulus increase, rather than a doubling, was the smallest tested change clearing the predeclared shape floor at both sites. A subsequent amendment also retained shape separation after resistance and compliance phenotypes were matched to within 0.382 mmHg MAP (3.56 times the ECA floor and 6.25 times the ICA floor). The remaining negative result is narrower: neither uniform nor central-only stiffening produced the full predeclared reflection-plus-augmentation direction at both carotids, so the detectable model signature is not yet a validated physiological hypertension signature. See `docs/STAGE5_AMENDMENT.md`.
+The optical-relevant result is positive: normalised carotid waveform shape was not attenuated by Pulse’s low-pulsatility inlet even though pulse-pressure response was attenuated by 40% at ECA and 59% at ICA. A 25% Young’s-modulus increase, rather than a doubling, was the smallest tested change clearing the predeclared shape floor at both sites. A subsequent amendment also retained shape separation after resistance and compliance phenotypes were matched to within 0.382 mmHg MAP (3.56 times the ECA floor and 6.25 times the ICA floor). The extrema-based reflection endpoint was subsequently withdrawn after visual audit showed silent feature substitution in 8 of 12 comparisons; physiological recognisability is therefore unassessable under that detector, not confirmed as a failure. An expanded 20-body paired acute test found resistance-only and combined states reached a 30% baseline-relative MAP fall earlier in every body (median differences -57.0 s and -49.5 s), while compliance-only was later in every body (+7.0 s). See `docs/STAGE5_FOLLOWUP.md`.
 
 ## Outcome
 
-The coupled pipeline resolves carotid waveform changes above the tested inlet-noise floor, but **does not pass the physiological-recognisability gate**. A 25% global Young’s-modulus increase was the smallest tested change clearing the normalised-shape floor at both carotids. The original resistance-only and compliance-only Pulse states differed in MAP by 24.0 mmHg; the amendment removed that gap to 0.382 mmHg and retained shape separation at 3.56 and 6.25 times the ECA and ICA floors. Central-only stiffening improved reflection timing and augmentation for the combined ECA case, but not at both sites or in the compliance-only state. Stage 5 therefore establishes a robust detectable shape perturbation, but not yet a validated optical hypertension signature.
+The coupled pipeline resolves carotid waveform changes above the tested inlet-noise floor. A 25% global Young’s-modulus increase was the smallest tested change clearing the normalised-shape floor at both carotids. The original resistance-only and compliance-only Pulse states differed in MAP by 24.0 mmHg; the amendment removed that gap to 0.382 mmHg and retained shape separation at 3.56 and 6.25 times the ECA and ICA floors. The physiological-recognisability gate is now unassessable: annotated overlays showed that its extrema detector compared different waveform features in 8 of 12 cross-arm cases. Stage 5 therefore establishes a robust detectable shape perturbation, but not yet a validated optical hypertension signature.
 
 No Pulse or openBF source was changed. Stage 0 remains byte-identical at SHA-256 `462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a` and all 16 openBF cases converged.
 
@@ -112,7 +112,7 @@ Clinical carotid tonometry has found earlier waveform reflection in both early a
 | combined            | internal_carotid_R | reflected_wave_phase   |  0.2840 |   0.4640 |   0.1800 | decrease             | False              | True         |
 | combined            | internal_carotid_R | augmentation_index_pct | 39.7954 |   9.0185 | -30.7769 | increase             | False              | True         |
 
-Pulse pressure widened under distributed stiffening, as expected. The reflected-wave and augmentation tests did not pass: the ECA secondary maximum disappeared for compliance-only Arm 2, ICA reflection moved later and AIx fell, and both combined carotid AIx values fell. A merged peak could represent an early reflection that this extrema-based definition cannot separate, but that is an untested alternative interpretation. Under the predeclared metric, criterion 8 fails.
+Pulse pressure widened under distributed stiffening, as expected. This predeclared extrema gate initially failed. Subsequent annotated-waveform review showed that the detector substituted different local features across arms in 8 of 12 comparisons, so reflection phase is withdrawn and criterion 8 is unassessable. Direct rebound pressure also fell in four of six central-stiffening comparisons, increased in combined ECA, and was unchanged in combined ICA; see `docs/STAGE5_FOLLOWUP.md`.
 
 ## ICA/ECA diagnosis
 
@@ -145,7 +145,7 @@ The single-body Stage 2 direction did not generalise monotonically. Relative to 
 5. Full metrics at all three sites: **pass**.
 6. Per-metric amplitude/shape attribution including failures: **pass**.
 7. Low-pulsatility attenuation: **pass**, amplitude attenuated, shape not.
-8. Published-morphology direction: **fail under the predeclared reflection metric**.
+8. Published-morphology direction: **unassessable; reflection metric withdrawn after visual feature-substitution audit**.
 9. Acute comparison across phenotypes and bodies: **pass**, with strong body dependence.
 
 ## Reproducibility and scope

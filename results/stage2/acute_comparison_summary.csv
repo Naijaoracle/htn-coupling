@@ -1,0 +1,3 @@
+phenotype,status,simulated_through_s,time_to_hypovolemic_shock_s,time_to_map_below_65_s,minimum_map_mmHg,maximum_heart_rate_per_min,minimum_cardiac_output_L_min
+normotensive,ok,2155,615.16,538.0,41.60961561074096,155.65432373693514,1.8296645076406104
+hypertensive,ok,2155,608.1000000005046,527.0,41.559670195719534,151.04904986753408,1.018031675093466

@@ -19,3 +19,9 @@ results/stage1/**
 !results/stage1/pulse_bound_behavior/
 results/stage1/pulse_bound_behavior/**
 !results/stage1/pulse_bound_behavior/patient_bound_behavior.json
+!results/stage2/
+results/stage2/**
+!results/stage2/*.csv
+!results/stage2/*.csv.gz
+!results/stage2/*.json
+!results/stage2/*.png

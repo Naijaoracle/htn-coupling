@@ -1,0 +1,17 @@
+{
+  "target_systolic_mmHg": 150,
+  "target_diastolic_mmHg": 90,
+  "resistance_multiplier": 1.6,
+  "compliance_multiplier": 0.5,
+  "selection": "nearest reachable sweep cell",
+  "default_incremental_flag": false,
+  "process_action_wall_s": 132.992828479968,
+  "simulation_time_immediately_before_action_s": 29.99999999999945,
+  "simulation_time_immediately_after_action_s": 882.6999999994872,
+  "stabilizing_event_lines": [
+    "[INFO] [30(s)] [Event Stabilizing 1]  Engine is stabilizing",
+    "[INFO] [882.68(s)] [Event Stabilizing 0]  Engine completed stabilizing"
+  ],
+  "baroreceptor_baseline_update_lines": [],
+  "guardrail": "The blocking action advances the Pulse engine clock but exposes no intermediate pull_data samples. The trace is measured pre/post output, including direct baroreflex scales, not an invented transition."
+}

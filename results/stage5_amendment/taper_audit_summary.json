@@ -1,0 +1,10 @@
+{
+  "vessels_n": 77,
+  "rp_rd_unequal_n": 39,
+  "openbf_solver_tapered_n": 33,
+  "solver_constant_radius_n": 44,
+  "right_eca_solver_tapered": false,
+  "right_ica_solver_tapered": false,
+  "paper_scope": "Benemerito et al. 2024 describes constant mean radii in its Charlton healthy-ageing conversion. The shipped ADAN56 YAML and current v2 solver used here support and activate tapering.",
+  "paper_url": "https://doi.org/10.1088/1361-6579/ad9663"
+}

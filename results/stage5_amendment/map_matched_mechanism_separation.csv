@@ -1,0 +1,3 @@
+vessel,shape_rmse,optimal_phase_shift,shape_noise_floor,attribution_ratio,clears_1p25x_floor
+external_carotid_R,0.13591201762575456,0.002,0.0381773344686376,3.5600185166778804,True
+internal_carotid_R,0.2569236141360352,0.01,0.0411237971061224,6.247565453964005,True

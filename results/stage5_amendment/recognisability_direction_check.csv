@@ -1,0 +1,13 @@
+phenotype,vessel,arm,delta_pp_mmHg,delta_reflected_wave_phase,delta_augmentation_index_pct,pp_widens,reflection_earlier,augmentation_increases,all_directions_pass
+normotensive,external_carotid_R,uniform_E2p5,22.947648180940256,,,True,False,False,False
+normotensive,external_carotid_R,central_only_E2p5,23.170286011527367,0.010000000000000009,-12.859175026463713,True,False,False,False
+normotensive,internal_carotid_R,uniform_E2p5,12.855061047570402,0.172,-18.788972828882613,True,False,False,False
+normotensive,internal_carotid_R,central_only_E2p5,19.118863916930223,0.008000000000000007,-13.341313229904689,True,False,False,False
+compliance_dominant,external_carotid_R,uniform_E2p5,23.37029979290643,,,True,False,False,False
+compliance_dominant,external_carotid_R,central_only_E2p5,20.408098057432895,-0.05199999999999999,-16.508428754951495,True,True,False,False
+compliance_dominant,internal_carotid_R,uniform_E2p5,14.625490095389416,0.202,-20.999053110473444,True,False,False,False
+compliance_dominant,internal_carotid_R,central_only_E2p5,16.78424243772662,0.01200000000000001,-11.562430698648312,True,False,False,False
+combined,external_carotid_R,uniform_E2p5,18.029095411427036,-0.09000000000000002,-1.7502026903778498,True,True,False,False
+combined,external_carotid_R,central_only_E2p5,15.394619602915284,-0.254,14.290420745731975,True,True,True,True
+combined,internal_carotid_R,uniform_E2p5,11.229583103975855,0.18000000000000005,-30.77694553909035,True,False,False,False
+combined,internal_carotid_R,central_only_E2p5,13.150663148440714,-0.0019999999999999463,-13.886423891225437,True,True,False,False

@@ -1,0 +1,16 @@
+{
+  "schema": "htn-coupling.stage5-amendment",
+  "version": 1,
+  "youngs_modulus_scale": 2.5,
+  "central_vessel_patterns": [
+    "aortic_arch_",
+    "thoracic_aorta_",
+    "abdominal_aorta_",
+    "brachiocephalic_trunk",
+    "common_carotid_"
+  ],
+  "map_target_mmHg": 96.105383,
+  "map_tolerance_mmHg": 0.5,
+  "fractional_map_falls": [0.2, 0.3, 0.4],
+  "recognisability_requires_both_carotids": true
+}

@@ -1,0 +1,34 @@
+{
+  "stage0_sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+  "all_openbf_runs_converged": true,
+  "mechanism_arms_mean_matched": false,
+  "mechanism_arm_map_difference_mmHg": 23.997034455547436,
+  "smallest_tested_E_scale_clearing_shape_floor": {
+    "external_carotid_R": 1.25,
+    "internal_carotid_R": 1.25
+  },
+  "low_pulsatility_attenuation": {
+    "aortic_arch_I": {
+      "pulse_to_default_delta_pp_ratio": 0.7216083067284238,
+      "attenuation_pct": 27.83916932715762,
+      "pulse_to_default_shape_effect_ratio": 0.9072683916697831
+    },
+    "external_carotid_R": {
+      "pulse_to_default_delta_pp_ratio": 0.6029198466458953,
+      "attenuation_pct": 39.70801533541047,
+      "pulse_to_default_shape_effect_ratio": 1.2291542089464311
+    },
+    "internal_carotid_R": {
+      "pulse_to_default_delta_pp_ratio": 0.4088104204544593,
+      "attenuation_pct": 59.11895795455406,
+      "pulse_to_default_shape_effect_ratio": 1.7473619038248034
+    }
+  },
+  "attribution_pass_ratio": 1.25,
+  "augmentation_definition": "secondary post-primary peak minus intervening minimum; AIx=100*AP/PP",
+  "mechanism_shape_separation_clears_floor_both_arms_and_sites": true,
+  "predeclared_physiological_direction_gate_passed": false,
+  "acute_runs": 16,
+  "acute_runs_successful": 16,
+  "conclusion": "The coupling resolves modifier-associated carotid shape differences above the tested inlet noise floor, but the resistance/compliance arms are not MAP-matched and the stiffening response fails the predeclared reflected-wave/augmentation direction test. No physiologically recognisable hypertension signature is claimed from Stage 5."
+}

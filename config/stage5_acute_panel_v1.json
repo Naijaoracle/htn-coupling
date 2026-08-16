@@ -1,0 +1,12 @@
+{
+  "schema": "htn-coupling.stage5-acute-panel",
+  "version": 1,
+  "selection": "Lowest- and highest-BMI engine-admissible HAALSI bodies within each sex in the fixed Stage 2 anonymous sample, restricted to ages 40-65; pressure was not used for selection.",
+  "duration_s": 900,
+  "bodies": [
+    {"body_id": "male_low_bmi", "sex": "Male", "age_years": 41, "height_cm": 186.6, "weight_kg": 56.6},
+    {"body_id": "male_high_bmi", "sex": "Male", "age_years": 64, "height_cm": 163.5, "weight_kg": 80.1},
+    {"body_id": "female_low_bmi", "sex": "Female", "age_years": 52, "height_cm": 155.5, "weight_kg": 39.6},
+    {"body_id": "female_high_bmi", "sex": "Female", "age_years": 51, "height_cm": 157.5, "weight_kg": 74.4}
+  ]
+}

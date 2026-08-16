@@ -1,0 +1,17 @@
+case,returncode,wall_s,status
+combined_arm1_inlet_only,0,102.88247522804886,ok
+combined_arm2_matched_stiffening,0,102.58426183206029,ok
+compliance_dominant_arm1_inlet_only,0,73.0213286341168,ok
+compliance_dominant_arm2_matched_stiffening,0,72.54428964899853,ok
+default_inlet_E_2p50,0,83.1152879409492,ok
+normotensive_arm1_inlet_only,0,67.01289954409003,ok
+normotensive_arm2_matched_stiffening,0,67.17280979710631,ok
+resistance_dominant_arm1_inlet_only,0,105.3284932100214,ok
+resistance_dominant_arm2_matched_stiffening,0,104.78388144704513,ok
+terminal_only_Cc_0p40,0,63.66840756800957,ok
+threshold_E_1p10,0,71.01738916896284,ok
+threshold_E_1p25,0,70.10915213706903,ok
+threshold_E_1p50,0,66.04030055715702,ok
+threshold_E_1p75,0,67.88608159101568,ok
+threshold_E_2p00,0,72.68974854797125,ok
+threshold_E_2p50,0,74.95210712798871,ok

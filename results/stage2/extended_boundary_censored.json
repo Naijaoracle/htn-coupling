@@ -1,0 +1,10 @@
+[
+  {
+    "resistance_multiplier": 8.0,
+    "compliance_multiplier": 0.5,
+    "status": "operator_censored_nonconvergence",
+    "wall_time_s": 941.65,
+    "simulated_stabilisation_time_exceeded_s": 5000,
+    "reason": "Still CPU-active after 15 min 41 s with repeated gas partial-pressure retargeting; interrupted by operator. This is not classified as a hard engine failure."
+  }
+]

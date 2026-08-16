@@ -1,0 +1,84 @@
+{
+  "tested_cells": 46,
+  "successful_cells": 46,
+  "failed_cells": 0,
+  "tested_resistance_min_max": [
+    1.6,
+    6.0
+  ],
+  "tested_compliance_min_max": [
+    0.1,
+    0.5
+  ],
+  "achieved_systolic_min_max_mmHg": [
+    142.29291060361504,
+    200.50345268965992
+  ],
+  "achieved_diastolic_min_max_mmHg": [
+    38.62872817563847,
+    132.96640355152203
+  ],
+  "achieved_map_min_max_mmHg": [
+    111.3628324088168,
+    147.0770929633717
+  ],
+  "nearest_to_150_90": {
+    "resistance_multiplier": 2.0,
+    "compliance_multiplier": 0.4,
+    "achieved_systolic_mmHg": 152.16325820920787,
+    "achieved_diastolic_mmHg": 87.78765973668204,
+    "euclidean_residual_mmHg": 3.0942099994025924,
+    "within_stage2_tolerance": true
+  },
+  "failure_cells": [],
+  "censored_cells": [
+    {
+      "resistance_multiplier": 8.0,
+      "compliance_multiplier": 0.5,
+      "status": "operator_censored_nonconvergence",
+      "wall_time_s": 941.65,
+      "simulated_stabilisation_time_exceeded_s": 5000,
+      "reason": "Still CPU-active after 15 min 41 s with repeated gas partial-pressure retargeting; interrupted by operator. This is not classified as a hard engine failure."
+    }
+  ],
+  "high_resistance_tail_slopes": [
+    {
+      "compliance_multiplier": 0.1,
+      "last_resistance_multiplier": 5.0,
+      "tail_sbp_gain_mmHg_per_resistance_multiplier": -1.657150610217305,
+      "tail_dbp_gain_mmHg_per_resistance_multiplier": 12.21636909203471
+    },
+    {
+      "compliance_multiplier": 0.2,
+      "last_resistance_multiplier": 5.0,
+      "tail_sbp_gain_mmHg_per_resistance_multiplier": 0.629492104582198,
+      "tail_dbp_gain_mmHg_per_resistance_multiplier": 10.637727968210063
+    },
+    {
+      "compliance_multiplier": 0.3,
+      "last_resistance_multiplier": 5.0,
+      "tail_sbp_gain_mmHg_per_resistance_multiplier": 1.2483902921840315,
+      "tail_dbp_gain_mmHg_per_resistance_multiplier": 9.637403305562799
+    },
+    {
+      "compliance_multiplier": 0.4,
+      "last_resistance_multiplier": 5.0,
+      "tail_sbp_gain_mmHg_per_resistance_multiplier": 1.718428349740331,
+      "tail_dbp_gain_mmHg_per_resistance_multiplier": 7.812892771633652
+    },
+    {
+      "compliance_multiplier": 0.5,
+      "last_resistance_multiplier": 6.0,
+      "tail_sbp_gain_mmHg_per_resistance_multiplier": 1.5054903572792,
+      "tail_dbp_gain_mmHg_per_resistance_multiplier": 5.560807420840881
+    }
+  ],
+  "plateau_rule": "A tail is called practically flat only when absolute SBP gain is below 2 mmHg per +1.0 resistance multiplier across the last three successful points. Failure is reported separately, never as plateau.",
+  "practically_flat_compliance_levels": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5
+  ]
+}

@@ -28,11 +28,15 @@ normotensive resting-pressure gate. See
 
 ## Stage 4 — One-way bridge
 
-Convert a Pulse operating point into an openBF inlet waveform and YAML without
-modifying either solver. Validate one normotensive point for physiological
-sensibility.
+Gate failed at the aorta. Resistance scaling matched mean pressure within the
+predeclared tolerance, but both arms underestimated Pulse pulse pressure by
+about 20 mmHg. Carotid and sensitivity work is blocked pending an explicit
+compliance/waveform-resolution experiment. See
+[the Stage 4 report](STAGE4_PULSE_OPENBF_BRIDGE.md).
 
 ## Stage 5 — Hypertension through both models
+
+Blocked by the Stage 4 aortic gate.
 
 Apply the Tier 0 phenotype, propagate it through the bridge, and map stiffness
 and peripheral resistance to openBF E and R2. Check pulse-pressure widening and

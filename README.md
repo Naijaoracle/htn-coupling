@@ -50,3 +50,4 @@ Completed controls and analyses:
 - [Stage 1 HAALSI clamp audit](docs/STAGE1_CLAMP_AUDIT.md)
 - [Stage 2 Tier 0 hypertension phenotype](docs/STAGE2_TIER0_HYPERTENSION.md)
 - [Stage 3 optical-site reachability](docs/STAGE3_OPTICAL_SITE_REACHABILITY.md)
+- [Stage 4 Pulse-to-openBF bridge gate](docs/STAGE4_PULSE_OPENBF_BRIDGE.md)

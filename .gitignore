@@ -25,3 +25,8 @@ results/stage2/**
 !results/stage2/*.csv.gz
 !results/stage2/*.json
 !results/stage2/*.png
+!results/stage3/
+results/stage3/**
+!results/stage3/*.csv
+!results/stage3/*.json
+!results/stage3/*.png

@@ -1,0 +1,55 @@
+{
+  "openbf_revision": "928c046906687c1347bf5496b47325acd0b2c032",
+  "models": {
+    "adan56": {
+      "model_key": "adan56",
+      "project_name": "adan56",
+      "configured_segment_count": 77,
+      "outlet_count": 31,
+      "yaml": "{OPENBF_ROOT}/models/boileau2015/adan56/adan56.yaml",
+      "yaml_sha256": "bacf3ce82f3f2311230e67c611e1702c650d2f72baf0c219c763516466f02c31",
+      "target_name_matches": {
+        "facial": [],
+        "superficial temporal": [],
+        "ophthalmic": [],
+        "supraorbital": [],
+        "supratrochlear": []
+      }
+    },
+    "alastruey2007": {
+      "model_key": "alastruey2007",
+      "project_name": "circle_of_willis",
+      "configured_segment_count": 33,
+      "outlet_count": 11,
+      "yaml": "{OPENBF_ROOT}/models/alastruey2007/circle_of_willis.yaml",
+      "yaml_sha256": "c3943524a9deef73e04fcb01a71bdc04f71b4d24d75fd5c85fab82b26858c8b5",
+      "target_name_matches": {
+        "facial": [],
+        "superficial temporal": [],
+        "ophthalmic": [],
+        "supraorbital": [],
+        "supratrochlear": []
+      }
+    }
+  },
+  "baseline_directory": "{HTN_COUPLING_ROOT}/results/stage0/openbf_adan56",
+  "baseline_waveform_files_sha256": {
+    "aortic_arch_I_P": "bbaaba23e099bba38f80d46d5f1ed4b7dc0d4e8f421d492ba56f16231f878e0b",
+    "aortic_arch_I_Q": "e6fc41b36b0d4f291321e31b4a0da796486d396c58c02b8c3229cbc302e15b80",
+    "common_carotid_R_P": "cf0f953f2a2c20608bb4f03588cb3dfc15d6f09f99b45713efb13f80cdf9c862",
+    "common_carotid_R_Q": "832af759ef35bf4221d6d6c07865e9e43a1458f2625ea41c63586651d148481d",
+    "external_carotid_R_P": "189765eff85a472fa31c43c38277eb8d3819427589eb3b6c95d1d864c4673750",
+    "external_carotid_R_Q": "4864cc5c19983930a623f32b0ddadb301c81bf3e87392c6c9b13a3773f17651c",
+    "internal_carotid_R_P": "e9564991b9f4330bc093985bd6f023de7d3f44ec046f2aa93c9b377669a32d3e",
+    "internal_carotid_R_Q": "166ffa26a42673431a2a0dcd5df94b1cf724b1d063ac207d1fcfe464e3a13f64",
+    "common_carotid_L_P": "5851f82bc7cce3a53b64734ec8d9e6cdf1f6e5e8042bc96e41d195569f956554",
+    "common_carotid_L_Q": "fd0b4b7f13e7701efc0016092b59e877978482f561c185f27433e8945249eae8",
+    "external_carotid_L_P": "1892ab1737a92db4f97182617ba159a7e98272fc28153d4409f6f27b0db3455e",
+    "external_carotid_L_Q": "edbd18634c6e6a0cfb185434f5bc2939f3550a53a6caca5fc0350d9bf19f6be1",
+    "internal_carotid_L_P": "e288e5442e5355d5a007466b84d0694bad5ffa1039575275e637de3a9344f0e5",
+    "internal_carotid_L_Q": "cc3bffef0f878560b69bf89f510b87a644c878ce1f6e9922b3cfe15db3e643e5"
+  },
+  "distance_definition": "shortest directed cumulative configured segment length from a graph root to the vessel distal node",
+  "waveform_position": "last spatial column (distal end), final stored cycle",
+  "circle_of_willis_control_directory": "{HTN_COUPLING_ROOT}/results/stage3/openbf_circle_of_willis"
+}

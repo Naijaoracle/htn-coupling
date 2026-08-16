@@ -1,0 +1,7 @@
+constraint,n_assessed,n_outside,pct_outside,engine_effect
+height outside sex-specific typical range (warning),4694,804,17.128248828291436,warning
+height outside 4.5-7.0 ft hard range,4694,6,0.1278227524499361,error/reject
+BMI below 16 kg/m2,4689,54,1.1516314779270633,error/reject
+BMI above 30 kg/m2,4689,1384,29.515888249093624,error/reject
+BMI outside 16-30 kg/m2,4689,1438,30.667519727020686,error/reject
+weight alone,4794,0,0.0,no standalone bound; weight is constrained through BMI

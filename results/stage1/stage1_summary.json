@@ -1,0 +1,155 @@
+{
+  "pulse_bounds": {
+    "systolic_min_mmHg": 90.0,
+    "systolic_max_mmHg": 120.0,
+    "diastolic_min_mmHg": 60.0,
+    "diastolic_max_mmHg": 80.0,
+    "narrow_pulse_max_diastolic_systolic_ratio": 0.75,
+    "age_min_years": 18.0,
+    "age_max_years": 65.0,
+    "height_hard_min_cm": 137.16,
+    "height_hard_max_cm": 213.36,
+    "bmi_min_kg_m2": 16.0,
+    "bmi_max_kg_m2": 30.0,
+    "male_height_typical_min_cm": 163.0,
+    "male_height_typical_max_cm": 190.0,
+    "female_height_typical_min_cm": 151.0,
+    "female_height_typical_max_cm": 175.5
+  },
+  "haalsi": {
+    "source_rows": 5059,
+    "valid_derived_pressure_n": 4895,
+    "pressure": {
+      "group": "All",
+      "n": 4895,
+      "inside_pressure_box_n": 942,
+      "inside_pressure_box_pct": 19.244126659856995,
+      "pressure_box_excluded_n": 3953,
+      "pressure_box_excluded_pct": 80.755873340143,
+      "too_high_any_component_n": 3856,
+      "too_high_any_component_pct": 78.77425944841676,
+      "too_low_any_component_n": 123,
+      "too_low_any_component_pct": 2.5127681307456586,
+      "high_without_any_low_n": 3830,
+      "high_without_any_low_pct": 78.24310520939734,
+      "low_without_any_high_n": 97,
+      "low_without_any_high_pct": 1.9816138917262514,
+      "mixed_high_and_low_n": 26,
+      "mixed_high_and_low_pct": 0.5311542390194075,
+      "outside_one_component_only_n": 1394,
+      "outside_one_component_only_pct": 28.47803881511747,
+      "systolic_only_outside_n": 1220,
+      "systolic_only_outside_pct": 24.923391215526046,
+      "diastolic_only_outside_n": 174,
+      "diastolic_only_outside_pct": 3.5546475995914197,
+      "both_components_outside_n": 2559,
+      "both_components_outside_pct": 52.27783452502553,
+      "narrow_pulse_additional_exclusion_n": 4,
+      "narrow_pulse_additional_exclusion_pct": 0.08171603677221655,
+      "full_pressure_rules_excluded_n": 3957,
+      "full_pressure_rules_excluded_pct": 80.83758937691522
+    },
+    "anthropometry": [
+      {
+        "constraint": "height outside sex-specific typical range (warning)",
+        "n_assessed": 4694,
+        "n_outside": 804,
+        "pct_outside": 17.128248828291436,
+        "engine_effect": "warning"
+      },
+      {
+        "constraint": "height outside 4.5-7.0 ft hard range",
+        "n_assessed": 4694,
+        "n_outside": 6,
+        "pct_outside": 0.1278227524499361,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "BMI below 16 kg/m2",
+        "n_assessed": 4689,
+        "n_outside": 54,
+        "pct_outside": 1.1516314779270633,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "BMI above 30 kg/m2",
+        "n_assessed": 4689,
+        "n_outside": 1384,
+        "pct_outside": 29.515888249093624,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "BMI outside 16-30 kg/m2",
+        "n_assessed": 4689,
+        "n_outside": 1438,
+        "pct_outside": 30.667519727020686,
+        "engine_effect": "error/reject"
+      },
+      {
+        "constraint": "weight alone",
+        "n_assessed": 4794,
+        "n_outside": 0,
+        "pct_outside": 0.0,
+        "engine_effect": "no standalone bound; weight is constrained through BMI"
+      }
+    ],
+    "complete_case_constraints": [
+      {
+        "constraint": "pressure_engine_excluded",
+        "n_complete": 4635,
+        "n_excluded": 3738,
+        "pct_excluded": 80.64724919093851
+      },
+      {
+        "constraint": "age_excluded",
+        "n_complete": 4635,
+        "n_excluded": 1620,
+        "pct_excluded": 34.95145631067961
+      },
+      {
+        "constraint": "height_hard_excluded",
+        "n_complete": 4635,
+        "n_excluded": 6,
+        "pct_excluded": 0.12944983818770225
+      },
+      {
+        "constraint": "bmi_excluded",
+        "n_complete": 4635,
+        "n_excluded": 1417,
+        "pct_excluded": 30.57173678532902
+      },
+      {
+        "constraint": "any_excluded",
+        "n_complete": 4635,
+        "n_excluded": 4142,
+        "pct_excluded": 89.36353829557713
+      },
+      {
+        "constraint": "pressure_engine_excluded_only",
+        "n_complete": 4635,
+        "n_excluded": 1526,
+        "pct_excluded": 32.92340884573894
+      },
+      {
+        "constraint": "age_excluded_only",
+        "n_complete": 4635,
+        "n_excluded": 193,
+        "pct_excluded": 4.163969795037756
+      },
+      {
+        "constraint": "height_hard_excluded_only",
+        "n_complete": 4635,
+        "n_excluded": 1,
+        "pct_excluded": 0.021574973031283712
+      },
+      {
+        "constraint": "bmi_excluded_only",
+        "n_complete": 4635,
+        "n_excluded": 164,
+        "pct_excluded": 3.5382955771305284
+      }
+    ]
+  },
+  "strict_readings_2_and_3_complete_n": 4875,
+  "comparator_status": "not run: no local HRS or ELSA dataset supplied"
+}

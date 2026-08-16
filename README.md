@@ -33,8 +33,9 @@ Run the independent openBF control:
 ~/.local/bin/julia --project=. scripts/run_openbf_baseline.jl
 ```
 
-Results are generated under `results/` and are intentionally not committed.
-Repository locations can be overridden in `config/repos.local.toml`; copy
+Large raw traces are generated under `results/` and remain ignored; compact
+aggregate results and figures for reported stages are tracked. Repository
+locations can be overridden in `config/repos.local.toml`; copy
 `config/repos.example.toml` when setting up another machine.
 
 ## Gates
@@ -42,3 +43,8 @@ Repository locations can be overridden in `config/repos.local.toml`; copy
 Work advances in the order recorded in [docs/ROADMAP.md](docs/ROADMAP.md).
 Pulse and openBF controls must pass before phenotype or bridge work begins.
 The facial-artery topology question gates the optical stages.
+
+Completed controls and analyses:
+
+- [Stage 0 Pulse baseline](docs/STAGE0_PULSE_BASELINE.md)
+- [Stage 1 HAALSI clamp audit](docs/STAGE1_CLAMP_AUDIT.md)

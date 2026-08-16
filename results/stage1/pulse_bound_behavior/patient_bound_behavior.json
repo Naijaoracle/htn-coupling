@@ -1,0 +1,52 @@
+[
+  {
+    "case": "inside_control",
+    "configured_systolic_mmHg": 114.0,
+    "configured_diastolic_mmHg": 73.5,
+    "initialize_engine_returned": true,
+    "logged_error": false,
+    "mentions_too_high": false,
+    "mentions_too_low": false,
+    "mentions_clamp": false
+  },
+  {
+    "case": "systolic_high",
+    "configured_systolic_mmHg": 121.0,
+    "configured_diastolic_mmHg": 73.5,
+    "initialize_engine_returned": false,
+    "logged_error": true,
+    "mentions_too_high": true,
+    "mentions_too_low": false,
+    "mentions_clamp": false
+  },
+  {
+    "case": "systolic_low",
+    "configured_systolic_mmHg": 89.0,
+    "configured_diastolic_mmHg": 73.5,
+    "initialize_engine_returned": false,
+    "logged_error": true,
+    "mentions_too_high": false,
+    "mentions_too_low": true,
+    "mentions_clamp": false
+  },
+  {
+    "case": "diastolic_high",
+    "configured_systolic_mmHg": 114.0,
+    "configured_diastolic_mmHg": 81.0,
+    "initialize_engine_returned": false,
+    "logged_error": true,
+    "mentions_too_high": true,
+    "mentions_too_low": false,
+    "mentions_clamp": false
+  },
+  {
+    "case": "diastolic_low",
+    "configured_systolic_mmHg": 114.0,
+    "configured_diastolic_mmHg": 59.0,
+    "initialize_engine_returned": false,
+    "logged_error": true,
+    "mentions_too_high": false,
+    "mentions_too_low": true,
+    "mentions_clamp": false
+  }
+]

@@ -830,13 +830,17 @@ The 13 × 11 sweep covered systemic resistance 1.00–1.60 and arterial complian
 
 The achieved envelope was SBP {ok.achieved_systolic_mmHg.min():.1f}–{ok.achieved_systolic_mmHg.max():.1f}, DBP {ok.achieved_diastolic_mmHg.min():.1f}–{ok.achieved_diastolic_mmHg.max():.1f}, MAP {ok.achieved_map_mmHg.min():.1f}–{ok.achieved_map_mmHg.max():.1f}, and pulse pressure {ok.achieved_pulse_pressure_mmHg.min():.1f}–{ok.achieved_pulse_pressure_mmHg.max():.1f} mmHg. A 150/90 phenotype was not reachable in the prescribed grid; the nearest high-pressure point was approximately 142/83 mmHg. This establishes the ceiling of the prescribed grid, not yet the asymptotic or failure ceiling of the modifiers; an extended boundary sweep is required before making the stronger claim.
 
+### Extended-boundary correction
+
+The subsequent extended-boundary dataset contained 46 cells over resistance 1.6–6.0 and compliance 0.1–0.5; all 46 restabilised. Resistance 2.0 and compliance 0.4 achieved 152.16/87.79 mmHg, within the predeclared 150/90 tolerance. The earlier 142 mmHg value was only the edge of the prescribed grid, not a stock-Pulse modifier ceiling, and the claim that both routes to hypertension are closed is withdrawn. Every compliance branch met the predefined practical-flatness rule for tail SBP. The `R=8.0, C=0.5` probe was operator-censored after 15 min 41 s of non-convergence and is not counted as a hard engine failure. See the extended-boundary artefacts for the complete results.
+
 Only {len(validated)} of {len(calibration)} five-mmHg target pairs lay inside the achieved pressure-pair hull. Every one was rerun through Pulse: all {int(validated.validated_within_tolerance.sum())} met the predeclared ±{TOL_SBP:.0f}/±{TOL_DBP:.0f} mmHg criterion. Median achieved Euclidean residual was {validated.achieved_euclidean_residual_mmHg.median():.3f} mmHg and the maximum was {validated.achieved_euclidean_residual_mmHg.max():.3f} mmHg. Targets outside the hull are recorded as unreachable, never silently replaced by a nearest point.
 
 ## Population test
 
 {population_display.to_markdown(index=False, floatfmt=".3f")}
 
-The deterministic samples used seeds {SEED} and {SEED + 1}. HAALSI pressure-only direct exclusion was 81.5%, matching Stage 1's approximately 81%. With body constraints included, modifiers increased HAALSI representability from 8.5% to 16.0% (+7.5 percentage points) and ELSA from 8.0% to 10.0% (+2.0 points). All 52 attempted engines succeeded and met pressure tolerance. ELSA had 23 explicitly unreachable low-pressure targets, showing the asymmetry of a modifier domain chosen to raise pressure.
+The deterministic samples used seeds {SEED} and {SEED + 1}. HAALSI pressure-only direct exclusion was 81.5%, matching Stage 1's approximately 81%. Within the original prescribed modifier domain, and with body constraints included, modifiers increased HAALSI representability from 8.5% to 16.0% (+7.5 percentage points) and ELSA from 8.0% to 10.0% (+2.0 points). All 52 attempted engines succeeded and met pressure tolerance. ELSA had 23 explicitly unreachable low-pressure targets, showing the asymmetry of a modifier domain chosen to raise pressure. These percentages are prescribed-domain coverage, not maximum stock-Pulse coverage; an extended-domain calibration is required before broader coverage is claimed.
 
 Anonymous exact sampled rows remain local under `results/stage2/private`; only aggregate results are intended for version control.
 
@@ -856,7 +860,7 @@ The fixed 200 mL/min bleed ran from 30 to 655 s. The hypertensive phenotype cros
 
 ## Interpretation and limits
 
-Stock Pulse can produce a modest hypertensive haemodynamic state accurately, and that state produced detectable differences in one haemorrhage comparison. It cannot cover much of either real cohort because the two-modifier pressure manifold is narrow, the prescribed grid does not reach 150 mmHg systolic, body-definition exclusions remain, and low-pressure targets are outside this raise-oriented domain. Tier 1 is therefore justified by quantified coverage limits rather than by solver instability.
+Stock Pulse produces a modest hypertensive haemodynamic state within the prescribed grid, and that state produced detectable differences in one haemorrhage comparison. This generated report describes prescribed-domain results only; `docs/STAGE2_TIER0_HYPERTENSION.md` and the extended-boundary artefacts contain the subsequent correction showing that 150/90-class pressure is reachable outside that grid. The prescribed-grid ceiling must not be used to justify a fork.
 
 This remains an acute-onset phenotype. It contains no disease duration, vascular remodelling history, exposed baroreflex setpoint, or progression stage. The inverse lookup was learned on StandardMale and transferred to body-specific patients; transfer was accurate for all attempted cases here, but only within the measured hull. The 200-person samples quantify this seeded experiment rather than replacing full-cohort inference.
 
@@ -869,6 +873,7 @@ This remains an acute-onset phenotype. It contains no disease duration, vascular
 - `restabilisation_trace.csv`, metadata, and baroreflex figure
 - aligned compressed acute trajectories, summary, and comparison figure
 - `stage0_regression_gate.json` and `stage2_summary.json`
+- `extended_boundary_sweep.csv`, `extended_boundary_summary.json`, the censor record, and `extended_boundary_sweep.png`
 """
     (ROOT / "docs/STAGE2_TIER0_HYPERTENSION.md").write_text(text)
 

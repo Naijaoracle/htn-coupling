@@ -1,0 +1,12 @@
+[pulse]
+path = "../pulse-physiology-engine"
+remote = "https://gitlab.kitware.com/physiology/engine.git"
+
+[openbf]
+path = "../openBF"
+remote = "https://github.com/INSIGNEO/openBF.git"
+revision = "928c046906687c1347bf5496b47325acd0b2c032"
+tag = "v2.8.1"
+
+[haalsi]
+path = "../pulse-physiology-engine/studies/haalsi_progression"

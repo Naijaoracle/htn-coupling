@@ -1,0 +1,5 @@
+module HTNCoupling
+
+const OPENBF_REVISION = "928c046906687c1347bf5496b47325acd0b2c032"
+
+end

@@ -1,0 +1,17 @@
+name = "HTNCoupling"
+uuid = "71208f63-6e73-4271-b9d3-ef68ee4cec7b"
+authors = ["David Dasa"]
+version = "0.1.0"
+
+[deps]
+openBF = "e815b1a4-10eb-11ea-25f1-272ff651e618"
+
+[compat]
+julia = "1.11"
+openBF = "2.8.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

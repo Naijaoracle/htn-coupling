@@ -1,0 +1,6 @@
+.julia/
+*.log
+.DS_Store
+config/repos.local.toml
+results/**
+!results/.gitkeep

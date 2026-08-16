@@ -12,7 +12,7 @@ The fresh Stage 0 haemorrhage output was byte-identical to the archived control:
 
 The 13 × 11 sweep covered systemic resistance 1.00–1.60 and arterial compliance 1.00–0.50 in 0.05 increments. All 143 cells restabilised; there was no hard failure boundary in this domain. Restabilisation wall time nevertheless rose from 117.9 to 270.0 s, making convergence cost the practical boundary signal.
 
-The achieved envelope was SBP 114.9–142.3, DBP 59.5–96.3, MAP 95.9–113.7, and pulse pressure 32.4–71.3 mmHg. A 150/90 phenotype was not reachable in the prescribed grid; the nearest high-pressure point was approximately 142/83 mmHg.
+The achieved envelope was SBP 114.9–142.3, DBP 59.5–96.3, MAP 95.9–113.7, and pulse pressure 32.4–71.3 mmHg. A 150/90 phenotype was not reachable in the prescribed grid; the nearest high-pressure point was approximately 142/83 mmHg. This establishes the ceiling of the prescribed grid, not yet the asymptotic or failure ceiling of the modifiers; an extended boundary sweep is required before making the stronger claim.
 
 Only 23 of 459 five-mmHg target pairs lay inside the achieved pressure-pair hull. Every one was rerun through Pulse: all 23 met the predeclared ±5/±5 mmHg criterion. Median achieved Euclidean residual was 0.043 mmHg and the maximum was 0.568 mmHg. Targets outside the hull are recorded as unreachable, never silently replaced by a nearest point.
 
@@ -54,11 +54,11 @@ MAP rose from 95.3 to 113.7 mmHg, CO fell from 5.79 to 4.41 L/min, and SVR rose 
 | normotensive | ok       |                  2155 |                        615.16 |                      538 |            41.6096 |                      155.654 |                        1.82966 |
 | hypertensive | ok       |                  2155 |                        608.1  |                      527 |            41.5597 |                      151.049 |                        1.01803 |
 
-The fixed 200 mL/min bleed ran from 30 to 655 s. The hypertensive phenotype crossed MAP 65 mmHg 11.0 s earlier and entered hypovolaemic shock 7.06 s earlier. Its minimum cardiac output was 1.02 versus 1.83 L/min. The released modifiers therefore reach the acute scenario materially; they are not merely cosmetic resting-pressure labels.
+The fixed 200 mL/min bleed ran from 30 to 655 s. The hypertensive phenotype crossed MAP 65 mmHg 11.0 s earlier and entered hypovolaemic shock 7.06 s earlier. Its minimum cardiac output was 1.02 versus 1.83 L/min. The released modifiers therefore reach the acute scenario detectably in this single comparison. The timing shifts are about one percent of the run, while the larger cardiac-output difference requires replication across phenotypes and patients before it can be interpreted as a robust compensatory effect.
 
 ## Interpretation and limits
 
-Stock Pulse can produce a modest hypertensive haemodynamic state accurately, and that state changes haemorrhage compensation. It cannot cover much of either real cohort because the two-modifier pressure manifold is narrow, the prescribed grid does not reach 150 mmHg systolic, body-definition exclusions remain, and low-pressure targets are outside this raise-oriented domain. Tier 1 is therefore justified by quantified coverage limits rather than by solver instability.
+Stock Pulse can produce a modest hypertensive haemodynamic state accurately, and that state produced detectable differences in one haemorrhage comparison. It cannot cover much of either real cohort because the two-modifier pressure manifold is narrow, the prescribed grid does not reach 150 mmHg systolic, body-definition exclusions remain, and low-pressure targets are outside this raise-oriented domain. Tier 1 is therefore justified by quantified coverage limits rather than by solver instability.
 
 This remains an acute-onset phenotype. It contains no disease duration, vascular remodelling history, exposed baroreflex setpoint, or progression stage. The inverse lookup was learned on StandardMale and transferred to body-specific patients; transfer was accurate for all attempted cases here, but only within the measured hull. The 200-person samples quantify this seeded experiment rather than replacing full-cohort inference.
 

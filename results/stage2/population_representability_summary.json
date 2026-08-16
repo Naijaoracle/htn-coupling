@@ -1,0 +1,42 @@
+[
+  {
+    "cohort": "haalsi",
+    "seed": 20260816,
+    "sample_n": 200,
+    "body_admissible_n": 80,
+    "body_admissible_pct": 40.0,
+    "direct_pressure_admissible_n": 37,
+    "direct_pressure_admissible_pct": 18.5,
+    "direct_all_constraints_admissible_n": 17,
+    "direct_all_constraints_admissible_pct": 8.5,
+    "lookup_reachable_n": 73,
+    "attempted_modifier_run_n": 32,
+    "engine_run_success_n": 32,
+    "modifier_representable_n": 32,
+    "modifier_representable_pct": 16.0,
+    "median_euclidean_residual_attempted_mmHg": 0.4239601603156621,
+    "unreachable_low_pressure_n": 5,
+    "systolic_tolerance_mmHg": 5.0,
+    "diastolic_tolerance_mmHg": 5.0
+  },
+  {
+    "cohort": "elsa_wave8",
+    "seed": 20260817,
+    "sample_n": 200,
+    "body_admissible_n": 40,
+    "body_admissible_pct": 20.0,
+    "direct_pressure_admissible_n": 48,
+    "direct_pressure_admissible_pct": 24.0,
+    "direct_all_constraints_admissible_n": 16,
+    "direct_all_constraints_admissible_pct": 8.0,
+    "lookup_reachable_n": 72,
+    "attempted_modifier_run_n": 20,
+    "engine_run_success_n": 20,
+    "modifier_representable_n": 20,
+    "modifier_representable_pct": 10.0,
+    "median_euclidean_residual_attempted_mmHg": 0.36582653462013726,
+    "unreachable_low_pressure_n": 23,
+    "systolic_tolerance_mmHg": 5.0,
+    "diastolic_tolerance_mmHg": 5.0
+  }
+]

@@ -1,0 +1,3 @@
+cohort,seed,sample_n,body_admissible_n,body_admissible_pct,direct_pressure_admissible_n,direct_pressure_admissible_pct,direct_all_constraints_admissible_n,direct_all_constraints_admissible_pct,lookup_reachable_n,attempted_modifier_run_n,engine_run_success_n,modifier_representable_n,modifier_representable_pct,median_euclidean_residual_attempted_mmHg,unreachable_low_pressure_n,systolic_tolerance_mmHg,diastolic_tolerance_mmHg
+haalsi,20260816,200,80,40.0,37,18.5,17,8.5,73,32,32,32,16.0,0.4239601603156621,5,5.0,5.0
+elsa_wave8,20260817,200,40,20.0,48,24.0,16,8.0,72,20,20,20,10.0,0.36582653462013726,23,5.0,5.0

@@ -1,0 +1,93 @@
+{
+  "stage0_sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+  "sweep_cells": 143,
+  "successful_cells": 143,
+  "failed_cells": 0,
+  "achieved_envelope_mmHg": {
+    "systolic": [
+      114.88973617251622,
+      142.29291060361504
+    ],
+    "diastolic": [
+      59.48879756600981,
+      96.2796602065034
+    ],
+    "mean": [
+      95.8867918611256,
+      113.70913254398914
+    ]
+  },
+  "calibration": {
+    "tabulated_targets": 459,
+    "reachable_targets": 23,
+    "validated_within_tolerance": 23,
+    "median_euclidean_residual_mmHg": 0.0429770539395902,
+    "maximum_euclidean_residual_mmHg": 0.5679783987910444
+  },
+  "population": [
+    {
+      "cohort": "haalsi",
+      "seed": 20260816,
+      "sample_n": 200,
+      "body_admissible_n": 80,
+      "body_admissible_pct": 40.0,
+      "direct_pressure_admissible_n": 37,
+      "direct_pressure_admissible_pct": 18.5,
+      "direct_all_constraints_admissible_n": 17,
+      "direct_all_constraints_admissible_pct": 8.5,
+      "lookup_reachable_n": 73,
+      "attempted_modifier_run_n": 32,
+      "engine_run_success_n": 32,
+      "modifier_representable_n": 32,
+      "modifier_representable_pct": 16.0,
+      "median_euclidean_residual_attempted_mmHg": 0.4239601603156621,
+      "unreachable_low_pressure_n": 5,
+      "systolic_tolerance_mmHg": 5.0,
+      "diastolic_tolerance_mmHg": 5.0,
+      "direct_all_to_modifier_gain_pp": 7.5
+    },
+    {
+      "cohort": "elsa_wave8",
+      "seed": 20260817,
+      "sample_n": 200,
+      "body_admissible_n": 40,
+      "body_admissible_pct": 20.0,
+      "direct_pressure_admissible_n": 48,
+      "direct_pressure_admissible_pct": 24.0,
+      "direct_all_constraints_admissible_n": 16,
+      "direct_all_constraints_admissible_pct": 8.0,
+      "lookup_reachable_n": 72,
+      "attempted_modifier_run_n": 20,
+      "engine_run_success_n": 20,
+      "modifier_representable_n": 20,
+      "modifier_representable_pct": 10.0,
+      "median_euclidean_residual_attempted_mmHg": 0.3658265346201372,
+      "unreachable_low_pressure_n": 23,
+      "systolic_tolerance_mmHg": 5.0,
+      "diastolic_tolerance_mmHg": 5.0,
+      "direct_all_to_modifier_gain_pp": 2.0
+    }
+  ],
+  "acute": [
+    {
+      "phenotype": "normotensive",
+      "status": "ok",
+      "simulated_through_s": 2155,
+      "time_to_hypovolemic_shock_s": 615.16,
+      "time_to_map_below_65_s": 538.0,
+      "minimum_map_mmHg": 41.60961561074096,
+      "maximum_heart_rate_per_min": 155.65432373693514,
+      "minimum_cardiac_output_L_min": 1.8296645076406104
+    },
+    {
+      "phenotype": "hypertensive",
+      "status": "ok",
+      "simulated_through_s": 2155,
+      "time_to_hypovolemic_shock_s": 608.1000000005046,
+      "time_to_map_below_65_s": 527.0,
+      "minimum_map_mmHg": 41.559670195719534,
+      "maximum_heart_rate_per_min": 151.04904986753408,
+      "minimum_cardiac_output_L_min": 1.018031675093466
+    }
+  ]
+}

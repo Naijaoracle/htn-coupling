@@ -67,6 +67,63 @@ def load_haalsi(path: Path) -> pd.DataFrame:
     return frame
 
 
+def load_elsa_wave8(root: Path) -> pd.DataFrame:
+    """Load the 2016-17 ELSA Wave 8 health-visit comparator.
+
+    The nurse release's sysval/diaval fields are explicitly labelled as valid
+    mean BP. They are populated only when bprespc == 1. Harmonized Wave 8 age
+    and measured anthropometry are joined only for those nurse-file IDs.
+    """
+    tab = root / "tab"
+    nurse_path = tab / "wave_8_elsa_nurse_data_eul_v1.tab"
+    harmonized_path = tab / "gh_elsa_h.tab"
+    if not nurse_path.exists() or not harmonized_path.exists():
+        raise RuntimeError(f"ELSA Wave 8 files not found beneath {root}")
+
+    nurse_columns = [
+        "idauniq", "indsex", "bprespc", "sysval", "diaval",
+        "sys2", "sys3", "dias2", "dias3",
+    ]
+    nurse = pd.read_csv(nurse_path, sep="\t", usecols=nurse_columns, low_memory=False)
+    harmonized_columns = [
+        "idauniq", "r8agey", "ragender", "r8mheight", "r8mweight", "r8mbmi",
+    ]
+    harmonized = pd.read_csv(
+        harmonized_path, sep="\t", usecols=harmonized_columns, low_memory=False
+    )
+    for column in harmonized_columns[1:]:
+        harmonized[column] = pd.to_numeric(harmonized[column], errors="coerce")
+
+    frame = nurse.merge(harmonized, on="idauniq", how="left", validate="one_to_one")
+    if len(frame) != 3_525:
+        raise RuntimeError(f"Expected 3,525 ELSA Wave 8 nurse records, found {len(frame):,}")
+
+    valid_bp = (
+        frame["bprespc"].eq(1)
+        & frame["sysval"].gt(0)
+        & frame["diaval"].gt(0)
+    )
+    if not np.allclose(
+        frame.loc[valid_bp, "sysval"],
+        (frame.loc[valid_bp, "sys2"] + frame.loc[valid_bp, "sys3"]) / 2.0,
+    ) or not np.allclose(
+        frame.loc[valid_bp, "diaval"],
+        (frame.loc[valid_bp, "dias2"] + frame.loc[valid_bp, "dias3"]) / 2.0,
+    ):
+        raise RuntimeError("ELSA valid mean BP does not match readings 2 and 3")
+    frame["participant_id"] = frame["idauniq"]
+    frame["age_years"] = frame["r8agey"]
+    frame["sex"] = frame["indsex"].map({1: "Male", 2: "Female"})
+    frame["systolic_mmHg"] = frame["sysval"].where(valid_bp)
+    frame["diastolic_mmHg"] = frame["diaval"].where(valid_bp)
+    frame["height_cm"] = frame["r8mheight"] * 100.0
+    frame["weight_kg"] = frame["r8mweight"]
+    frame["published_bmi_kg_m2"] = frame["r8mbmi"]
+    if valid_bp.sum() != 3_317:
+        raise RuntimeError(f"Expected 3,317 valid ELSA BP means, found {valid_bp.sum():,}")
+    return frame
+
+
 def load_comparator(args: argparse.Namespace) -> pd.DataFrame | None:
     if args.comparator is None:
         return None
@@ -227,17 +284,22 @@ def complete_case_constraints(frame: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def save_plots(by_sex: pd.DataFrame, by_age: pd.DataFrame, constraints: pd.DataFrame, output: Path) -> None:
+def save_plots(name: str, by_sex: pd.DataFrame, by_age: pd.DataFrame,
+               constraints: pd.DataFrame, output: Path) -> None:
+    display_name = {
+        "haalsi": "HAALSI Wave 1",
+        "elsa_wave8": "ELSA Wave 8",
+    }.get(name, name)
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.2), constrained_layout=True)
     axes[0].bar(by_sex["group"], by_sex["pressure_box_excluded_pct"], color="#35618d")
-    axes[0].set_title("HAALSI Wave 1 by sex")
+    axes[0].set_title(f"{display_name} by sex")
     axes[0].set_ylabel("Outside pressure box (%)")
     axes[0].set_ylim(0, 100)
     axes[1].bar(by_age["group"], by_age["pressure_box_excluded_pct"], color="#a9523f")
-    axes[1].set_title("HAALSI Wave 1 by age")
+    axes[1].set_title(f"{display_name} by age")
     axes[1].set_ylim(0, 100)
     axes[1].tick_params(axis="x", rotation=30)
-    fig.savefig(output / "haalsi_pressure_exclusion_by_sex_age.png", dpi=180)
+    fig.savefig(output / f"{name}_pressure_exclusion_by_sex_age.png", dpi=180)
     plt.close(fig)
 
     hard = constraints[constraints["constraint"].isin([
@@ -247,7 +309,7 @@ def save_plots(by_sex: pd.DataFrame, by_age: pd.DataFrame, constraints: pd.DataF
     ax.barh(hard["constraint"].str.replace("_", " "), hard["pct_excluded"], color="#35618d")
     ax.set_xlabel("Excluded among complete cases (%)")
     ax.set_xlim(0, 100)
-    fig.savefig(output / "haalsi_constraint_comparison.png", dpi=180)
+    fig.savefig(output / f"{name}_constraint_comparison.png", dpi=180)
     plt.close(fig)
 
 
@@ -278,7 +340,7 @@ def audit(name: str, frame: pd.DataFrame, output: Path, include_anthropometry: b
         result["anthropometry"] = anthropometry.to_dict(orient="records")
         result["complete_case_constraints"] = constraints.to_dict(orient="records")
         if by_sex is not None and by_age is not None:
-            save_plots(by_sex, by_age, constraints, output)
+            save_plots(name, by_sex, by_age, constraints, output)
     return result
 
 
@@ -287,6 +349,15 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--haalsi", type=Path, default=repo.parent / "pulse-physiology-engine" / "dataverse_files" / "HAALSI_baseline_dataverse_14Apr2017.tab")
     parser.add_argument("--output", type=Path, default=repo / "results" / "stage1")
+    elsa_default = (
+        repo.parent / "pulse-physiology-engine" / "dataverse_files"
+        / "5050tab_6E3332402138AD5696C0CF0F7891314F5DA7035F7A39B8E5F424AA708E6F0899_V1"
+        / "UKDA-5050-tab"
+    )
+    parser.add_argument(
+        "--elsa-root", type=Path,
+        default=elsa_default if elsa_default.exists() else None,
+    )
     parser.add_argument("--comparator", type=Path)
     parser.add_argument("--comparator-name", default="comparator")
     parser.add_argument("--comparator-sbp", default="systolic_mmHg")
@@ -310,15 +381,60 @@ def main() -> None:
             "diastolic_reading_2_mmHg", "diastolic_reading_3_mmHg",
         ]].notna().all(axis=1).sum()),
     }
+    if args.elsa_root is not None and args.comparator is not None:
+        raise RuntimeError("Use either --elsa-root or --comparator, not both")
     comparator = load_comparator(args)
-    if comparator is not None:
-        summary[args.comparator_name] = audit(args.comparator_name, comparator, args.output, include_anthropometry=False)
+    comparator_name = None
+    if args.elsa_root is not None:
+        comparator_name = "elsa_wave8"
+        elsa = load_elsa_wave8(args.elsa_root)
+        summary[comparator_name] = audit(
+            comparator_name, elsa, args.output, include_anthropometry=True
+        )
+        summary["elsa_wave8_extraction"] = {
+            "release": "UK Data Service Study 5050",
+            "wave": 8,
+            "fieldwork": "2016-2017",
+            "nurse_source_rows": 3525,
+            "valid_bp_rule": "bprespc == 1 and positive sysval/diaval",
+            "valid_bp_n": 3317,
+            "bp_fields": "published valid mean systolic/diastolic BP",
+            "valid_means_equal_readings_2_and_3": True,
+            "age_height_weight_source": "Gateway harmonized ELSA h, Wave 8",
+            "sex_source": "Wave 8 nurse indsex",
+            "nurse_vs_harmonized_sex_disagreements": 1,
+        }
+    elif comparator is not None:
+        comparator_name = args.comparator_name
+        summary[comparator_name] = audit(
+            comparator_name, comparator, args.output, include_anthropometry=False
+        )
     else:
-        summary["comparator_status"] = "not run: no local HRS or ELSA dataset supplied"
-    (args.output / "stage1_summary.json").write_text(json.dumps(summary, indent=2, default=str) + "\n")
+        summary["comparator_status"] = "not run: no local comparator dataset supplied"
+
+    comparison = []
+    for cohort, label in (("haalsi", "HAALSI Wave 1"), ("elsa_wave8", "ELSA Wave 8")):
+        if cohort in summary:
+            row = summary[cohort]["pressure"]
+            comparison.append({
+                "cohort": label,
+                "valid_pressure_n": row["n"],
+                "excluded_n": row["pressure_box_excluded_n"],
+                "excluded_pct": row["pressure_box_excluded_pct"],
+            })
+    pd.DataFrame(comparison).to_csv(
+        args.output / "cohort_pressure_comparison.csv", index=False
+    )
+    (args.output / "stage1_summary.json").write_text(
+        json.dumps(summary, indent=2, default=str) + "\n"
+    )
     headline = summary["haalsi"]["pressure"]
     print(f"HAALSI pressure box: {headline['pressure_box_excluded_n']:,}/{headline['n']:,} excluded ({headline['pressure_box_excluded_pct']:.2f}%)")
-    print(summary["comparator_status"] if comparator is None else f"Comparator {args.comparator_name} complete")
+    if comparator_name is None:
+        print(summary["comparator_status"])
+    else:
+        other = summary[comparator_name]["pressure"]
+        print(f"{comparator_name} pressure box: {other['pressure_box_excluded_n']:,}/{other['n']:,} excluded ({other['pressure_box_excluded_pct']:.2f}%)")
 
 
 if __name__ == "__main__":

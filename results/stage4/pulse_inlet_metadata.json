@@ -1,0 +1,56 @@
+{
+  "interface_schema": "htn-coupling.pulse-openbf-interface",
+  "interface_version": "1.0.0",
+  "created_utc": "2026-08-16T17:56:56.369124+00:00",
+  "pulse_revision": "e8a36497b8ba78e788dc201a6baf74e1c297c56f",
+  "coupling_revision_at_generation": "9395cf87139b9b4d88c72485961f3058b9aeb62b",
+  "patient_state": "{PULSE_ROOT}/build/install/bin/states/StandardMale@0s.json",
+  "source_flow": "Aorta-InFlow",
+  "inlet_file": "{HTN_COUPLING_ROOT}/results/stage4/pulse_aortic_inlet.dat",
+  "inlet_sha256": "e5789da0714ddf207f51d9a12ffb147e47f2ba1766c3c5d48babc69fa3693e58",
+  "samples": 201,
+  "cycles_averaged": 8,
+  "cardiac_cycle_length_s": 0.8399999999999821,
+  "heart_rate_per_min": 72.01773713488146,
+  "mean_arterial_pressure_mmHg": 95.32762105298545,
+  "systolic_pressure_mmHg": 114.26164282053239,
+  "diastolic_pressure_mmHg": 73.5883531831918,
+  "aortic_cycle_mean_pressure_mmHg": 95.3244299573592,
+  "aortic_cycle_systolic_pressure_mmHg": 114.25346500969182,
+  "aortic_cycle_diastolic_pressure_mmHg": 73.61117740605278,
+  "cardiac_output_reported_L_min": 5.7873311896474675,
+  "cardiac_output_from_flow_integral_L_min": 5.73905904099188,
+  "flow_integral_relative_error": 0.008341003318064425,
+  "periodic_endpoint_error_m3_s": 0.0,
+  "cycle_periods_s": [
+    0.8399999999999821,
+    0.8399999999999821,
+    0.8399999999999821,
+    0.8399999999999821,
+    0.8399999999999821,
+    0.8399999999999821,
+    0.8399999999999821,
+    0.8399999999999821
+  ],
+  "maximum_cycle_flow_rmse_fraction_of_peak": 7.99401466042376e-05,
+  "systemic_vascular_resistance_mmHg_s_mL": 0.9394811218291695,
+  "stage0_gate": {
+    "passed": true,
+    "expected_sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+    "pulse_revision": "e8a36497b8ba78e788dc201a6baf74e1c297c56f",
+    "files": [
+      {
+        "role": "archived_reference",
+        "path": "{PULSE_ROOT}/build/install/bin/test_results/scenarios/patient/HemorrhageToShockResults.csv",
+        "bytes": 46098446,
+        "sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a"
+      },
+      {
+        "role": "fresh_rerun",
+        "path": "{PULSE_ROOT}/data/human/adult/scenarios/patient/HemorrhageToShockResults.csv",
+        "bytes": 46098446,
+        "sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a"
+      }
+    ]
+  }
+}

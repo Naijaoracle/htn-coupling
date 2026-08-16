@@ -842,6 +842,10 @@ Only {len(validated)} of {len(calibration)} five-mmHg target pairs lay inside th
 
 The deterministic samples used seeds {SEED} and {SEED + 1}. HAALSI pressure-only direct exclusion was 81.5%, matching Stage 1's approximately 81%. Within the original prescribed modifier domain, and with body constraints included, modifiers increased HAALSI representability from 8.5% to 16.0% (+7.5 percentage points) and ELSA from 8.0% to 10.0% (+2.0 points). All 52 attempted engines succeeded and met pressure tolerance. ELSA had 23 explicitly unreachable low-pressure targets, showing the asymmetry of a modifier domain chosen to raise pressure. These percentages are prescribed-domain coverage, not maximum stock-Pulse coverage; an extended-domain calibration is required before broader coverage is claimed.
 
+### Extended-domain population lookup
+
+The subsequent replacement lookup separates the prescribed grid, a calibration-extended domain limited to resistance at most 2.0 and compliance at least 0.4, and the unrestricted engineering exploration. In the calibration-extended pressure-pair hull, 29.3% of HAALSI and 35.0% of ELSA hypertensives were reachable. Coverage among hypertensives with pulse pressure at least 60 mmHg was only 18.5% and 27.8%, respectively. Median pulse pressure among unreachable isolated systolic cases was 79.5 mmHg in both cohorts. See the extended population artefacts; convex-hull membership is a lookup screen, not proof of physiologic plausibility or body-specific transfer.
+
 Anonymous exact sampled rows remain local under `results/stage2/private`; only aggregate results are intended for version control.
 
 ## Restabilisation
@@ -874,6 +878,7 @@ This remains an acute-onset phenotype. It contains no disease duration, vascular
 - aligned compressed acute trajectories, summary, and comparison figure
 - `stage0_regression_gate.json` and `stage2_summary.json`
 - `extended_boundary_sweep.csv`, `extended_boundary_summary.json`, the censor record, and `extended_boundary_sweep.png`
+- `extended_population_coverage.csv/json`, `extended_calibration_lookup_table.csv`, and the pressure-hull figure
 """
     (ROOT / "docs/STAGE2_TIER0_HYPERTENSION.md").write_text(text)
 

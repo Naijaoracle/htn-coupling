@@ -1,0 +1,49 @@
+{
+  "passed": false,
+  "tolerances": {
+    "mean_pressure_tolerance_mmHg": 5.0,
+    "pulse_pressure_tolerance_mmHg": 10.0,
+    "requires_at_least_one_arm": true
+  },
+  "arms": {
+    "unscaled": {
+      "case": "stage4_unscaled",
+      "vessel": "aortic_arch_I",
+      "file": "{HTN_COUPLING_ROOT}/results/stage4/runs/stage4_unscaled/aortic_arch_I_P.last",
+      "systolic_mmHg": 95.35633618204784,
+      "diastolic_mmHg": 74.78432267781764,
+      "mean_mmHg": 87.27128590413399,
+      "pulse_pressure_mmHg": 20.5720135042302,
+      "pulse_mean_mmHg": 95.3244299573592,
+      "pulse_pulse_pressure_mmHg": 40.64228760363905,
+      "mean_error_mmHg": -8.05314405322521,
+      "pulse_pressure_error_mmHg": -20.07027409940885,
+      "passed": false,
+      "openbf_converged": true,
+      "openbf_cycles": 4,
+      "openbf_solver_elapsed_s": 19.22381265
+    },
+    "scaled": {
+      "case": "stage4_scaled",
+      "vessel": "aortic_arch_I",
+      "file": "{HTN_COUPLING_ROOT}/results/stage4/runs/stage4_scaled/aortic_arch_I_P.last",
+      "systolic_mmHg": 99.56576860699624,
+      "diastolic_mmHg": 79.11805344970499,
+      "mean_mmHg": 91.44101748553858,
+      "pulse_pressure_mmHg": 20.447715157291256,
+      "pulse_mean_mmHg": 95.3244299573592,
+      "pulse_pulse_pressure_mmHg": 40.64228760363905,
+      "mean_error_mmHg": -3.8834124718206198,
+      "pulse_pressure_error_mmHg": -20.19457244634779,
+      "passed": false,
+      "openbf_converged": true,
+      "openbf_cycles": 5,
+      "openbf_solver_elapsed_s": 24.019816566
+    }
+  },
+  "wall_time_s": {
+    "unscaled": 54.38896107673645,
+    "scaled": 59.284438133239746
+  },
+  "downstream_status": "blocked"
+}

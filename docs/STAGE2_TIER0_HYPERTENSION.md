@@ -31,6 +31,14 @@ Only 23 of 459 five-mmHg target pairs lay inside the achieved pressure-pair hull
 
 The deterministic samples used seeds 20260816 and 20260817. HAALSI pressure-only direct exclusion was 81.5%, matching Stage 1's approximately 81%. Within the original prescribed modifier domain, and with body constraints included, modifiers increased HAALSI representability from 8.5% to 16.0% (+7.5 percentage points) and ELSA from 8.0% to 10.0% (+2.0 points). All 52 attempted engines succeeded and met pressure tolerance. ELSA had 23 explicitly unreachable low-pressure targets, showing the asymmetry of a modifier domain chosen to raise pressure. These percentages are prescribed-domain coverage, not maximum stock-Pulse coverage; the population lookup must be rebuilt over a physiologically justified extended domain before broader coverage is claimed.
 
+### Extended-domain population lookup
+
+The replacement pressure-pair lookup separates three claims: the original prescribed grid, a calibration-extended domain limited to resistance at most 2.0 and compliance at least 0.4, and the full engineering exploration through resistance 6.0 and compliance 0.1. The last is an engineering envelope only, not plausible physiology.
+
+Within the calibration-extended hull, 641 of 2,186 HAALSI hypertensives (29.3%) and 354 of 1,011 ELSA hypertensives (35.0%) were reachable. Coverage was particularly poor for wide pulse pressure: 258 of 1,396 HAALSI hypertensives with pulse pressure at least 60 mmHg (18.5%) and 232 of 834 in ELSA (27.8%). Among isolated systolic hypertensives, coverage was 45.1% in HAALSI and 36.7% in ELSA. Median pulse pressure among unreachable isolated systolic cases was 79.5 mmHg in both cohorts. Reaching one 150/90-class point therefore does not imply coverage of older, stiff-artery phenotypes.
+
+The unrestricted engineering hull covered 91.8% of HAALSI and 98.5% of ELSA hypertensives, but only by admitting modifier combinations excluded from the calibration domain. Convex-hull membership remains a lookup screen; it does not establish body-specific transfer or physiologic plausibility.
+
 Anonymous exact sampled rows remain local under `results/stage2/private`; only aggregate results are intended for version control.
 
 ## Restabilisation
@@ -78,3 +86,4 @@ This remains an acute-onset phenotype. It contains no disease duration, vascular
 - aligned compressed acute trajectories, summary, and comparison figure
 - `stage0_regression_gate.json` and `stage2_summary.json`
 - `extended_boundary_sweep.csv`, `extended_boundary_summary.json`, the censor record, and `extended_boundary_sweep.png`
+- `extended_population_coverage.csv/json`, `extended_calibration_lookup_table.csv`, and the pressure-hull figure

@@ -1,0 +1,30 @@
+{
+  "mode": "base",
+  "openbf_revision": "928c046906687c1347bf5496b47325acd0b2c032",
+  "base_yaml": "{OPENBF_ROOT}/models/boileau2015/adan56/adan56.yaml",
+  "wk3_outlets": 31,
+  "published_parallel_terminal_resistance_pa_s_m3": 118912507.88892315,
+  "pulse_systemic_resistance_pa_s_m3": 125253502.12450854,
+  "global_resistance_scale": 1.0533248717747048,
+  "compliance_decision": "published Cc unchanged in both arms",
+  "cases": [
+    {
+      "case": "stage4_unscaled",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4/configs/stage4_unscaled/stage4_unscaled.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4/configs/stage4_unscaled/stage4_unscaled_inlet.dat",
+      "terminal_resistance_scale": 1.0,
+      "terminal_compliance_scale": 1.0,
+      "inlet_flow_scale": 1.0,
+      "cardiac_period_scale": 1.0
+    },
+    {
+      "case": "stage4_scaled",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage4/configs/stage4_scaled/stage4_scaled.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage4/configs/stage4_scaled/stage4_scaled_inlet.dat",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "inlet_flow_scale": 1.0,
+      "cardiac_period_scale": 1.0
+    }
+  ]
+}

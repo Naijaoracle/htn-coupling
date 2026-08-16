@@ -1,0 +1,37 @@
+cohort,domain,domain_definition,phenotype,n,reachable_n,reachable_pct,unreachable_n,unreachable_with_pp_ge_60_n,median_pp_reachable_mmHg,median_pp_unreachable_mmHg
+haalsi,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",all_valid_pressure,4895,1668,34.0755873340143,3227,1474,49.0,57.5
+haalsi,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",hypertension_140_or_90,2186,79,3.6139066788655074,2107,1388,42.0,65.5
+haalsi,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",isolated_systolic_hypertension,942,30,3.1847133757961785,912,767,59.0,70.5
+haalsi,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",combined_systolic_diastolic_hypertension,1085,0,0.0,1085,621,,62.0
+haalsi,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",isolated_diastolic_hypertension,159,49,30.81761006289308,110,0,39.0,41.25
+haalsi,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",hypertension_with_pulse_pressure_ge_60,1396,8,0.5730659025787965,1388,1388,60.5,73.5
+haalsi,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,all_valid_pressure,4895,2279,46.55771195097038,2616,1196,51.5,57.0
+haalsi,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,hypertension_140_or_90,2186,641,29.322964318389754,1545,1138,58.0,71.5
+haalsi,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,isolated_systolic_hypertension,942,425,45.11677282377919,517,517,61.5,79.5
+haalsi,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,combined_systolic_diastolic_hypertension,1085,107,9.861751152073733,978,621,52.0,64.0
+haalsi,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,isolated_diastolic_hypertension,159,109,68.55345911949685,50,0,42.0,34.25
+haalsi,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,hypertension_with_pulse_pressure_ge_60,1396,258,18.48137535816619,1138,1138,64.5,77.0
+haalsi,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,all_valid_pressure,4895,3663,74.8314606741573,1232,192,56.0,41.0
+haalsi,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,hypertension_140_or_90,2186,2007,91.81152790484904,179,152,64.0,86.0
+haalsi,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,isolated_systolic_hypertension,942,933,99.04458598726114,9,9,69.5,122.5
+haalsi,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,combined_systolic_diastolic_hypertension,1085,936,86.26728110599078,149,143,60.0,87.0
+haalsi,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,isolated_diastolic_hypertension,159,138,86.79245283018868,21,0,41.0,30.5
+haalsi,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,hypertension_with_pulse_pressure_ge_60,1396,1244,89.11174785100286,152,152,72.0,89.5
+elsa_wave8,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",all_valid_pressure,3317,1183,35.66475731082303,2134,1188,54.0,63.0
+elsa_wave8,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",hypertension_140_or_90,1011,29,2.868447082096934,982,823,59.0,71.5
+elsa_wave8,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",isolated_systolic_hypertension,823,22,2.67314702308627,801,742,59.75,73.5
+elsa_wave8,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",combined_systolic_diastolic_hypertension,150,0,0.0,150,81,,61.0
+elsa_wave8,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",isolated_diastolic_hypertension,38,7,18.421052631578945,31,0,37.5,43.5
+elsa_wave8,prescribed,"R 1.0-1.6 and C 1.0-0.5, original dense grid",hypertension_with_pulse_pressure_ge_60,834,11,1.3189448441247003,823,823,61.0,74.0
+elsa_wave8,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,all_valid_pressure,3317,1592,47.9951763641845,1725,889,56.5,61.0
+elsa_wave8,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,hypertension_140_or_90,1011,354,35.01483679525222,657,602,62.5,77.0
+elsa_wave8,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,isolated_systolic_hypertension,823,302,36.69501822600243,521,521,63.75,79.5
+elsa_wave8,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,combined_systolic_diastolic_hypertension,150,24,16.0,126,81,51.5,62.5
+elsa_wave8,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,isolated_diastolic_hypertension,38,28,73.68421052631578,10,0,44.0,40.25
+elsa_wave8,calibration_extended,empirically sampled R <=2.0 and C >=0.4; includes 150/90-class point,hypertension_with_pulse_pressure_ge_60,834,232,27.81774580335731,602,602,65.25,78.5
+elsa_wave8,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,all_valid_pressure,3317,2302,69.4000602954477,1015,230,61.0,51.0
+elsa_wave8,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,hypertension_140_or_90,1011,996,98.51632047477746,15,11,71.0,89.0
+elsa_wave8,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,isolated_systolic_hypertension,823,813,98.78493317132441,10,10,73.0,91.75
+elsa_wave8,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,combined_systolic_diastolic_hypertension,150,149,99.33333333333333,1,1,61.0,120.5
+elsa_wave8,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,isolated_diastolic_hypertension,38,34,89.47368421052632,4,0,43.5,29.25
+elsa_wave8,engineering_explored,all successful explored cells through R 6.0 and C 0.1; not asserted physiologic,hypertension_with_pulse_pressure_ge_60,834,823,98.6810551558753,11,11,73.5,92.5

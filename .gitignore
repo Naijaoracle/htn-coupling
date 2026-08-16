@@ -30,3 +30,17 @@ results/stage3/**
 !results/stage3/*.csv
 !results/stage3/*.json
 !results/stage3/*.png
+!results/stage4/
+results/stage4/**
+!results/stage4/*.csv
+!results/stage4/*.json
+!results/stage4/*.png
+!results/stage4/*.dat
+!results/stage4/configs/
+results/stage4/configs/**
+!results/stage4/configs/stage4_unscaled/
+!results/stage4/configs/stage4_unscaled/*.yaml
+!results/stage4/configs/stage4_unscaled/*.dat
+!results/stage4/configs/stage4_scaled/
+!results/stage4/configs/stage4_scaled/*.yaml
+!results/stage4/configs/stage4_scaled/*.dat

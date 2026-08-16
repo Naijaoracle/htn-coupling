@@ -1,0 +1,33 @@
+{
+  "schema": "htn-coupling.pulse-openbf-interface",
+  "version": "1.0.0",
+  "direction": "Pulse-to-openBF",
+  "inlet_columns": [
+    {"name": "time", "unit": "s"},
+    {"name": "volumetric_flow", "unit": "m3/s"}
+  ],
+  "pulse_source": {
+    "patient": "StandardMale@0s",
+    "compartment": "Aorta",
+    "flow_property": "InFlow",
+    "stable_pre_intervention_only": true
+  },
+  "cycle": {
+    "cycles_to_average": 8,
+    "resampled_points_including_periodic_endpoint": 201,
+    "maximum_flow_integral_relative_error": 0.02,
+    "maximum_cycle_flow_rmse_fraction_of_peak": 0.02,
+    "periodic_endpoint_absolute_tolerance_m3_s": 1e-15,
+    "openbf_zero_flow_floor_m3_s": 1e-10
+  },
+  "aortic_acceptance": {
+    "mean_pressure_tolerance_mmHg": 5.0,
+    "pulse_pressure_tolerance_mmHg": 10.0,
+    "requires_at_least_one_arm": true
+  },
+  "resistance_arms": {
+    "unscaled": "Published ADAN56 R1, R2 and Cc are unchanged.",
+    "scaled": "Every terminal R1 and R2 is multiplied by one global factor so the parallel terminal resistance matches Pulse systemic vascular resistance. Cc is left at its published value to isolate resistance matching."
+  },
+  "not_transferred": ["arterial geometry", "distributed wall material properties", "respiration", "drugs", "other Pulse systems"]
+}

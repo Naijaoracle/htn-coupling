@@ -1,0 +1,3 @@
+case,vessel,file,systolic_mmHg,diastolic_mmHg,mean_mmHg,pulse_pressure_mmHg,pulse_mean_mmHg,pulse_pulse_pressure_mmHg,mean_error_mmHg,pulse_pressure_error_mmHg,passed,openbf_converged,openbf_cycles,openbf_solver_elapsed_s
+stage4_unscaled,aortic_arch_I,{HTN_COUPLING_ROOT}/results/stage4/runs/stage4_unscaled/aortic_arch_I_P.last,95.35633618204784,74.78432267781764,87.27128590413399,20.5720135042302,95.3244299573592,40.64228760363905,-8.05314405322521,-20.07027409940885,False,True,4,19.22381265
+stage4_scaled,aortic_arch_I,{HTN_COUPLING_ROOT}/results/stage4/runs/stage4_scaled/aortic_arch_I_P.last,99.56576860699624,79.11805344970499,91.44101748553858,20.447715157291256,95.3244299573592,40.64228760363905,-3.8834124718206198,-20.19457244634779,False,True,5,24.019816566

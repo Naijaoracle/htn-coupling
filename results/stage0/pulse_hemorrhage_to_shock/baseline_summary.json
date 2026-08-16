@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "pulse_version": "4.3.2",
+  "pulse_git_revision": "e8a36497b8ba78e788dc201a6baf74e1c297c56f",
+  "scenario": "data/human/adult/scenarios/patient/HemorrhageToShock.json",
+  "scenario_sha256": "eb02bf588ffb880ac58961f0b5aeae8520c2b5ce0901d73aaee2361a75b70351",
+  "command": "./PulseScenarioDriver ../../../data/human/adult/scenarios/patient/HemorrhageToShock.json",
+  "working_directory": "{PULSE_ROOT}/build/install/bin",
+  "expected_final_simulation_time_s": 2155.0,
+  "actual_final_simulation_time_s": 2155.0,
+  "wall_runtime_s": 330.346,
+  "data_rows": 107751,
+  "hypovolemic_shock_on_s": 615.16,
+  "hypovolemic_shock_off_s": 1322.44,
+  "reference_sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+  "rerun_sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+  "byte_identical_to_archived_reference": true
+}

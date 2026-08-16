@@ -1,0 +1,23 @@
+{
+  "schema": "htn-coupling.stage5-protocol",
+  "version": 1,
+  "phenotypes": {
+    "normotensive": {"resistance_multiplier": 1.0, "compliance_multiplier": 1.0},
+    "resistance_dominant": {"resistance_multiplier": 2.0, "compliance_multiplier": 1.0},
+    "compliance_dominant": {"resistance_multiplier": 1.0, "compliance_multiplier": 0.4},
+    "combined": {"resistance_multiplier": 2.0, "compliance_multiplier": 0.4}
+  },
+  "matched_stiffening": {
+    "youngs_modulus_scale_rule": "1/compliance_multiplier",
+    "terminal_compliance_scale": 1.0
+  },
+  "attribution": {
+    "pass_ratio": 1.25,
+    "noise_cases": ["sensitivity_flow_low", "sensitivity_flow_high", "sensitivity_period_low", "sensitivity_period_high"],
+    "shape_metric": "phase_aligned_minmax_normalised_rmse",
+    "stiffness_scales": [1.1, 1.25, 1.5, 1.75, 2.0, 2.5]
+  },
+  "sites": ["aortic_arch_I", "external_carotid_R", "internal_carotid_R"],
+  "mean_match_tolerance_mmHg": 3.0,
+  "acute_map_threshold_mmHg": 65.0
+}

@@ -1,0 +1,154 @@
+{
+  "created_utc": "2026-08-16T20:04:07.858382+00:00",
+  "openbf_revision": "928c046906687c1347bf5496b47325acd0b2c032",
+  "base_yaml": "{OPENBF_ROOT}/models/boileau2015/adan56/adan56.yaml",
+  "wk3_outlets": 31,
+  "published_parallel_terminal_resistance_pa_s_m3": 118912507.88892315,
+  "mapping": "R1/R2 globally matched to each Pulse SVR; Cc published; Arm 2 E=1/C",
+  "cases": [
+    {
+      "case": "normotensive_arm1_inlet_only",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/normotensive_arm1_inlet_only/normotensive_arm1_inlet_only.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/normotensive_arm1_inlet_only/normotensive_arm1_inlet_only_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "normotensive_arm2_matched_stiffening",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/normotensive_arm2_matched_stiffening/normotensive_arm2_matched_stiffening.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/normotensive_arm2_matched_stiffening/normotensive_arm2_matched_stiffening_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "resistance_dominant_arm1_inlet_only",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/resistance_dominant_arm1_inlet_only/resistance_dominant_arm1_inlet_only.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/resistance_dominant_arm1_inlet_only/resistance_dominant_arm1_inlet_only_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 2.076690990056454,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "resistance_dominant_arm2_matched_stiffening",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/resistance_dominant_arm2_matched_stiffening/resistance_dominant_arm2_matched_stiffening.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/resistance_dominant_arm2_matched_stiffening/resistance_dominant_arm2_matched_stiffening_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 2.076690990056454,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "compliance_dominant_arm1_inlet_only",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/compliance_dominant_arm1_inlet_only/compliance_dominant_arm1_inlet_only.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/compliance_dominant_arm1_inlet_only/compliance_dominant_arm1_inlet_only_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 1.056278325908467,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "compliance_dominant_arm2_matched_stiffening",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/compliance_dominant_arm2_matched_stiffening/compliance_dominant_arm2_matched_stiffening.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/compliance_dominant_arm2_matched_stiffening/compliance_dominant_arm2_matched_stiffening_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 1.056278325908467,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 2.5
+    },
+    {
+      "case": "combined_arm1_inlet_only",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/combined_arm1_inlet_only/combined_arm1_inlet_only.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/combined_arm1_inlet_only/combined_arm1_inlet_only_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 2.063360324779779,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.0
+    },
+    {
+      "case": "combined_arm2_matched_stiffening",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/combined_arm2_matched_stiffening/combined_arm2_matched_stiffening.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/combined_arm2_matched_stiffening/combined_arm2_matched_stiffening_inlet.dat",
+      "source": "pulse",
+      "terminal_resistance_scale": 2.063360324779779,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 2.5
+    },
+    {
+      "case": "threshold_E_1p10",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p10/threshold_E_1p10.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p10/threshold_E_1p10_inlet.dat",
+      "source": "Pulse low-pulsatility threshold",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.1
+    },
+    {
+      "case": "threshold_E_1p25",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p25/threshold_E_1p25.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p25/threshold_E_1p25_inlet.dat",
+      "source": "Pulse low-pulsatility threshold",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.25
+    },
+    {
+      "case": "threshold_E_1p50",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p50/threshold_E_1p50.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p50/threshold_E_1p50_inlet.dat",
+      "source": "Pulse low-pulsatility threshold",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.5
+    },
+    {
+      "case": "threshold_E_1p75",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p75/threshold_E_1p75.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_1p75/threshold_E_1p75_inlet.dat",
+      "source": "Pulse low-pulsatility threshold",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 1.75
+    },
+    {
+      "case": "threshold_E_2p00",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_2p00/threshold_E_2p00.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_2p00/threshold_E_2p00_inlet.dat",
+      "source": "Pulse low-pulsatility threshold",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 2.0
+    },
+    {
+      "case": "threshold_E_2p50",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_2p50/threshold_E_2p50.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/threshold_E_2p50/threshold_E_2p50_inlet.dat",
+      "source": "Pulse low-pulsatility threshold",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 2.5
+    },
+    {
+      "case": "default_inlet_E_2p50",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/default_inlet_E_2p50/default_inlet_E_2p50.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/default_inlet_E_2p50/default_inlet_E_2p50_inlet.dat",
+      "source": "ADAN56 default high-pulsatility reference",
+      "terminal_resistance_scale": 1.0,
+      "terminal_compliance_scale": 1.0,
+      "wall_youngs_modulus_scale": 2.5
+    },
+    {
+      "case": "terminal_only_Cc_0p40",
+      "yaml": "{HTN_COUPLING_ROOT}/results/stage5/configs/terminal_only_Cc_0p40/terminal_only_Cc_0p40.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/stage5/configs/terminal_only_Cc_0p40/terminal_only_Cc_0p40_inlet.dat",
+      "source": "ICA terminal diagnostic",
+      "terminal_resistance_scale": 1.0533248717747048,
+      "terminal_compliance_scale": 0.4,
+      "wall_youngs_modulus_scale": 1.0
+    }
+  ]
+}

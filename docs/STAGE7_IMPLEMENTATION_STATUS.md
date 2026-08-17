@@ -12,7 +12,7 @@ The focused SetupPatient test passed, including the named-stage metadata case. T
 
 The complete distributed verification suite remains unavailable in this checkout because its verification directory and baseline corpus are absent.
 
-- P2 stateful resetting is implemented in Pulse commit `b3e033710`: chronic midpoint, directional rapid-reset fractions, and fast/slow time constants are optional patient fields; omission retains upstream accommodation. A configured two-minute patient smoke test stabilized successfully. A 1,830-second pressure-perturbation demonstration then moved the logged chronic midpoint from 95.00 mmHg to 91.67 mmHg while MAP moved from 95.32 to 89.51 mmHg, showing the intended stateful slow component.
+- P2 stateful resetting is implemented in Pulse commits `b3e033710` and `15fecf445` (the latter exposes the midpoint as a data request): chronic midpoint, directional rapid-reset fractions, and fast/slow time constants are optional patient fields; omission retains upstream accommodation. A configured two-minute patient smoke test stabilized successfully. A 1,830-second pressure-perturbation demonstration then moved the logged chronic midpoint from 95.00 mmHg to 91.67 mmHg while MAP moved from 95.32 to 89.51 mmHg, showing the intended stateful slow component.
 - P5 ventricular controls are implemented in Pulse commit `7705c6fe7`: optional chamber end-systolic elastance and intrinsic contractility multipliers are applied to left-ventricular maximum elastance. A configured two-minute smoke test stabilized successfully. A paired 120-second pressure-volume demonstration with chamber elastance 1.20 and intrinsic contractility 0.92 changed the final-cycle volume range from 80.46 to 85.10 mL and the maximum pressure from 136.64 to 137.46 mmHg. This demonstrates wiring, not validation of a clinical PV relation. Diastolic beta and relaxation-time parameters remain architecture-dependent and are not guessed.
 
 ## P1 decision
@@ -21,7 +21,7 @@ The 7.1 diagnostic showed compensated/mixed flow behavior rather than blanket hy
 
 ## Final regression
 
-After P5, the full Stage 0 haemorrhage control again completed to 2,155 s in 248.463 s. Output size was 46,098,446 bytes and SHA-256 remained `462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a`.
+After P5, the full Stage 0 haemorrhage control again completed to 2,155 s in 254.246 s. Output size was 46,098,446 bytes and SHA-256 remained `462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a`.
 
 The complete distributed verification suite remains unavailable in this checkout because its verification directory and baseline corpus are absent.
 

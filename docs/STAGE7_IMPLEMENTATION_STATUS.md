@@ -65,3 +65,6 @@ Same-body direct isolation gives 30%-fractional-MAP times of 515.64 s (default),
 Absolute MAP 65 crossings in the isolation traces were 549.24 s (default), 647.18 s (midpoint-only), and 557.42 s (chamber-only); gain-only and combined did not cross MAP 65 by 2,155 s. The endpoint ordering therefore does not reverse.
 
 The repeated-action pressure-hold fixture entered cardiovascular collapse at 952.22 s, so it did not generate valid Moreira 20/30-minute checkpoints. P2 remains qualitatively demonstrated only through the early 60--300 s movement.
+
+
+A gain-2.0 counter-test collapsed at 517--519 s, confirming that the gain field is applied directly to effector update increments rather than reciprocally or with a reversed sign. The gain-0.40 protection is therefore a dynamical interaction in the engine, not a simple coding-direction error. Together with isolated contractility failure and prior pressure-grid holes, this establishes a non-monotonic stabilisation manifold.

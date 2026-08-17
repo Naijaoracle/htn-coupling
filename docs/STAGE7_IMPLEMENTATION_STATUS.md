@@ -13,7 +13,7 @@ The focused SetupPatient test passed, including the named-stage metadata case. T
 The complete distributed verification suite remains unavailable in this checkout because its verification directory and baseline corpus are absent.
 
 - P2 stateful resetting is implemented in Pulse commits `b3e033710` and `15fecf445` (the latter exposes the midpoint as a data request): chronic midpoint, directional rapid-reset fractions, and fast/slow time constants are optional patient fields; omission retains upstream accommodation. A configured two-minute patient smoke test stabilized successfully. A 1,830-second pressure-perturbation demonstration then moved the logged chronic midpoint from 95.00 mmHg to 91.67 mmHg while MAP moved from 95.32 to 89.51 mmHg, showing the intended stateful slow component.
-- P5 ventricular controls are implemented in Pulse commit `7705c6fe7`: optional chamber end-systolic elastance and intrinsic contractility multipliers are applied to left-ventricular maximum elastance. A configured two-minute smoke test stabilized successfully. A paired 120-second pressure-volume demonstration with chamber elastance 1.20 and intrinsic contractility 0.92 changed the final-cycle volume range from 80.46 to 85.10 mL and the maximum pressure from 136.64 to 137.46 mmHg. This demonstrates wiring, not validation of a clinical PV relation. Diastolic beta and relaxation-time parameters remain architecture-dependent and are not guessed.
+- P5 ventricular controls are implemented in Pulse commits `7705c6fe7` and corrected in `a24cd1b51`: optional chamber end-systolic elastance and intrinsic contractility multipliers are applied to left-ventricular maximum elastance. A configured two-minute smoke test stabilized successfully. The first implementation incorrectly multiplied both fields into Emax and has been corrected in `a24cd1b51`: chamber Ees scales Emax, while intrinsic contractility scales the active (Emax-Emin) excursion. Isolated 120-second reruns now give chamber-only volume range 52.11--138.13 mL, intrinsic-only 65.72--147.25 mL, and combined 55.73--140.83 mL. This demonstrates separability/wiring, not validation of a clinical PV relation. Diastolic beta and relaxation-time parameters remain architecture-dependent and are not guessed.
 
 ## P1 decision
 
@@ -30,3 +30,12 @@ The complete distributed verification suite remains unavailable in this checkout
 The direct 150/90 patient with baroreflex gain 0.40, chronic midpoint 110 mmHg, reset fractions 0.10/0.30, 120/1,500 s time constants, chamber elastance 1.20 and intrinsic contractility 0.92 completed the full 2,155 s haemorrhage scenario. It initialized at 148/90.7 mmHg (MAP 121.0) and remained above MAP 65; at 2,155 s it was 100/71.0 mmHg (MAP 86.3), HR 93.4/min and cardiac output 4.08 L/min. The Standard control crossed MAP 65 at 537.66 s and ended at MAP 71.6 mmHg. This is a mechanism demonstration, not a matched comparison: the direct patient achieved MAP 121 rather than the nominal 110 and the direct route is known to differ from the modifier route.
 
 The renal endpoint flow ratio of 1.2946 remains a candidate engine finding against the proposed established-disease target of 0.80--0.90. No P1 flow target has been applied. The next diagnostic is to isolate whether the increased renal flow is the direct route's hyperkinetic phenotype or a pressure-control/circuit compensation artifact.
+
+
+## Follow-up audits
+
+The P2 endpoint displacement ratio (3.33/5.81 = 0.57) is not interpreted as the configured 0.30 fraction: the implementation applies the fraction to instantaneous displacement and integrates fast/slow components while pressure is continuously changing. A fixed-pressure-clamp test remains required for quantitative coefficient validation.
+
+The Stage 5 fractional-MAP analysis gives median time to a 30% fall of 462.5 s (normotensive), 412.5 s (resistance-dominant), 475.5 s (compliance-dominant), and 417.0 s (combined).
+
+The modifier-route renal diagnostic shows left-kidney flow falling from 418.94 to 306.35 mL/min across its low-to-high pressure cells (ratio 0.73), unlike the direct-route 1.2946 increase. This supports a direct-route-specific hyperkinetic interpretation, but the cells are not exactly matched 120/80 and 150/90; a matched modifier run remains the final P1 check.

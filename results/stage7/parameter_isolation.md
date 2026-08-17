@@ -22,3 +22,12 @@ The same traces crossed absolute MAP 65 at 549.24 s (default), 647.18 s (midpoin
 ## Pressure-hold attempt
 
 A repeated-action fixture re-applied the resistance step every 300 s, but the engine entered cardiovascular collapse at 952.22 s. It did not provide a valid 20- or 30-minute constant-pressure trace. P2 remains calibrated only qualitatively at the early 60--300 s checkpoints.
+
+
+## Gain-direction counter-test
+
+A gain multiplier of 2.0 did not reproduce the apparent protection: the same direct 150/90 haemorrhage run entered cardiovascular collapse at 517.0 s and failed with negative left-heart volume at 519.08 s. The implementation multiplies the effector-state update increments directly, so this counter-test confirms the field is not being applied as a reciprocal or sign-inverted scalar. The surprising protection at gain 0.40 is therefore an engine dynamical interaction, not a simple gain-direction coding error.
+
+## Stabilisation manifold
+
+The isolated contractility failure, the gain-2 collapse, and the previously observed non-monotonic pressure-grid failures are recorded together as a non-monotonic stabilisation manifold: parameter combinations can fail at ordinary pressures while more extreme combinations succeed. Calibration must treat non-convergence as an expected domain outcome.

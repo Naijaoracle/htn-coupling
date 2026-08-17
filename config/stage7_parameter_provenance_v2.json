@@ -15,7 +15,10 @@
     {
       "id": "P1.renal_flow_fraction_established",
       "default": 1.0,
-      "preset": [0.8, 0.9],
+      "preset": [
+        0.8,
+        0.9
+      ],
       "unit": "fraction of normal flow",
       "population": "Western human",
       "source": "de Leeuw et al. 1982",
@@ -24,7 +27,10 @@
     {
       "id": "P1.hepatosplanchnic_flow_fraction_established",
       "default": 1.0,
-      "preset": [0.8, 0.9],
+      "preset": [
+        0.8,
+        0.9
+      ],
       "unit": "fraction of normal flow",
       "population": "Western human",
       "source": "Sugawara et al. 1997; Messerli et al., Circulation 1975;51:1114",
@@ -37,25 +43,25 @@
       "unit": "mmHg",
       "population": "human hypertension; animal mechanism support",
       "source": "Mancia et al., Circ Res 1978;43:170; Hypertension 1991;17:72",
-      "status": "predeclared; stateful implementation required"
+      "status": "implemented and demonstrated in a 30-minute perturbation; animal-derived coefficients remain unvalidated"
     },
     {
       "id": "P2.rapid_upward_reset_fraction",
       "default": 0.45,
-      "preset": 0.10,
+      "preset": 0.1,
       "unit": "fraction of imposed pressure displacement",
       "population": "rat default; rabbit chronic-hypertension preset",
       "source": "Moreira et al. 1988, 1989; Hypertension 1991;17:72",
-      "status": "animal-derived; human transfer is an adjudication question"
+      "status": "implemented and demonstrated; animal-derived coefficient"
     },
     {
       "id": "P2.rapid_downward_reset_fraction",
       "default": 0.35,
-      "preset": 0.30,
+      "preset": 0.3,
       "unit": "fraction of imposed pressure displacement",
       "population": "rabbit chronic-hypertension mechanism; synthesis for default",
       "source": "Hypertension 1991;17:72",
-      "status": "animal-derived/model synthesis"
+      "status": "implemented and demonstrated; animal-derived/model-synthesis coefficient"
     },
     {
       "id": "P2.fast_reset_time_constant",
@@ -64,7 +70,7 @@
       "unit": "s",
       "population": "rat",
       "source": "Moreira et al. 1988, 1989",
-      "status": "predeclared approximation of the 2-minute observation point"
+      "status": "implemented and demonstrated in two-component reset"
     },
     {
       "id": "P2.slow_reset_time_constant",
@@ -73,13 +79,16 @@
       "unit": "s",
       "population": "rat",
       "source": "Moreira et al. 1988, 1989",
-      "status": "predeclared approximation of the 20--30-minute plateau"
+      "status": "implemented and demonstrated in two-component reset"
     },
     {
       "id": "P3.cardiovagal_gain",
       "default": 1.0,
-      "preset": 0.40,
-      "range": [0.40, 0.80],
+      "preset": 0.4,
+      "range": [
+        0.4,
+        0.8
+      ],
       "unit": "dimensionless multiplier on spontaneous RR-to-pressure reflex response",
       "population": "Western human essential hypertension",
       "source": "Radaelli et al., Hypertension 1994; Vesalainen et al. 1998",
@@ -88,7 +97,11 @@
     {
       "id": "P4.hemodynamic_stage",
       "default": "unspecified_upstream",
-      "preset": ["early_borderline", "established", "long_standing"],
+      "preset": [
+        "early_borderline",
+        "established",
+        "long_standing"
+      ],
       "unit": "named stage",
       "population": "Western human longitudinal/cross-sectional hypertension studies",
       "source": "Messerli et al., Circulation 1975;51:1114; Lund-Johansen 1991",
@@ -97,20 +110,26 @@
     {
       "id": "P5.chamber_end_systolic_elastance_multiplier",
       "default": 1.0,
-      "preset": [1.15, 1.30],
+      "preset": [
+        1.15,
+        1.3
+      ],
       "unit": "dimensionless multiplier",
       "population": "Western human hypertension/HFpEF cohorts",
       "source": "Borlaug et al., JACC 2009",
-      "status": "modelling synthesis; not a direct measured multiplier"
+      "status": "implemented as optional phenomenological LV max-elastance control; PV demonstration completed"
     },
     {
       "id": "P5.intrinsic_contractility_multiplier",
       "default": 1.0,
-      "preset": [0.835, 1.0],
+      "preset": [
+        0.835,
+        1.0
+      ],
       "unit": "dimensionless multiplier per unit myocardial mass",
       "population": "Western human hypertensive LV hypertrophy cohort",
       "source": "Nitenberg et al. 1998",
-      "status": "predeclared range; separate from chamber elastance"
+      "status": "implemented as optional LV max-elastance control; PV demonstration completed"
     },
     {
       "id": "P5.diastolic_stiffness_beta",

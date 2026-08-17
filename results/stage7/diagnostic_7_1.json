@@ -1,0 +1,16 @@
+{
+  "source": "results/stage6/direct_pressure_grid.csv",
+  "route": "direct patient creation",
+  "comparison": {"normotensive": "120/80 mmHg", "hypertensive": "150/90 mmHg"},
+  "normotensive_map_mmHg": 101.359071,
+  "hypertensive_map_mmHg": 120.983441,
+  "map_ratio": 1.193612,
+  "interpretation": "Regional flows do not fall with the observed tissue-resistance doubling. Most sampled beds rise approximately 1.06x and both kidneys rise approximately 1.295x.",
+  "outcome": "compensated_or_mixed",
+  "p1_decision": "Do not impose renal or hepatosplanchnic flow targets from the Stage 7 literature before identifying the existing circuit compensation. Preserve proportional/default behavior and defer structural flow-target implementation.",
+  "limitations": [
+    "Values are stabilized endpoint medians, not full-cycle flow distributions.",
+    "Bone and fat tissue resistances are logged by the engine but have no separately requested vascular inflow in the Stage 6 output.",
+    "The direct patient uses the Stage 6 Standard-body definition; this is a mechanism diagnostic, not population validation."
+  ]
+}

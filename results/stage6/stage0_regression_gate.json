@@ -1,0 +1,19 @@
+{
+  "pulse_revision": "64dfdf11437b3fa0952e9103d2e18858b870b4e0",
+  "expected_sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+  "passed": true,
+  "files": [
+    {
+      "role": "archived_reference",
+      "path": "{PULSE_ROOT}/build/install/bin/test_results/scenarios/patient/HemorrhageToShockResults.csv",
+      "bytes": 46098446,
+      "sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a"
+    },
+    {
+      "role": "fresh_rerun",
+      "path": "{PULSE_ROOT}/data/human/adult/scenarios/patient/HemorrhageToShockResults.csv",
+      "bytes": 46098446,
+      "sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a"
+    }
+  ]
+}

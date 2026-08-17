@@ -1,0 +1,5 @@
+cohort,configuration,valid_pressure_n,pressure_representable_n,pressure_representable_pct,pressure_excluded_n,pressure_excluded_pct,full_constraints_representable_n,full_constraints_representable_pct,wide_pulse_pressure_n,wide_pulse_pressure_representable_n,wide_pulse_pressure_representable_pct,hypertensive_n,hypertensive_pressure_representable_n,hypertensive_pressure_representable_pct
+HAALSI,upstream_default,4895,938,19.16241062308478,3957,80.83758937691522,493,10.07150153217569,1638,0,0.0,2186,0,0.0
+HAALSI,stage6_declared_envelope,4895,4827,98.61082737487233,68,1.3891726251276815,2000,40.85801838610828,1638,1570,95.84859584859585,2186,2118,96.88929551692588
+ELSA Wave 8,upstream_default,3317,630,18.993066023515222,2687,81.00693397648477,205,6.180283388604161,1461,0,0.0,1011,0,0.0
+ELSA Wave 8,stage6_declared_envelope,3317,3312,99.84926138076575,5,0.1507386192342478,710,21.40488393126319,1461,1457,99.7262149212868,1011,1009,99.80217606330366

@@ -1,0 +1,11 @@
+cohort,constraint,among_pressure_representable_n,excluded_n,excluded_pct
+HAALSI,missing_body_data,4827,252,5.220633934120572
+HAALSI,age_outside_18_65,4827,1593,33.001864512119326
+HAALSI,bmi_outside_16_30,4827,1393,28.85850424694427
+HAALSI,height_outside_4.5_7_ft,4827,6,0.1243008079552517
+HAALSI,sex_unresolved,4827,0,0.0
+ELSA Wave 8,missing_body_data,3312,62,1.8719806763285023
+ELSA Wave 8,age_outside_18_65,3312,2161,65.24758454106279
+ELSA Wave 8,bmi_outside_16_30,3312,1000,30.193236714975846
+ELSA Wave 8,height_outside_4.5_7_ft,3312,0,0.0
+ELSA Wave 8,sex_unresolved,3312,0,0.0

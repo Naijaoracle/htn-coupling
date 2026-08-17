@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "purpose": "Stage 6 cohort coverage audit and direct-patient stabilization grid",
+  "declared_admissible_pressure_envelope": {
+    "systolic_minimum_mmHg": 60.0,
+    "systolic_maximum_mmHg": 200.0,
+    "diastolic_minimum_mmHg": 40.0,
+    "diastolic_maximum_mmHg": 130.0,
+    "diastolic_to_systolic_ratio_maximum": 0.95
+  },
+  "hard_physical_limits": [
+    "systolic pressure must be positive",
+    "diastolic pressure must be positive",
+    "systolic pressure must exceed diastolic pressure"
+  ],
+  "unchanged_reference_defaults": {
+    "systolic_mmHg": [90.0, 120.0],
+    "diastolic_mmHg": [60.0, 80.0],
+    "diastolic_to_systolic_ratio_maximum": 0.75
+  },
+  "unchanged_body_constraints": {
+    "age_years": [18.0, 65.0],
+    "bmi_kg_m2": [16.0, 30.0],
+    "height_cm": [137.16, 213.36]
+  },
+  "pressure_grid_mmHg": [
+    [120, 80], [130, 80], [140, 80], [140, 90], [150, 90],
+    [160, 90], [160, 100], [170, 100], [180, 100], [180, 110]
+  ],
+  "direct_modifier_shared_cells": [
+    {"resistance_multiplier": 1.2, "compliance_multiplier": 0.8},
+    {"resistance_multiplier": 1.4, "compliance_multiplier": 0.6},
+    {"resistance_multiplier": 1.6, "compliance_multiplier": 0.5}
+  ]
+}

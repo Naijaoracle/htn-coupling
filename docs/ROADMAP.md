@@ -48,8 +48,12 @@ augmentation direction against the Charlton virtual-ageing reference.
 
 ## Stage 6 — Minimal Pulse fork
 
-Only after the clamp is quantified, parameterize the admissible envelope in the
-Pulse fork with a minimal upstream-offerable diff.
+Completed. The fork parameterizes the patient-file baseline-pressure envelope
+with unchanged defaults and provenance warnings. Pressure-only coverage rises
+to 98.61% in HAALSI and 99.85% in ELSA, but the direct initialization grid has
+two non-monotonic tuning failures and direct patients are not physiologically
+equivalent to modifier-created patients at matched pressure. See
+[the Stage 6 report](STAGE6_BOUNDS_PARAMETERISATION.md).
 
 ## Stage 7 — Baroreflex
 

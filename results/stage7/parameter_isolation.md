@@ -36,3 +36,10 @@ The isolated contractility failure, the gain-2 collapse, and the previously obse
 ## Gain trace audit
 
 The 600-second traces requested the actual effector outputs. At 300 s, gain 1.0 versus gain 0.40 produced HR scales 1.386 versus 1.435 and resistance scales 1.227 versus 1.238, at MAP 118.5 versus 117.8 mmHg. The lower-gain trace therefore does not settle at a lower effector level; it follows a different transient trajectory. This is consistent with gain multiplying the Euler update increment (including the decay term), i.e. changing adaptation rate, not defining a steady-state reflex sensitivity. At 600 s the trajectories diverge into different collapse dynamics (MAP 42.8 versus 83.8), so the endpoint difference is not a valid physiological gain comparison. P3 is therefore a numerical update-rate control until redesigned.
+
+
+## P3 drive-only correction
+
+Pulse commit `a04eaa690` changes P3 so gain multiplies only the reflex drive; the state-decay term is unscaled. P2 was audited separately: its reset fraction defines the target offset and the first-order relaxation remains unscaled, so it is not subject to the same cancellation.
+
+The corrected 600-second traces behave directionally: gain 2.0 drives HR/resistance scales to approximately 1.96/1.83 before failing at 74 s; gain 0.40 produces lower scales (0.77/1.01 at 600 s) and fails at 617 s; gain 1.0 reaches 1.71/1.17 and fails later. This is now a sensitivity-like direction, but the high-gain instability and low-gain collapse mean the usable range still needs bounded calibration. The previous 92-second mechanism result is invalidated.

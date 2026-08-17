@@ -71,3 +71,6 @@ A gain-2.0 counter-test collapsed at 517--519 s, confirming that the gain field 
 
 
 The gain trace audit confirms the P3 concern: at 300 s, gain 0.40 produced HR/resistance scales 1.435/1.238 versus 1.386/1.227 at gain 1.0, rather than a lower steady effector response. Since gain multiplies both the state decay and drive increments, it changes update rate. P3 is not currently a literature-calibrated reflex sensitivity parameter. Multi-body replication is suspended pending a redesign or explicit relabelling.
+
+
+P3 was corrected in Pulse commit `a04eaa690`: gain now scales only the drive, not the state-decay term. P2's reset fraction was audited separately and already uses a target offset with unscaled first-order relaxation. Corrected short traces now show gain 2 > gain 1 > gain 0.40 in effector scale, but gain 2 fails at 74 s, gain 0.40 at 617 s, and gain 1 later; bounded calibration is required. All previous P3-based haemorrhage effects are invalidated.

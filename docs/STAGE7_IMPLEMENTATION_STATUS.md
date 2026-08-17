@@ -48,3 +48,10 @@ The direct-route renal result is now 1.30 for the closest 120/80-to-150/90 direc
 The held-pressure P2 test did not reproduce upward resetting: MAP was held near 110--113 mmHg while the midpoint stayed near 95 mmHg through 300 s. P2 is therefore not closed.
 
 The corrected established direct preset crossed a 30%-of-own-baseline MAP fall at 607.76 s, versus 417.0 s for the Stage 5 modifier combined phenotype. Mechanistic representation does not reproduce the modifier ordering in this comparison.
+
+
+## P2 correction and within-route comparison
+
+The upward reset failure was caused by Stage 7 state being reinitialized during a mechanics action. Pulse commit `e258eae8` preserves an active midpoint across reinitialization. The corrected held-step trace moved 95.00 -> 96.44 mmHg at 60 s, 98.33 at 120 s, and 102.40 at 300 s. The long fixture did not hold pressure through 20--30 minutes, so those checkpoints remain pending.
+
+A same-body direct comparison at 150/90 crossed the 30%-fractional-MAP endpoint at 515.64 s with default mechanisms and 607.78 s with the established preset, a 92.14-second within-route effect. Multi-body replication remains pending.

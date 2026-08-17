@@ -55,3 +55,8 @@ The corrected established direct preset crossed a 30%-of-own-baseline MAP fall a
 The upward reset failure was caused by Stage 7 state being reinitialized during a mechanics action. Pulse commit `e258eae8` preserves an active midpoint across reinitialization. The corrected held-step trace moved 95.00 -> 96.44 mmHg at 60 s, 98.33 at 120 s, and 102.40 at 300 s. The long fixture did not hold pressure through 20--30 minutes, so those checkpoints remain pending.
 
 A same-body direct comparison at 150/90 crossed the 30%-fractional-MAP endpoint at 515.64 s with default mechanisms and 607.78 s with the established preset, a 92.14-second within-route effect. Multi-body replication remains pending.
+
+
+## Parameter isolation
+
+Same-body direct isolation gives 30%-fractional-MAP times of 515.64 s (default), 591.34 s (gain 0.40), 597.60 s (midpoint 110), and 524.40 s (chamber Ees 1.20). Intrinsic contractility 0.92 alone fails initial circuit tuning, while the combined preset reaches 607.78 s. The combined effect is therefore dominated by gain/midpoint and is not a simple sum of independently viable parameters.

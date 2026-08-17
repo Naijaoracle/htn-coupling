@@ -39,3 +39,12 @@ The P2 endpoint displacement ratio (3.33/5.81 = 0.57) is not interpreted as the 
 The Stage 5 fractional-MAP analysis gives median time to a 30% fall of 462.5 s (normotensive), 412.5 s (resistance-dominant), 475.5 s (compliance-dominant), and 417.0 s (combined).
 
 The modifier-route renal diagnostic shows left-kidney flow falling from 418.94 to 306.35 mL/min across its low-to-high pressure cells (ratio 0.73), unlike the direct-route 1.2946 increase. This supports a direct-route-specific hyperkinetic interpretation, but the cells are not exactly matched 120/80 and 150/90; a matched modifier run remains the final P1 check.
+
+
+## Final follow-up gates
+
+The direct-route renal result is now 1.30 for the closest 120/80-to-150/90 direct pair; the closest modifier cells give 0.61. The modifier route has no exact 150/90 grid cell, so the residuals are retained and this is not described as exact pressure matching.
+
+The held-pressure P2 test did not reproduce upward resetting: MAP was held near 110--113 mmHg while the midpoint stayed near 95 mmHg through 300 s. P2 is therefore not closed.
+
+The corrected established direct preset crossed a 30%-of-own-baseline MAP fall at 607.76 s, versus 417.0 s for the Stage 5 modifier combined phenotype. Mechanistic representation does not reproduce the modifier ordering in this comparison.

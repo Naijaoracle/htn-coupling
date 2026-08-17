@@ -60,3 +60,8 @@ A same-body direct comparison at 150/90 crossed the 30%-fractional-MAP endpoint 
 ## Parameter isolation
 
 Same-body direct isolation gives 30%-fractional-MAP times of 515.64 s (default), 591.34 s (gain 0.40), 597.60 s (midpoint 110), and 524.40 s (chamber Ees 1.20). Intrinsic contractility 0.92 alone fails initial circuit tuning, while the combined preset reaches 607.78 s. The combined effect is therefore dominated by gain/midpoint and is not a simple sum of independently viable parameters.
+
+
+Absolute MAP 65 crossings in the isolation traces were 549.24 s (default), 647.18 s (midpoint-only), and 557.42 s (chamber-only); gain-only and combined did not cross MAP 65 by 2,155 s. The endpoint ordering therefore does not reverse.
+
+The repeated-action pressure-hold fixture entered cardiovascular collapse at 952.22 s, so it did not generate valid Moreira 20/30-minute checkpoints. P2 remains qualitatively demonstrated only through the early 60--300 s movement.

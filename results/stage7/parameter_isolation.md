@@ -61,3 +61,10 @@ Corrected P3 gain sweep (common 600-second fixture) found failure times of appro
 ## P2 fraction/time-constant audit
 
 Changing the upward/downward fraction from 0.45/0.35 to 0.10/0.10 gave midpoint 95.81 mmHg at 120 s and 97.10 at 300 s; changing to 0.80/0.80 gave 100.43 and 105.55. Changing time constants while holding fraction at 0.45/0.35 gave midpoint 100.85 at 120 s and 106.05 at 300 s for fast tau 60 s, versus 98.25 and 102.27 for slow tau 3,000 s. The fraction and relaxation controls therefore affect distinct parts of the trajectory; neither is a shared drive/decay step-size multiplier.
+
+
+## Failure classification
+
+Low-gain failures are exsanguination/collapse trajectories: gain 0.2 entered hypovolemic shock at 613.02 s and intracranial hypotension at 613.56 s before the negative pulmonary-vein volume at 648.8 s; gain 0.4 entered hypovolemic shock at 610.6 s before negative volume at 617.36 s. Gain 1.5 failed at 199.98 s with negative pulmonary-vein volume and tachycardia, without preceding hypovolemic-shock logging, while its effector scales were rapidly increasing. These are distinct low-gain physiological collapse versus high-gain overdrive/numerical failure modes; failure time is not a monotonic gain range.
+
+The stock engine does clamp the final heart-driver frequency to the patient HR minimum/maximum, but it does not clamp the baroreceptor normalized HR/resistance/compliance scales. Thus the existing upstream bound is downstream and does not protect the effector state or systemic-resistance path.

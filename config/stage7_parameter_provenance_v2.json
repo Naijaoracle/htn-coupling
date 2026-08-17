@@ -1,0 +1,134 @@
+{
+  "version": 2,
+  "rule": "Every non-default value is literature-derived or explicitly labelled modelling synthesis; omitted values preserve upstream behavior.",
+  "population_provenance_warning": "All proposed numeric defaults below are from Western human, rat, or rabbit studies unless marked modelling_synthesis. No African-derived value is used as a default.",
+  "parameters": [
+    {
+      "id": "P1.cerebral_flow_scaling",
+      "default": 1.0,
+      "preset": null,
+      "unit": "dimensionless",
+      "population": "upstream model behavior; literature anchor Western human",
+      "source": "Kety et al., J Clin Invest 1948;27:511",
+      "status": "retained; P1 flow-target implementation deferred after diagnostic 7.1"
+    },
+    {
+      "id": "P1.renal_flow_fraction_established",
+      "default": 1.0,
+      "preset": [0.8, 0.9],
+      "unit": "fraction of normal flow",
+      "population": "Western human",
+      "source": "de Leeuw et al. 1982",
+      "status": "deferred; not applied before circuit compensation is understood"
+    },
+    {
+      "id": "P1.hepatosplanchnic_flow_fraction_established",
+      "default": 1.0,
+      "preset": [0.8, 0.9],
+      "unit": "fraction of normal flow",
+      "population": "Western human",
+      "source": "Sugawara et al. 1997; Messerli et al., Circulation 1975;51:1114",
+      "status": "deferred; not applied before circuit compensation is understood"
+    },
+    {
+      "id": "P2.chronic_midpoint",
+      "default": "patient_baseline_MAP",
+      "preset": "prevailing_chronic_MAP",
+      "unit": "mmHg",
+      "population": "human hypertension; animal mechanism support",
+      "source": "Mancia et al., Circ Res 1978;43:170; Hypertension 1991;17:72",
+      "status": "predeclared; stateful implementation required"
+    },
+    {
+      "id": "P2.rapid_upward_reset_fraction",
+      "default": 0.45,
+      "preset": 0.10,
+      "unit": "fraction of imposed pressure displacement",
+      "population": "rat default; rabbit chronic-hypertension preset",
+      "source": "Moreira et al. 1988, 1989; Hypertension 1991;17:72",
+      "status": "animal-derived; human transfer is an adjudication question"
+    },
+    {
+      "id": "P2.rapid_downward_reset_fraction",
+      "default": 0.35,
+      "preset": 0.30,
+      "unit": "fraction of imposed pressure displacement",
+      "population": "rabbit chronic-hypertension mechanism; synthesis for default",
+      "source": "Hypertension 1991;17:72",
+      "status": "animal-derived/model synthesis"
+    },
+    {
+      "id": "P2.fast_reset_time_constant",
+      "default": 120.0,
+      "preset": 120.0,
+      "unit": "s",
+      "population": "rat",
+      "source": "Moreira et al. 1988, 1989",
+      "status": "predeclared approximation of the 2-minute observation point"
+    },
+    {
+      "id": "P2.slow_reset_time_constant",
+      "default": 1500.0,
+      "preset": 1500.0,
+      "unit": "s",
+      "population": "rat",
+      "source": "Moreira et al. 1988, 1989",
+      "status": "predeclared approximation of the 20--30-minute plateau"
+    },
+    {
+      "id": "P3.cardiovagal_gain",
+      "default": 1.0,
+      "preset": 0.40,
+      "range": [0.40, 0.80],
+      "unit": "dimensionless multiplier on spontaneous RR-to-pressure reflex response",
+      "population": "Western human essential hypertension",
+      "source": "Radaelli et al., Hypertension 1994; Vesalainen et al. 1998",
+      "status": "spectral anchor; pharmacological method is not treated as interchangeable"
+    },
+    {
+      "id": "P4.hemodynamic_stage",
+      "default": "unspecified_upstream",
+      "preset": ["early_borderline", "established", "long_standing"],
+      "unit": "named stage",
+      "population": "Western human longitudinal/cross-sectional hypertension studies",
+      "source": "Messerli et al., Circulation 1975;51:1114; Lund-Johansen 1991",
+      "status": "metadata/preset label first; no new physiology in P4 step"
+    },
+    {
+      "id": "P5.chamber_end_systolic_elastance_multiplier",
+      "default": 1.0,
+      "preset": [1.15, 1.30],
+      "unit": "dimensionless multiplier",
+      "population": "Western human hypertension/HFpEF cohorts",
+      "source": "Borlaug et al., JACC 2009",
+      "status": "modelling synthesis; not a direct measured multiplier"
+    },
+    {
+      "id": "P5.intrinsic_contractility_multiplier",
+      "default": 1.0,
+      "preset": [0.835, 1.0],
+      "unit": "dimensionless multiplier per unit myocardial mass",
+      "population": "Western human hypertensive LV hypertrophy cohort",
+      "source": "Nitenberg et al. 1998",
+      "status": "predeclared range; separate from chamber elastance"
+    },
+    {
+      "id": "P5.diastolic_stiffness_beta",
+      "default": "upstream_value",
+      "preset": "increased",
+      "unit": "model-specific inverse-volume coefficient",
+      "population": "Western human hypertension/HFpEF cohorts",
+      "source": "Lam et al. 2007",
+      "status": "architecture-dependent; no numeric default asserted"
+    },
+    {
+      "id": "P5.active_relaxation_time_constant",
+      "default": "upstream_value",
+      "preset": "prolonged",
+      "unit": "s",
+      "population": "Western human hypertension/HFpEF cohorts",
+      "source": "Lam et al. 2007",
+      "status": "architecture-dependent; no numeric default asserted"
+    }
+  ]
+}

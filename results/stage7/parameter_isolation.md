@@ -43,3 +43,12 @@ The 600-second traces requested the actual effector outputs. At 300 s, gain 1.0 
 Pulse commit `a04eaa690` changes P3 so gain multiplies only the reflex drive; the state-decay term is unscaled. P2 was audited separately: its reset fraction defines the target offset and the first-order relaxation remains unscaled, so it is not subject to the same cancellation.
 
 The corrected 600-second traces behave directionally: gain 2.0 drives HR/resistance scales to approximately 1.96/1.83 before failing at 74 s; gain 0.40 produces lower scales (0.77/1.01 at 600 s) and fails at 617 s; gain 1.0 reaches 1.71/1.17 and fails later. This is now a sensitivity-like direction, but the high-gain instability and low-gain collapse mean the usable range still needs bounded calibration. The previous 92-second mechanism result is invalidated.
+
+
+## Matched-time corrected P3 comparison
+
+At 60 s after the bleed began, before the divergent failures: gain 0.40 gave HR/resistance scales **0.839/0.895**; gain 1.0 gave **1.048/1.022**; gain 2.0 gave **1.614/1.628**. The corrected drive-only implementation therefore has the expected common-time ordering. There are no BLIM/clamp calls on these normalized effector scales. Gain 2 reaches a rapidly overdriven trajectory and fails at 74 s; this is an unbounded numerical instability, not validated physiology.
+
+## Corrected isolation endpoint
+
+The corrected gain 0.40 trace crossed the 30%-fractional-MAP endpoint at **459.54 s**; the corrected combined preset crossed at **427.14 s**. The default direct trace remains 515.64 s. These are replacement numbers for the old P3 results, but the gain-2 instability and the short-run failures mean P3 still requires bounded calibration before mechanistic interpretation.

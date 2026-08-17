@@ -74,3 +74,6 @@ The gain trace audit confirms the P3 concern: at 300 s, gain 0.40 produced HR/re
 
 
 P3 was corrected in Pulse commit `a04eaa690`: gain now scales only the drive, not the state-decay term. P2's reset fraction was audited separately and already uses a target offset with unscaled first-order relaxation. Corrected short traces now show gain 2 > gain 1 > gain 0.40 in effector scale, but gain 2 fails at 74 s, gain 0.40 at 617 s, and gain 1 later; bounded calibration is required. All previous P3-based haemorrhage effects are invalidated.
+
+
+Corrected P3 common-time audit at 60 s: gain 0.40 HR/resistance scales 0.839/0.895, gain 1.0 1.048/1.022, gain 2.0 1.614/1.628. No clamp is present on the normalized effector scales. Gain 2 is therefore an unbounded overdrive instability, not a validated physiological response. Replacement fractional-MAP times are 459.54 s (gain 0.40) and 427.14 s (combined), against 515.64 s default direct.

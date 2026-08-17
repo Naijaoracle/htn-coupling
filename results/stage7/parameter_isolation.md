@@ -31,3 +31,8 @@ A gain multiplier of 2.0 did not reproduce the apparent protection: the same dir
 ## Stabilisation manifold
 
 The isolated contractility failure, the gain-2 collapse, and the previously observed non-monotonic pressure-grid failures are recorded together as a non-monotonic stabilisation manifold: parameter combinations can fail at ordinary pressures while more extreme combinations succeed. Calibration must treat non-convergence as an expected domain outcome.
+
+
+## Gain trace audit
+
+The 600-second traces requested the actual effector outputs. At 300 s, gain 1.0 versus gain 0.40 produced HR scales 1.386 versus 1.435 and resistance scales 1.227 versus 1.238, at MAP 118.5 versus 117.8 mmHg. The lower-gain trace therefore does not settle at a lower effector level; it follows a different transient trajectory. This is consistent with gain multiplying the Euler update increment (including the decay term), i.e. changing adaptation rate, not defining a steady-state reflex sensitivity. At 600 s the trajectories diverge into different collapse dynamics (MAP 42.8 versus 83.8), so the endpoint difference is not a valid physiological gain comparison. P3 is therefore a numerical update-rate control until redesigned.

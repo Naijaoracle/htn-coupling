@@ -68,3 +68,6 @@ The repeated-action pressure-hold fixture entered cardiovascular collapse at 952
 
 
 A gain-2.0 counter-test collapsed at 517--519 s, confirming that the gain field is applied directly to effector update increments rather than reciprocally or with a reversed sign. The gain-0.40 protection is therefore a dynamical interaction in the engine, not a simple coding-direction error. Together with isolated contractility failure and prior pressure-grid holes, this establishes a non-monotonic stabilisation manifold.
+
+
+The gain trace audit confirms the P3 concern: at 300 s, gain 0.40 produced HR/resistance scales 1.435/1.238 versus 1.386/1.227 at gain 1.0, rather than a lower steady effector response. Since gain multiplies both the state decay and drive increments, it changes update rate. P3 is not currently a literature-calibrated reflex sensitivity parameter. Multi-body replication is suspended pending a redesign or explicit relabelling.

@@ -51,3 +51,5 @@ Completed controls and analyses:
 - [Stage 2 Tier 0 hypertension phenotype](docs/STAGE2_TIER0_HYPERTENSION.md)
 - [Stage 3 optical-site reachability](docs/STAGE3_OPTICAL_SITE_REACHABILITY.md)
 - [Stage 4 Pulse-to-openBF bridge gate](docs/STAGE4_PULSE_OPENBF_BRIDGE.md)
+- [Stage 5 hypertension through the coupled pipeline](docs/STAGE5_HYPERTENSION_COUPLED_PIPELINE.md)
+- [Stage 6 Pulse bounds parameterisation](docs/STAGE6_BOUNDS_PARAMETERISATION.md)

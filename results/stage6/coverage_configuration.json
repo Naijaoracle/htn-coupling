@@ -1,0 +1,30 @@
+{
+  "declared_stage6_envelope": {
+    "systolic_min_mmHg": 60.0,
+    "systolic_max_mmHg": 200.0,
+    "diastolic_min_mmHg": 40.0,
+    "diastolic_max_mmHg": 130.0,
+    "ratio_max": 0.95
+  },
+  "hard_physical_rules": [
+    "SBP > 0",
+    "DBP > 0",
+    "SBP > DBP"
+  ],
+  "unchanged_body_constraints": {
+    "age_years": [
+      18,
+      65
+    ],
+    "bmi_kg_m2": [
+      16,
+      30
+    ],
+    "height_cm": [
+      137.16,
+      213.36
+    ]
+  },
+  "wide_pulse_pressure_definition": "SBP - DBP >= 60 mmHg",
+  "note": "Aggregate audit; no participant identifiers are written."
+}

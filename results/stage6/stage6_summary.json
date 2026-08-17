@@ -1,0 +1,52 @@
+{
+  "upstream_revision": "e8a36497b8ba78e788dc201a6baf74e1c297c56f",
+  "fork_revision": "64dfdf114",
+  "branch": "stage6/bounds-parameterisation",
+  "source_files_changed": 6,
+  "source_insertions": 279,
+  "source_deletions": 14,
+  "default_regression": {
+    "scenario": "HemorrhageToShock",
+    "simulated_duration_s": 2155,
+    "wall_time_s": 314.73,
+    "sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+    "bytes": 46098446,
+    "byte_identical": true
+  },
+  "targeted_tests": {
+    "suite": "SetupPatientTest",
+    "tests": 74,
+    "failures": 0
+  },
+  "distributed_verification_suite": {
+    "completed": false,
+    "reason": "The supplied runner's expected verification directory and comparison baseline CSV corpus were absent in this checkout before the change; the pre-change attempt therefore produced missing-baseline comparison failures and was stopped."
+  },
+  "direct_pressure_grid": {
+    "requested_points": 10,
+    "stabilized_points": 8,
+    "failed_points_mmHg": [[160, 90], [170, 100]],
+    "failure_mode": "Tissue/cardiovascular tuning oscillated through its iteration limit, then raised IrreversibleState.",
+    "maximum_absolute_systolic_residual_mmHg": 1.6588152315,
+    "maximum_absolute_diastolic_residual_mmHg": 0.7067870743,
+    "successful_dynamic_stabilization_simulated_s_range": [185.0, 295.0],
+    "successful_tissue_tuning_simulated_s_range": [390.16, 979.14]
+  },
+  "direct_vs_modifier": {
+    "shared_operating_points": 3,
+    "direct_cardiac_output_L_min": [5.9836544673, 6.3123712644, 6.4422635229],
+    "modifier_cardiac_output_L_min": [5.2641441466, 4.7994923881, 4.4146286727],
+    "direct_svr_mmHg_s_mL": [0.9809980370, 0.9744921512, 0.9991967240],
+    "modifier_svr_mmHg_s_mL": [1.1229910113, 1.3122778798, 1.4949416717],
+    "normalized_aortic_flow_shape_rmse": [0.0126391649, 0.0250608116, 0.0331199201],
+    "conclusion": "Matched pressure does not imply matched physiology; direct creation and released modifiers are not interchangeable routes."
+  },
+  "cohort_pressure_coverage_pct": {
+    "HAALSI": {"upstream_default": 19.162411, "stage6_envelope": 98.610827},
+    "ELSA_Wave_8": {"upstream_default": 18.993066, "stage6_envelope": 99.849261}
+  },
+  "cohort_full_constraint_coverage_pct": {
+    "HAALSI": {"upstream_default": 10.071502, "stage6_envelope": 40.858018},
+    "ELSA_Wave_8": {"upstream_default": 6.180283, "stage6_envelope": 21.404884}
+  }
+}

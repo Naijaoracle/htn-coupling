@@ -80,3 +80,6 @@ Corrected P3 common-time audit at 60 s: gain 0.40 HR/resistance scales 0.839/0.8
 
 
 The corrected gain sweep found failures near 649 s (0.2), 617 s (0.4), 680 s (0.8), and 200 s (1.5); 0.6, 1.0 and 1.2 survived the 600-second recording window. Effector scales rose monotonically with gain at 60 s and no clamp exists. P2 trace audits separated fraction effects (0.10 -> midpoint 95.81/97.10 at 120/300 s; 0.80 -> 100.43/105.55) from time-constant effects (fast tau 60 -> 100.85/106.05; slow tau 3,000 -> 98.25/102.27).
+
+
+Gain failures are now classified rather than ranked: 0.2/0.4 show hypovolemic-shock and intracranial-hypotension/exsanguination trajectories before negative volume; 1.5 fails early with tachycardia and negative volume without hypovolemic-shock logging, consistent with a distinct overdrive instability. The stock engine clamps final heart-driver frequency, but no clamp exists on normalized baroreceptor effector scales or their resistance path.

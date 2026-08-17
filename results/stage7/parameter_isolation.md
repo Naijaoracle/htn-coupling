@@ -52,3 +52,12 @@ At 60 s after the bleed began, before the divergent failures: gain 0.40 gave HR/
 ## Corrected isolation endpoint
 
 The corrected gain 0.40 trace crossed the 30%-fractional-MAP endpoint at **459.54 s**; the corrected combined preset crossed at **427.14 s**. The default direct trace remains 515.64 s. These are replacement numbers for the old P3 results, but the gain-2 instability and the short-run failures mean P3 still requires bounded calibration before mechanistic interpretation.
+
+
+## Gain range sweep
+
+Corrected P3 gain sweep (common 600-second fixture) found failure times of approximately 649 s (0.2), 617 s (0.4), 680 s (0.8), and 200 s (1.5). Gains 0.6, 1.0 and 1.2 did not fail within the recorded 600-second window, although the driver’s stabilization extension is logged separately. At 60 s, HR/resistance scales increased monotonically with gain: 0.2 = 0.764/0.882, 0.4 = 0.839/0.895, 0.8 = 0.992/0.930, 1.0 = 1.048/1.022, 1.2 = 1.116/1.122, 1.5 = 1.277/1.298. No effector clamp is present in this path.
+
+## P2 fraction/time-constant audit
+
+Changing the upward/downward fraction from 0.45/0.35 to 0.10/0.10 gave midpoint 95.81 mmHg at 120 s and 97.10 at 300 s; changing to 0.80/0.80 gave 100.43 and 105.55. Changing time constants while holding fraction at 0.45/0.35 gave midpoint 100.85 at 120 s and 106.05 at 300 s for fast tau 60 s, versus 98.25 and 102.27 for slow tau 3,000 s. The fraction and relaxation controls therefore affect distinct parts of the trajectory; neither is a shared drive/decay step-size multiplier.

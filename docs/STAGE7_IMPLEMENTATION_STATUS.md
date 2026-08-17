@@ -77,3 +77,6 @@ P3 was corrected in Pulse commit `a04eaa690`: gain now scales only the drive, no
 
 
 Corrected P3 common-time audit at 60 s: gain 0.40 HR/resistance scales 0.839/0.895, gain 1.0 1.048/1.022, gain 2.0 1.614/1.628. No clamp is present on the normalized effector scales. Gain 2 is therefore an unbounded overdrive instability, not a validated physiological response. Replacement fractional-MAP times are 459.54 s (gain 0.40) and 427.14 s (combined), against 515.64 s default direct.
+
+
+The corrected gain sweep found failures near 649 s (0.2), 617 s (0.4), 680 s (0.8), and 200 s (1.5); 0.6, 1.0 and 1.2 survived the 600-second recording window. Effector scales rose monotonically with gain at 60 s and no clamp exists. P2 trace audits separated fraction effects (0.10 -> midpoint 95.81/97.10 at 120/300 s; 0.80 -> 100.43/105.55) from time-constant effects (fast tau 60 -> 100.85/106.05; slow tau 3,000 -> 98.25/102.27).

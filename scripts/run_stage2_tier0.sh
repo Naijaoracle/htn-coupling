@@ -2,7 +2,7 @@
 set -euo pipefail
 
 stage2_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-pulse_root="${PULSE_ROOT:-{PULSE_ROOT}}"
+pulse_root="${PULSE_ROOT:-$stage2_root/../pulse-physiology-engine}"
 system_cxx_runtime="/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
 
 export PULSE_ROOT="$pulse_root"

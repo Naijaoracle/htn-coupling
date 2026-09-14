@@ -83,3 +83,8 @@ The corrected gain sweep found failures near 649 s (0.2), 617 s (0.4), 680 s (0.
 
 
 Gain failures are now classified rather than ranked: 0.2/0.4 show hypovolemic-shock and intracranial-hypotension/exsanguination trajectories before negative volume; 1.5 fails early with tachycardia and negative volume without hypovolemic-shock logging, consistent with a distinct overdrive instability. The stock engine clamps final heart-driver frequency, but no clamp exists on normalized baroreceptor effector scales or their resistance path.
+
+
+## Engine finding 6: open-loop renal fraction interaction
+
+The renamed `RenalResistanceAdjustmentFraction` smoke test ran on a fresh StandardMale runtime. The parameter was accepted at 0.85 after the 30-second baseline advance; MAP and renal flow were recorded at 60-second intervals through the requested 600-second post-action window. The action triggers an internal stabilization pass, so the driver reports a known expected-end-time bookkeeping mismatch; the runtime trace and samples are retained under `results/stage7/p1_runtime_smoke/`. The pressure-grid result remains the finding: renal fraction rises with systemic pressure under the open-loop controller, so the parameter is not an invariant flow target. See `docs/ENGINE_FINDINGS.md` item 6.

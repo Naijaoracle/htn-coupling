@@ -1,0 +1,6 @@
+*.aux
+*.log
+*.spl
+*.bak
+flat.txt
+coverage_scatter.csv

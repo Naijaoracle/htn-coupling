@@ -17,7 +17,7 @@ from scipy.signal import find_peaks
 from bridge_units import ml_per_s_to_m3_per_s
 
 ROOT = Path(__file__).resolve().parents[1]
-PULSE = Path(os.environ.get("PULSE_ROOT", "{PULSE_ROOT}"))
+PULSE = Path(os.environ.get("PULSE_ROOT", ROOT.parent / "pulse-physiology-engine"))
 BIN = PULSE / "build/install/bin"
 OUT = ROOT / "results/stage4"
 INTERFACE = ROOT / "config/stage4_interface_v1.json"

@@ -21,7 +21,7 @@ from scipy.signal import find_peaks
 from bridge_units import pa_to_mmhg
 
 ROOT = Path(__file__).resolve().parents[1]
-OPENBF = Path(os.environ.get("OPENBF_ROOT", "{OPENBF_ROOT}"))
+OPENBF = Path(os.environ.get("OPENBF_ROOT", ROOT.parent / "openBF"))
 BASE = OPENBF / "models/boileau2015/adan56/adan56.yaml"
 STAGE0 = ROOT / "results/stage0/openbf_adan56"
 STAGE4 = ROOT / "results/stage4"

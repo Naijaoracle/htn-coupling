@@ -3,7 +3,17 @@ __pycache__/
 *.py[cod]
 *.log
 .DS_Store
+.env
+.env.*
+!.env.example
 config/repos.local.toml
+data/
+private/
+**/private/
+*.private.*
+docs/OPTICAL_STORY.md
+scripts/run_stage8_transfer_repeated.py
+scripts/stage7b_feature_tracking.py
 results/**
 !results/.gitkeep
 !results/stage0/

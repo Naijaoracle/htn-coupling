@@ -12,31 +12,34 @@ solver. Neither upstream solver is vendored here.
 | `../openBF` | One-dimensional arterial waveform solver | Use unmodified |
 | `htn-coupling` | Configuration generation, mapping, bridge, analysis, results | Project-owned code |
 
-The HAALSI study remains in
-`../pulse-physiology-engine/studies/haalsi_progression`. This project may read
-its exported tables but must not move or duplicate the study.
+Cohort inputs are third-party controlled data. This repository uses only authorised local copies during analysis and never redistributes source records or participant-level derivatives.
 
 ## Reproducible environment
 
-The project uses Julia 1.11 and pins openBF by Git revision in
-`Manifest.toml`. On this machine Julia 1.11.2 is installed at
-`~/.local/bin/julia`.
+The project uses Julia 1.11 and pins openBF by Git revision in `Manifest.toml`. Clone the repository, then instantiate it with a Julia 1.11 installation:
 
 ```bash
-cd {HTN_COUPLING_ROOT}
-~/.local/bin/julia --project=. -e 'using Pkg; Pkg.instantiate()'
+git clone https://github.com/Naijaoracle/htn-coupling.git
+cd htn-coupling
+julia --project=. -e 'using Pkg; Pkg.instantiate()'
 ```
 
 Run the independent openBF control:
 
 ```bash
-~/.local/bin/julia --project=. scripts/run_openbf_baseline.jl
+julia --project=. scripts/run_openbf_baseline.jl
 ```
 
-Large raw traces are generated under `results/` and remain ignored; compact
-aggregate results and figures for reported stages are tracked. Repository
-locations can be overridden in `config/repos.local.toml`; copy
-`config/repos.example.toml` when setting up another machine.
+Large raw traces are generated under `results/` and remain ignored; compact aggregate results and figures for reported stages are tracked. Repository locations can be overridden in `config/repos.local.toml`; copy `config/repos.example.toml` when setting up another machine.
+
+## Data boundary
+
+This public repository contains no cohort source data, participant identifiers, participant-level records, per-body parameter records, or per-run trajectories. The tracked cohort tables and figures are aggregate summaries only. Authorised users must obtain HAALSI Wave 1 (ICPSR 36633) and ELSA Wave 8 (UK Data Service study 5050) independently and comply with their access conditions. Historic result manifests use `{PULSE_ROOT}`, `{OPENBF_ROOT}`, and `{HTN_COUPLING_ROOT}` as redacted local-path placeholders.
+
+
+
+
+
 
 ## Gates
 
@@ -53,3 +56,4 @@ Completed controls and analyses:
 - [Stage 4 Pulse-to-openBF bridge gate](docs/STAGE4_PULSE_OPENBF_BRIDGE.md)
 - [Stage 5 hypertension through the coupled pipeline](docs/STAGE5_HYPERTENSION_COUPLED_PIPELINE.md)
 - [Stage 6 Pulse bounds parameterisation](docs/STAGE6_BOUNDS_PARAMETERISATION.md)
+- [Numbered engine findings](docs/ENGINE_FINDINGS.md)

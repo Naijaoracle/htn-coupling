@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "purpose": "P1 regional flow targets relative to cardiac output",
+  "defaults_preserve_upstream": true,
+  "targets": {
+    "renal_flow_fraction_of_cardiac_output": {
+      "default": null,
+      "established_hypertension_preset": [
+        0.8,
+        0.9
+      ],
+      "observed_current_modifier_route": 0.7216244414887633,
+      "population_provenance": "Western literature; de Leeuw et al. 1982",
+      "direction_of_change": "When explicitly enabled, the 0.80-0.90 preset raises renal flow from the current modifier-route observation (~0.722) toward the literature-derived range; it is an active physiological change, not exposure-only."
+    },
+    "gut_flow_fraction_of_cardiac_output": {
+      "default": null,
+      "established_hypertension_preset": null,
+      "observed_current_modifier_route": 0.9613998834755245,
+      "population_provenance": "No fixed resting target; Messerli/Sugawara evidence is stage- and output-dependent"
+    },
+    "liver_flow_fraction_of_cardiac_output": {
+      "default": null,
+      "established_hypertension_preset": null,
+      "observed_current_modifier_route": 0.9895783315043959,
+      "population_provenance": "No fixed resting target; Messerli/Sugawara evidence is stage- and output-dependent"
+    }
+  },
+  "matched_comparison": {
+    "reference_map_mmHg": 90.36748601562576,
+    "modifier_map_mmHg": 90.86157580897196,
+    "map_tolerance_mmHg": 0.5,
+    "renal_ratio": 0.7216244414887633,
+    "gut_ratio": 0.9613998834755245,
+    "liver_ratio": 0.9895783315043959,
+    "map_boundary_note": "MAP difference 0.494 mmHg is within the predeclared +/-0.5 tolerance and near its boundary."
+  },
+  "implementation_rule": "Target fields are optional; absent fields leave current engine behavior unchanged. Renal target is flow-relative-to-output; gut/liver remain proportional until separately justified.",
+  "status": "stage7_p1_closed_open_loop",
+  "parameter_name": "RenalResistanceAdjustmentFraction",
+  "parameter_semantics": "Open-loop baseline-relative renal resistance adjustment; not an invariant flow target.",
+  "haemorrhage_comparison": "Not feasible for honest Stage 5 comparison under open-loop design because MAP shifts with the adjustment; a MAP-forced rerun would represent a different phenotype.",
+  "pressure_domain_finding": "At fixed systemic resistance, renal fraction tracks the adjustment monotonically; across rising systemic resistance, renal fraction rises from 0.139 to 0.170 despite the adjustment, demonstrating pressure-dependent interaction with the coupled baroreflex system."
+}

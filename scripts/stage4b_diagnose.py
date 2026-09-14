@@ -22,7 +22,7 @@ from bridge_units import pa_to_mmhg
 from extract_stage4_pulse_inlet import average_cycles
 
 ROOT = Path(__file__).resolve().parents[1]
-OPENBF = Path(os.environ.get("OPENBF_ROOT", "{OPENBF_ROOT}"))
+OPENBF = Path(os.environ.get("OPENBF_ROOT", ROOT.parent / "openBF"))
 BASE_YAML = OPENBF / "models/boileau2015/adan56/adan56.yaml"
 DEFAULT_INLET = OPENBF / "models/boileau2015/adan56/adan56_inlet.dat"
 STAGE4 = ROOT / "results/stage4"

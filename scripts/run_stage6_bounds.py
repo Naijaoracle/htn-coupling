@@ -24,7 +24,7 @@ import pandas as pd
 from tqdm import tqdm
 
 ROOT = Path(__file__).resolve().parents[1]
-PULSE = Path(os.environ.get("PULSE_ROOT", "{PULSE_ROOT}"))
+PULSE = Path(os.environ.get("PULSE_ROOT", "../pulse-physiology-engine"))
 BIN = PULSE / "build/install/bin"
 OUT = ROOT / "results/stage6"
 PRIVATE = OUT / "private"

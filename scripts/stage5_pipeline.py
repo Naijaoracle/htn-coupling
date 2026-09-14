@@ -28,8 +28,8 @@ from extract_stage4_pulse_inlet import average_cycles
 from prepare_stage4_openbf import equivalent_terminal_resistance
 
 ROOT = Path(__file__).resolve().parents[1]
-PULSE = Path(os.environ.get("PULSE_ROOT", "{PULSE_ROOT}"))
-OPENBF = Path(os.environ.get("OPENBF_ROOT", "{OPENBF_ROOT}"))
+PULSE = Path(os.environ.get("PULSE_ROOT", "../pulse-physiology-engine"))
+OPENBF = Path(os.environ.get("OPENBF_ROOT", "../openBF"))
 BIN = PULSE / "build/install/bin"
 BASE = OPENBF / "models/boileau2015/adan56/adan56.yaml"
 OUT = ROOT / "results/stage5"

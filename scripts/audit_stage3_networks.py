@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import os
 import json
 from collections import defaultdict
 from heapq import heappop, heappush
@@ -17,7 +18,7 @@ from scipy.signal import find_peaks
 
 
 PROJECT = Path(__file__).resolve().parents[1]
-OPENBF = Path("{OPENBF_ROOT}")
+OPENBF = Path(os.environ.get("OPENBF_ROOT", PROJECT.parent / "openBF"))
 OUT = PROJECT / "results" / "stage3"
 BASELINE = PROJECT / "results" / "stage0" / "openbf_adan56"
 COW_BASELINE = OUT / "openbf_circle_of_willis"

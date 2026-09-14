@@ -15,7 +15,7 @@ import yaml
 from bridge_units import mmhg_s_per_ml_to_pa_s_per_m3
 
 ROOT = Path(__file__).resolve().parents[1]
-OPENBF = Path(os.environ.get("OPENBF_ROOT", "{OPENBF_ROOT}"))
+OPENBF = Path(os.environ.get("OPENBF_ROOT", ROOT.parent / "openBF"))
 BASE = OPENBF / "models/boileau2015/adan56/adan56.yaml"
 OUT = ROOT / "results/stage4"
 CONFIGS = OUT / "configs"

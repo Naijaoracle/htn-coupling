@@ -2,9 +2,9 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-pulse_root="${PULSE_ROOT:-{PULSE_ROOT}}"
+pulse_root="${PULSE_ROOT:-$root/../pulse-physiology-engine}"
 python_bin="$pulse_root/build/venv/bin/python"
-export OPENBF_ROOT="${OPENBF_ROOT:-{OPENBF_ROOT}}"
+export OPENBF_ROOT="${OPENBF_ROOT:-$root/../openBF}"
 
 "$python_bin" "$root/scripts/finish_stage4.py" prepare
 "$python_bin" - "$root" <<'PY'

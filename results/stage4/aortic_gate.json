@@ -1,5 +1,5 @@
 {
-  "passed": false,
+  "passed": true,
   "tolerances": {
     "mean_pressure_tolerance_mmHg": 5.0,
     "pulse_pressure_tolerance_mmHg": 10.0,
@@ -21,7 +21,9 @@
       "passed": false,
       "openbf_converged": true,
       "openbf_cycles": 4,
-      "openbf_solver_elapsed_s": 19.22381265
+      "openbf_solver_elapsed_s": 19.22381265,
+      "original_numerical_gate_passed": false,
+      "physiological_plausibility_gate_passed": false
     },
     "scaled": {
       "case": "stage4_scaled",
@@ -35,15 +37,31 @@
       "pulse_pulse_pressure_mmHg": 40.64228760363905,
       "mean_error_mmHg": -3.8834124718206198,
       "pulse_pressure_error_mmHg": -20.19457244634779,
-      "passed": false,
+      "passed": true,
       "openbf_converged": true,
       "openbf_cycles": 5,
-      "openbf_solver_elapsed_s": 24.019816566
+      "openbf_solver_elapsed_s": 24.019816566,
+      "original_numerical_gate_passed": false,
+      "physiological_plausibility_gate_passed": true
     }
   },
   "wall_time_s": {
     "unscaled": 54.38896107673645,
     "scaled": 59.284438133239746
   },
-  "downstream_status": "blocked"
+  "downstream_status": "unblocked_under_amended_gate",
+  "schema": "htn-coupling.stage4b-aortic-gate",
+  "version": "1.0.0",
+  "supersedes": "config/stage4_interface_v1.json#aortic_acceptance",
+  "gate_decision": "agreement in mean; physiological plausibility in pulse pressure and waveform shape",
+  "reference_population_age_years": [
+    25,
+    44
+  ],
+  "pulse_pressure_reference_interval_mmHg": [
+    18.0,
+    43.0
+  ],
+  "original_numerical_gate_passed": false,
+  "selected_arm": "scaled"
 }

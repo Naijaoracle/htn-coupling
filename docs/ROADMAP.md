@@ -1,5 +1,10 @@
 # Roadmap
 
+> **Optical thread:** the stages that were deliberately excluded from the
+> published manuscript (3, 4, 4b, 5 waveform work, 7b, 8) are synthesised in
+> [OPTICAL_STORY.md](OPTICAL_STORY.md) — narrative, open questions, and the
+> artefact index. Start there when this thread is picked up again.
+
 ## Stage 0 — Independent controls
 
 - Run stock Pulse and reproduce a published validation scenario.

@@ -2,8 +2,8 @@
 set -euo pipefail
 
 stage4_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-pulse_root="${PULSE_ROOT:-{PULSE_ROOT}}"
-openbf_root="${OPENBF_ROOT:-{OPENBF_ROOT}}"
+pulse_root="${PULSE_ROOT:-$stage4_root/../pulse-physiology-engine}"
+openbf_root="${OPENBF_ROOT:-$stage4_root/../openBF}"
 python_bin="$pulse_root/build/venv/bin/python"
 
 export PULSE_ROOT="$pulse_root"

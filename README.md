@@ -57,3 +57,7 @@ Completed controls and analyses:
 - [Stage 5 hypertension through the coupled pipeline](docs/STAGE5_HYPERTENSION_COUPLED_PIPELINE.md)
 - [Stage 6 Pulse bounds parameterisation](docs/STAGE6_BOUNDS_PARAMETERISATION.md)
 - [Numbered engine findings](docs/ENGINE_FINDINGS.md)
+
+## Licensing
+
+Project-owned software, configuration, and documentation are licensed under [Apache-2.0](LICENSE). Original manuscript text and original figures in `paper/` are licensed under [CC-BY-4.0](paper/LICENSE). [NOTICE](NOTICE) identifies material and rights excluded from these grants, including Pulse, openBF, HAALSI, ELSA, and all restricted cohort data.

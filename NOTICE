@@ -1,0 +1,17 @@
+htn-coupling
+Copyright 2026 David Dasa
+
+The Apache License 2.0 in the repository root applies to project-owned
+software, configuration, and documentation, except where a more specific
+notice applies.
+
+The original manuscript text and original figures under paper/ are licensed
+under Creative Commons Attribution 4.0 International; see paper/LICENSE.
+That license does not grant rights in underlying cohort data.
+
+Pulse Physiology Engine and openBF are external projects and are not
+distributed by this repository. They, and their names, logos, source code,
+and other materials, remain subject to their respective owners' terms.
+
+HAALSI and ELSA source data, participant identifiers, participant-level
+records, per-body parameter records, and per-run trajectories are not

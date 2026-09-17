@@ -1,0 +1,46 @@
+{
+  "schema": "htn-coupling.pressure-matched-route",
+  "version": 1,
+  "purpose": "Exact SBP/DBP matching of direct patient initialisation and cardiovascular-modifier Pulse routes",
+  "reference_body": "StandardMale",
+  "targets_mmHg": [
+    {"label": "mild", "systolic": 130.0, "diastolic": 80.0},
+    {"label": "intermediate", "systolic": 140.0, "diastolic": 90.0},
+    {"label": "higher", "systolic": 150.0, "diastolic": 90.0}
+  ],
+  "modifier_domain": {
+    "resistance_multiplier": [1.0, 2.0],
+    "arterial_compliance_multiplier": [0.4, 1.0]
+  },
+  "coarse_grid_steps": {"resistance": 0.1, "compliance": 0.1},
+  "refinement_steps": [0.02, 0.005, 0.001],
+  "pressure_match": {
+    "maximum_absolute_sbp_residual_mmHg": 0.25,
+    "maximum_absolute_dbp_residual_mmHg": 0.25,
+    "objective_pressure_scale_mmHg": 1.0,
+    "measurement_window_s": 12.0,
+    "sample_interval_s": 0.02,
+    "independent_rerun_required": true
+  },
+  "multiple_solution_policy": {
+    "report_all_accepted_solutions": true,
+    "primary_solution": "accepted solution with the smallest Euclidean distance from (R=1.0,C=1.0); break exact ties by lower J, then lower R, then higher C"
+  },
+  "primary_outputs": [
+    "systolic_mmHg", "diastolic_mmHg", "map_mmHg", "pulse_pressure_mmHg",
+    "heart_rate_per_min", "cardiac_output_L_min", "stroke_volume_mL",
+    "svr_mmHg_s_mL", "brain_inflow_mL_min", "left_kidney_inflow_mL_min",
+    "right_kidney_inflow_mL_min", "baroreceptor_heart_rate_scale",
+    "baroreceptor_heart_elastance_scale", "baroreceptor_resistance_scale",
+    "baroreceptor_compliance_scale"
+  ],
+  "coupled_analysis": {
+    "enabled_after_primary_match": true,
+    "wall_youngs_modulus_scale": 1.0,
+    "terminal_compliance_scale": 1.0,
+    "sites": ["aortic_arch_I", "external_carotid_R", "internal_carotid_R"],
+    "attribution_ratio_threshold": 1.25,
+    "post_primary_factorial_sensitivity": "cross direct/modifier inlet with direct/modifier global WK3 resistance scale; this attributes state-level waveform differences without changing the primary result"
+  },
+  "data_policy": "Only aggregate summaries, configurations, inlets, and permitted compact traces are public. Participant-level material and full per-run Pulse traces remain private."
+}

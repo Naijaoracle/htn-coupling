@@ -1,3 +1,5 @@
+> **Amendment 1 applies.** The compatible Pulse revision and Stage 0 repeatability gate are specified in [docs/STAGE_MATCHED_ROUTE_AMENDMENT_1.md](STAGE_MATCHED_ROUTE_AMENDMENT_1.md). All other predeclared analysis choices remain in force.
+
 # Stage pressure-matched mechanism comparison: predeclaration
 
 ## Question and scope

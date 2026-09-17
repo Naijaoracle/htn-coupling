@@ -28,6 +28,7 @@ PULSE = Path(os.environ.get("PULSE_ROOT", ROOT / "../pulse-physiology-engine")).
 OUT = ROOT / "results/pressure_matched_routes"
 PRIVATE = OUT / "private"
 PROTOCOL = ROOT / "config/pressure_matched_route_v1.json"
+STAGE0_GATE = OUT / "stage0_regression_gate.json"
 
 # Stage 6 supplies the established patient envelope, data requests, and
 # stable-window implementation. It is imported without running its CLI.
@@ -49,28 +50,72 @@ def load_protocol() -> dict:
 
 def directories() -> None:
     (PRIVATE / "cases").mkdir(parents=True, exist_ok=True)
+    (PRIVATE / "stage0_repeats").mkdir(parents=True, exist_ok=True)
+
+
+def _gate_file_path(value: str) -> Path:
+    if value.startswith("{HTN_COUPLING_ROOT}/"):
+        return ROOT / value.removeprefix("{HTN_COUPLING_ROOT}/")
+    if value.startswith("{PULSE_ROOT}/"):
+        return PULSE / value.removeprefix("{PULSE_ROOT}/")
+    path = Path(value)
+    return path if path.is_absolute() else ROOT / path
 
 
 def require_stage0() -> dict:
-    gate_path = ROOT / "results/stage2/stage0_regression_gate.json"
-    gate = json.loads(gate_path.read_text())
+    gate = json.loads(STAGE0_GATE.read_text())
+    protocol = load_protocol()
+    expected_revision = protocol["pulse_revision"]
+    current_revision = subprocess.check_output(
+        ["git", "-C", str(PULSE), "rev-parse", "HEAD"], text=True).strip()
+    if current_revision != expected_revision or gate.get("pulse_revision") != expected_revision:
+        raise RuntimeError("Pulse source, Stage 0 gate, and amended protocol revisions differ")
     if not gate.get("passed"):
-        raise RuntimeError("Stage 0 regression gate is not passing")
-    current = []
-    for item in gate["files"]:
-        recorded = item["path"]
-        if recorded.startswith("{PULSE_ROOT}/"):
-            path = PULSE / recorded.removeprefix("{PULSE_ROOT}/")
-        elif recorded.startswith("{HTN_COUPLING_ROOT}/"):
-            path = ROOT / recorded.removeprefix("{HTN_COUPLING_ROOT}/")
-        else:
-            path = Path(recorded)
-            if not path.is_absolute():
-                path = ROOT / path
-        current.append(sha256(path))
+        raise RuntimeError("Amended Stage 0 repeatability gate is not passing")
+    current = [sha256(_gate_file_path(item["path"])) for item in gate["files"]]
     if len(set(current + [gate["expected_sha256"]])) != 1:
-        raise RuntimeError("Stage 0 files no longer match their recorded gate")
+        raise RuntimeError("Amended Stage 0 files no longer match their recorded gate")
     return gate
+
+
+def stage0_gate() -> dict:
+    """Validate and record the two independent Stage 0 rerun artifacts."""
+    protocol = load_protocol()
+    expected_revision = protocol["pulse_revision"]
+    revision = subprocess.check_output(
+        ["git", "-C", str(PULSE), "rev-parse", "HEAD"], text=True).strip()
+    if revision != expected_revision:
+        raise RuntimeError(f"Expected Pulse {expected_revision}; found {revision}")
+    base = PRIVATE / "stage0_repeats"
+    records = []
+    for index in (1, 2):
+        csv_path = base / f"rerun_{index}.csv"
+        log_path = base / f"rerun_{index}.log"
+        if not csv_path.is_file() or not log_path.is_file():
+            raise RuntimeError(f"Missing Stage 0 rerun {index} CSV or log")
+        log = log_path.read_text(errors="replace")
+        if f"GitHash : {revision[:9]}" not in log:
+            raise RuntimeError(f"Stage 0 rerun {index} log does not identify the pinned Pulse build")
+        records.append({"role": f"independent_rerun_{index}",
+                        "path": "{HTN_COUPLING_ROOT}/" +
+                                str(csv_path.relative_to(ROOT)),
+                        "bytes": csv_path.stat().st_size,
+                        "sha256": sha256(csv_path)})
+    hashes = {item["sha256"] for item in records}
+    sizes = {item["bytes"] for item in records}
+    passed = len(hashes) == 1 and len(sizes) == 1
+    result = {"created_utc": datetime.now(timezone.utc).isoformat(),
+              "pulse_revision": revision,
+              "previous_gate_sha256": json.loads(
+                  (ROOT / "results/stage2/stage0_regression_gate.json").read_text()
+              )["expected_sha256"],
+              "expected_sha256": records[0]["sha256"] if passed else None,
+              "passed": passed, "files": records}
+    STAGE0_GATE.parent.mkdir(parents=True, exist_ok=True)
+    STAGE0_GATE.write_text(json.dumps(result, indent=2) + "\n")
+    if not passed:
+        raise RuntimeError("Amended Stage 0 independent reruns do not match byte-for-byte")
+    return result
 
 
 def case_dir(case_id: str) -> Path:
@@ -325,26 +370,66 @@ def manifest() -> None:
             ["git", "-C", str(openbf), "rev-parse", "HEAD"], text=True).strip()
     except (OSError, subprocess.CalledProcessError):
         openbf_revision = None
+    try:
+        pulse_upstream_revision = subprocess.check_output(
+            ["git", "-C", str(PULSE), "rev-parse", "refs/remotes/origin/stable"],
+            text=True).strip()
+    except (OSError, subprocess.CalledProcessError):
+        pulse_upstream_revision = None
+    cache = PULSE / "build/CMakeCache.txt"
+    build_keys = ("CMAKE_BUILD_TYPE", "CMAKE_CXX_COMPILER", "CMAKE_CXX_FLAGS_RELEASE",
+                  "CMAKE_INSTALL_PREFIX", "Pulse_GEN_DATA", "Pulse_JAVA_API",
+                  "Pulse_PYTHON_API", "Pulse_SUPERBUILD", "protobuf_DIR",
+                  "Eigen3_DIR", "pybind11_DIR")
+    build_config = {}
+    if cache.is_file():
+        lines = cache.read_text(errors="replace").splitlines()
+        for key in build_keys:
+            prefix = f"{key}:"
+            line = next((item for item in lines if item.startswith(prefix)), None)
+            if line:
+                build_config[key] = line.split("=", 1)[1]
+    stage0_log = _gate_file_path(gate["files"][0]["path"]).with_suffix(".log")
+    log_text = stage0_log.read_text(errors="replace") if stage0_log.exists() else ""
+    runtime_hash = next((line.split(":", 1)[1].strip() for line in log_text.splitlines()
+                         if "GitHash :" in line), None)
+    build_time = next((line.split(":", 1)[1].strip() for line in log_text.splitlines()
+                       if "Build Time :" in line), None)
+    try:
+        julia_version = subprocess.check_output(["julia", "--version"], text=True).strip()
+    except (OSError, subprocess.CalledProcessError):
+        julia_version = None
     result = {"created_utc": datetime.now(timezone.utc).isoformat(),
-              "protocol_sha256": sha256(PROTOCOL), "stage0_sha256": gate["expected_sha256"],
-              "pulse_revision": subprocess.check_output(["git", "-C", str(PULSE), "rev-parse", "HEAD"], text=True).strip(),
+              "protocol_sha256": sha256(PROTOCOL),
+              "stage0_sha256": gate["expected_sha256"],
+              "pulse_revision": subprocess.check_output(
+                  ["git", "-C", str(PULSE), "rev-parse", "HEAD"], text=True).strip(),
+              "pulse_upstream_revision": pulse_upstream_revision,
+              "pulse_runtime_git_hash": runtime_hash,
+              "pulse_runtime_build_time": build_time,
+              "pulse_build_configuration": build_config,
               "openbf_revision": openbf_revision,
-              "htn_coupling_revision": subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip(),
-              "python_version": sys.version, "platform": platform.platform(),
-              "pulse_path": str(PULSE.resolve()), "openbf_path": str(openbf.resolve()),
-              "htn_coupling_path": str(ROOT),
-              "pulse_build_configuration": "not captured by this script"}
+              "htn_coupling_revision": subprocess.check_output(
+                  ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip(),
+              "julia_version": julia_version, "python_version": sys.version,
+              "platform": platform.platform(),
+              "pulse_path": str(PULSE.resolve()),
+              "openbf_path": str(openbf.resolve()),
+              "htn_coupling_path": str(ROOT)}
     (OUT / "run_manifest.json").write_text(json.dumps(result, indent=2) + "\n")
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workers", type=int, default=min(4, os.cpu_count() or 1))
-    parser.add_argument("--steps", nargs="+", choices=("manifest", "direct", "coarse", "refine", "finalize"), default=["manifest"])
+    parser.add_argument("--steps", nargs="+", choices=("stage0-gate", "manifest", "direct", "coarse", "refine", "finalize"), default=["manifest"])
     parser.add_argument("--final-search", action="store_true", help="permit direct and coarse model evaluations")
     args = parser.parse_args()
     directories()
     if any(step in {"direct", "coarse", "refine", "finalize"} for step in args.steps) and not args.final_search:
         raise SystemExit("Final evaluations require --final-search after predeclaration review")
+    if "stage0-gate" in args.steps:
+        print(json.dumps(stage0_gate(), indent=2))
     if "manifest" in args.steps:
         manifest()
     if "direct" in args.steps:

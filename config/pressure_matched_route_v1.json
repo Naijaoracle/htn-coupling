@@ -42,5 +42,7 @@
     "attribution_ratio_threshold": 1.25,
     "post_primary_factorial_sensitivity": "cross direct/modifier inlet with direct/modifier global WK3 resistance scale; this attributes state-level waveform differences without changing the primary result"
   },
-  "data_policy": "Only aggregate summaries, configurations, inlets, and permitted compact traces are public. Participant-level material and full per-run Pulse traces remain private."
+  "data_policy": "Only aggregate summaries, configurations, inlets, and permitted compact traces are public. Participant-level material and full per-run Pulse traces remain private.",
+  "pulse_revision": "a04eaa690c9f8535eaf3ca8cdd8bfe8ee091fa1f",
+  "stage0_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_1.md"
 }

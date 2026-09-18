@@ -20,6 +20,11 @@
     "objective_pressure_scale_mmHg": 1.0,
     "measurement_window_s": 12.0,
     "sample_interval_s": 0.02,
+    "stationarity": {
+      "window_bins": 4,
+      "maximum_sbp_bin_median_range_mmHg": 0.25,
+      "maximum_dbp_bin_median_range_mmHg": 0.25
+    },
     "independent_rerun_required": true
   },
   "multiple_solution_policy": {
@@ -44,5 +49,6 @@
   },
   "data_policy": "Only aggregate summaries, configurations, inlets, and permitted compact traces are public. Participant-level material and full per-run Pulse traces remain private.",
   "pulse_revision": "a04eaa690c9f8535eaf3ca8cdd8bfe8ee091fa1f",
-  "stage0_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_1.md"
+  "stage0_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_1.md",
+  "measurement_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_2.md"
 }

@@ -130,6 +130,28 @@ def objective(result: dict, target: dict, protocol: dict) -> float:
         (result["diastolic_mmHg"] - target["achieved_diastolic_mmHg"]) / scale) ** 2
 
 
+def stationarity_metrics(trace: pd.DataFrame, protocol: dict) -> dict:
+    """Measure pressure movement across equal bins in the declared window."""
+    bins = int(protocol["pressure_match"]["stationarity"]["window_bins"])
+    if len(trace) < bins:
+        raise RuntimeError("stable trace is too short for stationarity assessment")
+    index_bins = np.array_split(np.arange(len(trace)), bins)
+    chunks = [trace.iloc[index] for index in index_bins]
+    systolic = [float(chunk.systolic_mmHg.median()) for chunk in chunks]
+    diastolic = [float(chunk.diastolic_mmHg.median()) for chunk in chunks]
+    sbp_range = max(systolic) - min(systolic)
+    dbp_range = max(diastolic) - min(diastolic)
+    limits = protocol["pressure_match"]["stationarity"]
+    return {
+        "stationarity_sbp_bin_median_range_mmHg": sbp_range,
+        "stationarity_dbp_bin_median_range_mmHg": dbp_range,
+        "stationarity_pass": (
+            sbp_range <= limits["maximum_sbp_bin_median_range_mmHg"] and
+            dbp_range <= limits["maximum_dbp_bin_median_range_mmHg"]
+        ),
+    }
+
+
 def evaluate(job: dict) -> dict:
     """Run one direct or modifier state and retain its trace only privately."""
     protocol = load_protocol()
@@ -165,10 +187,11 @@ def evaluate(job: dict) -> dict:
         trace = stage6.stable_trace(engine, int(protocol["pressure_match"]["measurement_window_s"]))
         trace.to_csv(folder / "stable_trace.csv.gz", index=False, compression="gzip")
         values = stage6.endpoint(trace)
+        stability = stationarity_metrics(trace, protocol)
         values["stroke_volume_mL"] = (values["cardiac_output_L_min"] * 1000 /
                                       values["heart_rate_per_min"])
         return {**job, "status": "ok", "wall_s": time.monotonic() - started,
-                **values, **stage6.log_metrics(log)}
+                **values, **stability, **stage6.log_metrics(log)}
     except Exception as exc:
         metrics = stage6.log_metrics(log)
         text = log.read_text(errors="replace") if log.exists() else ""
@@ -247,12 +270,22 @@ def _residuals(row: dict, reference: dict) -> tuple[float, float]:
 
 
 def _passes(row: dict, reference: dict, protocol: dict) -> bool:
-    if row.get("status") != "ok":
+    if row.get("status") != "ok" or not bool(row.get("stationarity_pass", False)):
         return False
     ds, dd = _residuals(row, reference)
     limits = protocol["pressure_match"]
     return (abs(ds) <= limits["maximum_absolute_sbp_residual_mmHg"] and
             abs(dd) <= limits["maximum_absolute_dbp_residual_mmHg"])
+
+
+def completed_case_keys(frame: pd.DataFrame) -> set[tuple[str, float, float]]:
+    """Return parameter points with a completed evaluation to avoid rerunning them."""
+    if frame.empty or not {"target", "R", "C", "status"}.issubset(frame.columns):
+        return set()
+    completed = frame[frame.status.isin(("ok", "failed"))]
+    return {(str(row.target), round(float(row.R), 6), round(float(row.C), 6))
+            for row in completed.itertuples(index=False)
+            if pd.notna(row.R) and pd.notna(row.C)}
 
 
 def _local_minima(frame: pd.DataFrame, target: str, spacing: float) -> list[dict]:
@@ -284,6 +317,7 @@ def refine_search(workers: int) -> pd.DataFrame:
     previous = float(protocol["coarse_grid_steps"]["resistance"])
     for step in protocol["refinement_steps"]:
         jobs = []
+        completed = completed_case_keys(result)
         for target in direct.index:
             reference = direct.loc[target]
             if reference.status != "ok":
@@ -298,7 +332,7 @@ def refine_search(workers: int) -> pd.DataFrame:
                 for rv in rs:
                     for cv in cs:
                         key = (target, round(float(rv), 6), round(float(cv), 6))
-                        if key in seen:
+                        if key in seen or key in completed:
                             continue
                         seen.add(key)
                         jobs.append({"case_id": f"refine_{target}_{step:g}_R{key[1]:.3f}_C{key[2]:.3f}",
@@ -316,8 +350,13 @@ def refine_search(workers: int) -> pd.DataFrame:
         if rows:
             result = pd.concat([result, pd.DataFrame(rows)], ignore_index=True)
             result = result.drop_duplicates(subset=["target", "R", "C"], keep="last")
+        # Persist each completed stage so an interrupted finer search retains
+        # its results instead of keeping them only in memory.
+        result.to_csv(OUT / "search_evaluations.csv", index=False)
+        if "refinement_step" in result:
+            checkpoint = result[result.refinement_step.eq(step)]
+            checkpoint.to_csv(OUT / f"search_checkpoint_refine_{step:g}.csv", index=False)
         previous = float(step)
-    result.to_csv(OUT / "search_evaluations.csv", index=False)
     return result
 
 
@@ -333,6 +372,7 @@ def finalize_search(workers: int) -> pd.DataFrame:
             candidates.append(row)
     jobs = [{**row, "case_id": f"rerun_{row['case_id']}"} for row in candidates]
     repeats = run_jobs(jobs, workers) if jobs else []
+    pd.DataFrame(repeats).to_csv(OUT / "confirmation_evaluations.csv", index=False)
     repeats_by_key = {(x.get("target"), float(x.get("R", -1)), float(x.get("C", -1))): x
                       for x in repeats}
     accepted_rows = []
@@ -411,6 +451,8 @@ def manifest() -> None:
               "openbf_revision": openbf_revision,
               "htn_coupling_revision": subprocess.check_output(
                   ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip(),
+              "htn_coupling_worktree_status": subprocess.check_output(
+                  ["git", "-C", str(ROOT), "status", "--short"], text=True).splitlines(),
               "julia_version": julia_version, "python_version": sys.version,
               "platform": platform.platform(),
               "pulse_path": str(PULSE.resolve()),

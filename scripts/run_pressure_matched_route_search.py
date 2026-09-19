@@ -487,7 +487,12 @@ def manifest() -> None:
             prefix = f"{key}:"
             line = next((item for item in lines if item.startswith(prefix)), None)
             if line:
-                build_config[key] = line.split("=", 1)[1]
+                value = line.split("=", 1)[1]
+                if key == "CMAKE_INSTALL_PREFIX":
+                    value = "{PULSE_BUILD_DIR}/install"
+                elif key.endswith("_DIR"):
+                    value = "locally cached dependency package"
+                build_config[key] = value
     stage0_log = _gate_file_path(gate["files"][0]["path"]).with_suffix(".log")
     log_text = stage0_log.read_text(errors="replace") if stage0_log.exists() else ""
     runtime_hash = next((line.split(":", 1)[1].strip() for line in log_text.splitlines()
@@ -514,9 +519,11 @@ def manifest() -> None:
                   ["git", "-C", str(ROOT), "status", "--short"], text=True).splitlines(),
               "julia_version": julia_version, "python_version": sys.version,
               "platform": platform.platform(),
-              "pulse_path": str(PULSE.resolve()),
-              "openbf_path": str(openbf.resolve()),
-              "htn_coupling_path": str(ROOT)}
+              "pulse_path": "{PULSE_ROOT}",
+              "pulse_runtime_data_root": "{PULSE_BIN}",
+              "pulse_build_path": "{PULSE_BUILD_DIR}",
+              "openbf_path": "{OPENBF_ROOT}",
+              "htn_coupling_path": "{HTN_COUPLING_ROOT}"}
     (OUT / "run_manifest.json").write_text(json.dumps(result, indent=2) + "\n")
 
 

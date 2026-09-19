@@ -1,0 +1,100 @@
+{
+  "created_utc": "2026-09-19T15:57:03.059455+00:00",
+  "protocol": "{HTN_COUPLING_ROOT}/config/pressure_matched_route_v1.json",
+  "protocol_amendment": "{HTN_COUPLING_ROOT}/docs/STAGE_MATCHED_ROUTE_AMENDMENT_4.md",
+  "primary_solution": {
+    "target": "higher",
+    "R": 1.985,
+    "C": 0.46,
+    "systolic_mmHg": 148.6796503205317,
+    "diastolic_mmHg": 90.70498716726466,
+    "rerun_systolic_residual_mmHg": 0.0745254253211271,
+    "rerun_diastolic_residual_mmHg": -0.0017999070641394
+  },
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "pulse_runtime_path": "{PULSE_ROOT}",
+  "openbf_revision": "928c046906687c1347bf5496b47325acd0b2c032",
+  "coupling_revision": "9b300e6",
+  "openbf_base_yaml": "{OPENBF_ROOT}/models/boileau2015/adan56/adan56.yaml",
+  "wk3_outlets": 31,
+  "published_parallel_terminal_resistance_pa_s_m3": 118912507.88892315,
+  "svr_mmHg_s_mL": {
+    "direct": 1.0702815104682135,
+    "modifier": 1.847145151760337
+  },
+  "global_wk3_resistance_scales": {
+    "direct": 1.1999752933638625,
+    "modifier": 2.070977143573738
+  },
+  "inlets": [
+    {
+      "name": "direct_higher",
+      "source_trace": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/private/cases/direct_higher/stable_trace.csv.gz",
+      "source_trace_sha256": "661b65cdd9ea0d9319bce9d199c1b84212d8bf33b1a5a1e3f1d5138d8218ff67",
+      "inlet": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/inlets/direct_higher.dat",
+      "inlet_sha256": "2b3ed12a65c54ad20ed24225195e9cb0c34ed05c9b12e25917e3d7e00dbcb255",
+      "cycles_averaged": 8,
+      "cycle_period_s": 0.8399999999999822,
+      "pulse_reported_co_L_min": 6.42037813420415,
+      "aortic_pressure_in_source_trace": false,
+      "median_pulse_svr_mmHg_s_mL": 1.0702815104682135,
+      "inlet_integral_co_L_min": 6.367133393621317,
+      "flow_integral_relative_error": 0.008293084841712928,
+      "max_cycle_flow_rmse_fraction_of_peak": 0.00015127986932976715
+    },
+    {
+      "name": "modifier_higher_R1.985_C0.460",
+      "source_trace": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/private/cases/rerun_refine_higher_0.005_R1.985_C0.460/stable_trace.csv.gz",
+      "source_trace_sha256": "11db2a396c3df6bfd607801cffe4828226b552021e1bf15d78bd71491e508335",
+      "inlet": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/inlets/modifier_higher_R1.985_C0.460.dat",
+      "inlet_sha256": "21e903b629697b02cb044239d056f01c5764ab2577a67691351df4316e2c7c55",
+      "cycles_averaged": 8,
+      "cycle_period_s": 0.8399999999992218,
+      "pulse_reported_co_L_min": 3.8228383779453754,
+      "aortic_pressure_in_source_trace": false,
+      "median_pulse_svr_mmHg_s_mL": 1.847145151760337,
+      "inlet_integral_co_L_min": 3.7903339000282963,
+      "flow_integral_relative_error": 0.008502707858277017,
+      "max_cycle_flow_rmse_fraction_of_peak": 0.00017067610340060164
+    }
+  ],
+  "cases": [
+    {
+      "case": "direct_inlet_direct_resistance",
+      "yaml": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/direct_inlet_direct_resistance/direct_inlet_direct_resistance.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/direct_inlet_direct_resistance/direct_inlet_direct_resistance_inlet.dat",
+      "inlet_sha256": "2b3ed12a65c54ad20ed24225195e9cb0c34ed05c9b12e25917e3d7e00dbcb255",
+      "global_wk3_resistance_scale": 1.1999752933638625,
+      "wall_youngs_modulus_scale": 1.0,
+      "terminal_compliance_scale": 1.0
+    },
+    {
+      "case": "direct_inlet_modifier_resistance",
+      "yaml": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/direct_inlet_modifier_resistance/direct_inlet_modifier_resistance.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/direct_inlet_modifier_resistance/direct_inlet_modifier_resistance_inlet.dat",
+      "inlet_sha256": "2b3ed12a65c54ad20ed24225195e9cb0c34ed05c9b12e25917e3d7e00dbcb255",
+      "global_wk3_resistance_scale": 2.070977143573738,
+      "wall_youngs_modulus_scale": 1.0,
+      "terminal_compliance_scale": 1.0
+    },
+    {
+      "case": "modifier_inlet_direct_resistance",
+      "yaml": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/modifier_inlet_direct_resistance/modifier_inlet_direct_resistance.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/modifier_inlet_direct_resistance/modifier_inlet_direct_resistance_inlet.dat",
+      "inlet_sha256": "21e903b629697b02cb044239d056f01c5764ab2577a67691351df4316e2c7c55",
+      "global_wk3_resistance_scale": 1.1999752933638625,
+      "wall_youngs_modulus_scale": 1.0,
+      "terminal_compliance_scale": 1.0
+    },
+    {
+      "case": "modifier_inlet_modifier_resistance",
+      "yaml": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/modifier_inlet_modifier_resistance/modifier_inlet_modifier_resistance.yaml",
+      "inlet": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/coupled_openbf/configs/modifier_inlet_modifier_resistance/modifier_inlet_modifier_resistance_inlet.dat",
+      "inlet_sha256": "21e903b629697b02cb044239d056f01c5764ab2577a67691351df4316e2c7c55",
+      "global_wk3_resistance_scale": 2.070977143573738,
+      "wall_youngs_modulus_scale": 1.0,
+      "terminal_compliance_scale": 1.0
+    }
+  ],
+  "design": "2x2 cross: direct/modifier flow inlet by direct/modifier global WK3 R scale; E and Cc held at published values; 15 cycles"
+}

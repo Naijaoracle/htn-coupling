@@ -256,12 +256,27 @@ def coarse_jobs(direct: pd.DataFrame) -> list[dict]:
 
 def coarse_search(workers: int) -> pd.DataFrame:
     direct = pd.read_csv(OUT / "direct_states.csv")
-    rows = run_jobs(coarse_jobs(direct), workers)
-    for row in rows:
-        if row["status"] == "ok":
-            row["J"] = objective(row, row, load_protocol())
-    frame = pd.DataFrame(rows).sort_values(["target", "status", "J"], na_position="last")
-    frame.to_csv(OUT / "search_evaluations.csv", index=False)
+    path = OUT / "search_evaluations.csv"
+    frame = pd.read_csv(path) if path.is_file() else pd.DataFrame()
+    completed = completed_case_keys(frame)
+    pending = [job for job in coarse_jobs(direct)
+               if (job["target"], round(float(job["R"]), 6),
+                   round(float(job["C"]), 6)) not in completed]
+    protocol = load_protocol()
+    chunk_size = max(4, workers * 4)
+    for offset in range(0, len(pending), chunk_size):
+        rows = run_jobs(pending[offset:offset + chunk_size], workers)
+        for row in rows:
+            row["J"] = objective(row, row, protocol) if row["status"] == "ok" else np.nan
+        if rows:
+            frame = pd.concat([frame, pd.DataFrame(rows)], ignore_index=True)
+            frame = frame.drop_duplicates(subset=["target", "R", "C"], keep="last")
+            completed.update((str(row["target"]), round(float(row["R"]), 6),
+                              round(float(row["C"]), 6)) for row in rows)
+        frame = frame.sort_values(["target", "status", "J"], na_position="last")
+        frame.to_csv(path, index=False)
+        print(f"coarse checkpoint: {min(offset + chunk_size, len(pending))}/"
+              f"{len(pending)} new evaluations", flush=True)
     return frame
 
 

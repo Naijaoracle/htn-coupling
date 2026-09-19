@@ -73,3 +73,27 @@ def test_repeatability_report_compares_full_numeric_traces_and_event_times(tmp_p
     pair = runner.summarize_repeatability({})["mild/direct"]
     assert pair["max_abs_numeric_difference"]["pressure"] > 0
     assert not pair["exact_numeric_trace_match"]
+
+
+def test_attempt_labels_keep_runs_separate_and_reject_path_traversal(tmp_path):
+    assert common.attempt_output_directory(tmp_path, "confirmatory_retry_01") == tmp_path / "confirmatory_retry_01"
+    for invalid in ("../escape", "..", "", "space not allowed"):
+        try:
+            common.attempt_output_directory(tmp_path, invalid)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f"accepted invalid attempt label {invalid!r}")
+
+
+def test_pair_decision_keeps_stdin_open_for_communicate():
+    import subprocess
+    import sys
+    import run_pressure_matched_drug_response_confirmatory as runner
+
+    child = subprocess.Popen([sys.executable, "-c", "print(input())"], stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE, text=True)
+    runner.send_pair_decision(child, "GO")
+    stdout, _ = child.communicate(timeout=5)
+    assert stdout.strip() == "GO"
+    assert child.returncode == 0

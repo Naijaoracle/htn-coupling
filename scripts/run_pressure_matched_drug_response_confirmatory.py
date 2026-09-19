@@ -25,7 +25,9 @@ CONFIG_PATH = ROOT / "config/pressure_matched_drug_response_confirmatory_v1.json
 PROTOCOL_PATH = ROOT / "docs/PRESSURE_MATCHED_DRUG_RESPONSE_CONFIRMATORY_PROTOCOL.md"
 PULSE = Path(os.environ.get("PULSE_ROOT", "/tmp/pulse-checkpoint-restart"))
 BIN = Path(os.environ.get("PULSE_BIN", "/tmp/pulse-checkpoint-install/bin"))
-OUT = ROOT / "results/pressure_matched_drug_response_confirmatory/private"
+OUT_BASE = ROOT / "results/pressure_matched_drug_response_confirmatory/private"
+OUT = OUT_BASE
+ATTEMPT_LABEL = None
 BASES = ROOT / "results/pressure_matched_routes_v2/private/cases"
 STATE = ROOT / "results/stage2/private/cache/StandardMale_stage2_baseline.json"
 
@@ -363,7 +365,14 @@ def run_process(target, route, replicate, phase, wait_for_pair=False):
 def child_command(target, route, replicate, phase, wait=False):
     return [sys.executable, str(Path(__file__).resolve()), "--child", "--target", target,
             "--route", route, "--replicate", str(replicate), "--phase", phase,
+            "--attempt-label", ATTEMPT_LABEL,
             *( ["--wait-for-pair"] if wait else [] )]
+
+
+def send_pair_decision(proc, decision):
+    """Send one gate decision; leave closing the pipe to communicate()."""
+    proc.stdin.write(decision + "\n")
+    proc.stdin.flush()
 
 
 def child_env():
@@ -425,11 +434,9 @@ def challenge_pair(target, replicate, screened):
         }
         gate["pass"] = all(gate.values())
         (OUT / target / f"replicate_{replicate:02d}" / "challenge_pair_gate.json").write_text(json.dumps(gate, indent=2) + "\n")
-        decision = "GO\n" if gate["pass"] else "NO\n"
+        decision = "GO" if gate["pass"] else "NO"
         for proc in procs.values():
-            proc.stdin.write(decision)
-            proc.stdin.flush()
-            proc.stdin.close()
+            send_pair_decision(proc, decision)
         results = {route: read_result(procs[route], f"{target}/{route}/r{replicate}") for route in common.ROUTES}
         all_runs_complete = all(run.get("status") == "challenge_complete" for run in results.values())
         pair_result = {"gate": gate, "runs": results,
@@ -459,9 +466,7 @@ def challenge_pair(target, replicate, screened):
         for proc in procs.values():
             if proc.poll() is None:
                 try:
-                    proc.stdin.write("NO\n")
-                    proc.stdin.flush()
-                    proc.stdin.close()
+                    send_pair_decision(proc, "NO")
                 except Exception:
                     proc.kill()
         for proc in procs.values():
@@ -523,22 +528,34 @@ def main():
     parser.add_argument("--replicate", type=int, choices=common.REPLICATES)
     parser.add_argument("--phase", choices=("baseline", "challenge"))
     parser.add_argument("--wait-for-pair", action="store_true")
+    parser.add_argument("--attempt-label", help="unique child directory name; required for a real run")
     parser.add_argument("--plan-only", action="store_true", help="validate locks and print the run matrix without creating outputs")
     args = parser.parse_args()
+    global OUT, ATTEMPT_LABEL
     if args.child:
-        if not all((args.target, args.route, args.replicate, args.phase)):
-            parser.error("--child requires target, route, replicate, and phase")
+        if not all((args.target, args.route, args.replicate, args.phase, args.attempt_label)):
+            parser.error("--child requires target, route, replicate, phase, and attempt label")
+        ATTEMPT_LABEL = args.attempt_label
+        OUT = common.attempt_output_directory(OUT_BASE, ATTEMPT_LABEL)
         run_process(args.target, args.route, args.replicate, args.phase, args.wait_for_pair)
         return
 
     hashes = verify_locked_inputs(require_committed=not args.plan_only)
     if args.plan_only:
+        if args.attempt_label:
+            ATTEMPT_LABEL = args.attempt_label
+            OUT = common.attempt_output_directory(OUT_BASE, ATTEMPT_LABEL)
         print(json.dumps({"locks": hashes, "plan": plan()}, indent=2))
         return
+    if not args.attempt_label:
+        parser.error("--attempt-label is required for a real run to keep attempts separate")
+    ATTEMPT_LABEL = args.attempt_label
+    OUT = common.attempt_output_directory(OUT_BASE, ATTEMPT_LABEL)
     if OUT.exists():
         raise FileExistsError(f"output namespace already exists; refusing to mix/overwrite runs: {OUT}")
     OUT.mkdir(parents=True)
-    manifest = {"status": "running", "locks": hashes, "plan": plan(), "baseline_screens": {}, "challenge_pairs": {}}
+    manifest = {"status": "running", "attempt_label": ATTEMPT_LABEL, "locks": hashes,
+                "plan": plan(), "baseline_screens": {}, "challenge_pairs": {}}
     (OUT / "run_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
     for target in common.TARGETS:

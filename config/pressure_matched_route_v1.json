@@ -13,7 +13,7 @@
     "arterial_compliance_multiplier": [0.4, 1.0]
   },
   "coarse_grid_steps": {"resistance": 0.1, "compliance": 0.1},
-  "refinement_steps": [0.02, 0.005, 0.001],
+  "refinement_steps": [0.02, 0.005],
   "pressure_match": {
     "maximum_absolute_sbp_residual_mmHg": 0.25,
     "maximum_absolute_dbp_residual_mmHg": 0.25,
@@ -48,7 +48,8 @@
     "post_primary_factorial_sensitivity": "cross direct/modifier inlet with direct/modifier global WK3 resistance scale; this attributes state-level waveform differences without changing the primary result"
   },
   "data_policy": "Only aggregate summaries, configurations, inlets, and permitted compact traces are public. Participant-level material and full per-run Pulse traces remain private.",
-  "pulse_revision": "a04eaa690c9f8535eaf3ca8cdd8bfe8ee091fa1f",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
   "stage0_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_1.md",
-  "measurement_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_2.md"
+  "measurement_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_2.md",
+  "engine_and_search_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_3.md"
 }

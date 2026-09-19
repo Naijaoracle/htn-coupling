@@ -25,7 +25,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 PULSE = Path(os.environ.get("PULSE_ROOT", ROOT / "../pulse-physiology-engine")).resolve()
-OUT = ROOT / "results/pressure_matched_routes"
+OUT = ROOT / "results/pressure_matched_routes_v2"
 PRIVATE = OUT / "private"
 PROTOCOL = ROOT / "config/pressure_matched_route_v1.json"
 STAGE0_GATE = OUT / "stage0_regression_gate.json"
@@ -239,7 +239,8 @@ def coarse_jobs(direct: pd.DataFrame) -> list[dict]:
                          step["compliance"])
     jobs = []
     for target in direct.itertuples(index=False):
-        if target.status != "ok":
+        if target.status != "ok" or not _stationarity_pass(
+                getattr(target, "stationarity_pass", False)):
             continue
         for r_value in r_values:
             for c_value in c_values:
@@ -269,8 +270,17 @@ def _residuals(row: dict, reference: dict) -> tuple[float, float]:
             row["diastolic_mmHg"] - reference["diastolic_mmHg"])
 
 
+def _stationarity_pass(value: object) -> bool:
+    """Parse CSV booleans conservatively; missing and unknown values fail closed."""
+    if pd.isna(value):
+        return False
+    if isinstance(value, (bool, np.bool_)):
+        return bool(value)
+    return str(value).strip().lower() in {"true", "1", "yes"}
+
+
 def _passes(row: dict, reference: dict, protocol: dict) -> bool:
-    if row.get("status") != "ok" or not bool(row.get("stationarity_pass", False)):
+    if row.get("status") != "ok" or not _stationarity_pass(row.get("stationarity_pass", False)):
         return False
     ds, dd = _residuals(row, reference)
     limits = protocol["pressure_match"]
@@ -289,7 +299,10 @@ def completed_case_keys(frame: pd.DataFrame) -> set[tuple[str, float, float]]:
 
 
 def _local_minima(frame: pd.DataFrame, target: str, spacing: float) -> list[dict]:
-    rows = frame[(frame.target == target) & (frame.status == "ok")]
+    if "stationarity_pass" not in frame.columns:
+        return []
+    stationary = frame.stationarity_pass.map(_stationarity_pass)
+    rows = frame[(frame.target == target) & (frame.status == "ok") & stationary]
     values = {(round(float(r.R), 6), round(float(r.C), 6)): float(r.J)
               for r in rows.itertuples(index=False) if pd.notna(r.J)}
     minima = []
@@ -402,6 +415,51 @@ def finalize_search(workers: int) -> pd.DataFrame:
     return accepted_frame
 
 
+def targeted_historical_panel(workers: int = 3, replicates: int = 3) -> pd.DataFrame:
+    """Run historical coordinates in fresh worker processes before any new grid."""
+    direct = direct_states(workers)
+    if not all(row.status == "ok" and _stationarity_pass(row.stationarity_pass)
+               for row in direct.itertuples(index=False)):
+        raise RuntimeError("A direct target failed; stopping before modifier evaluations")
+    coordinates = {
+        "mild": (1.300, 0.720),
+        "intermediate": (1.720, 0.600),
+        "higher": (1.995, 0.465),
+    }
+    direct_by_target = direct.set_index("target")
+    protocol = load_protocol()
+    records: list[dict] = []
+    output = OUT / "targeted_historical_panel.csv"
+    for target, (resistance, compliance) in coordinates.items():
+        reference = direct_by_target.loc[target]
+        for replicate in range(1, replicates + 1):
+            job = {
+                "case_id": f"targeted_{target}_rep{replicate}_R{resistance:.3f}_C{compliance:.3f}",
+                "route": "modifier", "target": target,
+                "R": resistance, "C": compliance, "replicate": replicate,
+                "requested_systolic_mmHg": reference.requested_systolic_mmHg,
+                "requested_diastolic_mmHg": reference.requested_diastolic_mmHg,
+                "achieved_systolic_mmHg": reference.systolic_mmHg,
+                "achieved_diastolic_mmHg": reference.diastolic_mmHg,
+                "keep_trace": True,
+            }
+            # A one-job executor is created and destroyed for every replicate,
+            # guaranteeing that repeats use distinct OS processes.
+            result = run_jobs([job], workers=1)[0]
+            if result["status"] == "ok":
+                objective_target = {
+                    "achieved_systolic_mmHg": reference.systolic_mmHg,
+                    "achieved_diastolic_mmHg": reference.diastolic_mmHg,
+                }
+                result["J"] = objective(result, objective_target, protocol)
+                ds, dd = _residuals(result, reference)
+                result["systolic_residual_mmHg"] = ds
+                result["diastolic_residual_mmHg"] = dd
+            records.append(result)
+            pd.DataFrame(records).to_csv(output, index=False)
+    return pd.DataFrame(records)
+
+
 def manifest() -> None:
     gate = require_stage0()
     openbf = ROOT / "../openBF"
@@ -416,7 +474,8 @@ def manifest() -> None:
             text=True).strip()
     except (OSError, subprocess.CalledProcessError):
         pulse_upstream_revision = None
-    cache = PULSE / "build/CMakeCache.txt"
+    build_dir = Path(os.environ.get("PULSE_BUILD_DIR", PULSE / "build")).resolve()
+    cache = build_dir / "CMakeCache.txt"
     build_keys = ("CMAKE_BUILD_TYPE", "CMAKE_CXX_COMPILER", "CMAKE_CXX_FLAGS_RELEASE",
                   "CMAKE_INSTALL_PREFIX", "Pulse_GEN_DATA", "Pulse_JAVA_API",
                   "Pulse_PYTHON_API", "Pulse_SUPERBUILD", "protobuf_DIR",
@@ -464,16 +523,18 @@ def manifest() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workers", type=int, default=min(4, os.cpu_count() or 1))
-    parser.add_argument("--steps", nargs="+", choices=("stage0-gate", "manifest", "direct", "coarse", "refine", "finalize"), default=["manifest"])
+    parser.add_argument("--steps", nargs="+", choices=("stage0-gate", "manifest", "targeted-panel", "direct", "coarse", "refine", "finalize"), default=["manifest"])
     parser.add_argument("--final-search", action="store_true", help="permit direct and coarse model evaluations")
     args = parser.parse_args()
     directories()
-    if any(step in {"direct", "coarse", "refine", "finalize"} for step in args.steps) and not args.final_search:
+    if any(step in {"targeted-panel", "direct", "coarse", "refine", "finalize"} for step in args.steps) and not args.final_search:
         raise SystemExit("Final evaluations require --final-search after predeclaration review")
     if "stage0-gate" in args.steps:
         print(json.dumps(stage0_gate(), indent=2))
     if "manifest" in args.steps:
         manifest()
+    if "targeted-panel" in args.steps:
+        print(targeted_historical_panel(args.workers).to_string(index=False))
     if "direct" in args.steps:
         print(direct_states(args.workers).to_string(index=False))
     if "coarse" in args.steps:

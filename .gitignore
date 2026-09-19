@@ -73,3 +73,8 @@ results/stage5_followup/expanded_acute_body_panel.csv
 results/stage5_followup/expanded_acute_fractional_endpoints.csv
 results/stage5_followup/expanded_acute_run_results.csv
 results/stage5_followup/expanded_acute_paired_30pct_map_fall.png
+!results/pressure_matched_routes_v2/
+results/pressure_matched_routes_v2/**
+!results/pressure_matched_routes_v2/*.csv
+!results/pressure_matched_routes_v2/*.json
+!results/pressure_matched_routes_v2/*.png

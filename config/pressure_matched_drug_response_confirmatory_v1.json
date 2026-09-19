@@ -1,0 +1,90 @@
+{
+  "protocol": "docs/PRESSURE_MATCHED_DRUG_RESPONSE_CONFIRMATORY_PROTOCOL.md",
+  "status": "confirmatory configuration prepared; do not run before protocol commit",
+  "purpose": "Single-body Pulse model confirmation; not a clinical dosing recommendation",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "stage0_sha256": "1b0c930372fc7c82982f4ecccda7dab34569b03c2a8bd678c78194e79b7a56eb",
+  "source_states": {
+    "modifier_standardmale_checkpoint_sha256": "2f1c4416afec84b1b903988aa98833b7e672169a072c6f826a45aa90a7ef2115",
+    "direct_patient_payload_sha256": {
+      "mild": "cce4d70a81f562df7eae0a2e14d69046e99ba3d358474cb3f2e3bf2ff5fc505d",
+      "intermediate": "8119bfb3e07a376d35d81753ea4dd6deb07a6e57deb1640f64c4779338448c0d",
+      "higher": "ab880365e42a6c4aab1836b3cb4d608524a2d1b040f24566f336520567ba556e"
+    }
+  },
+  "patient_mass_lb": 170.0,
+  "patient_mass_kg": 77.1107029,
+  "challenge": {
+    "substance": "Norepinephrine",
+    "route": "infusion",
+    "dose_ug_kg_min": 0.2,
+    "concentration_ug_mL": 1.0,
+    "pulse_rate_mL_s": 0.25703567633333335,
+    "administered_mass_ug": 77.1107029,
+    "infusion_duration_s": 300,
+    "pre_infusion_observation_s": 60,
+    "post_infusion_observation_s": 300,
+    "pulse_timestep_s": 0.02,
+    "reservoir_volume_mL": 77.11584361352666,
+    "carrier_fluid_behavior": "The pinned Pulse revision adds drug mass from concentration and rate but does not add infusion fluid to the cardiovascular fluid system. The volume field controls reservoir depletion only."
+  },
+  "targets": {
+    "mild": {
+      "modifier_R": 1.3,
+      "modifier_C": 0.715
+    },
+    "intermediate": {
+      "modifier_R": 1.715,
+      "modifier_C": 0.595
+    },
+    "higher": {
+      "modifier_R": 1.985,
+      "modifier_C": 0.46
+    }
+  },
+  "run_design": {
+    "targets": 3,
+    "routes_per_target": [
+      "direct",
+      "modifier"
+    ],
+    "fresh_process_repetitions_per_route_target": 2,
+    "challenged_runs": 12,
+    "preinfusion_baseline_s": 60,
+    "baseline_window_s": "30 <= elapsed_s < 60",
+    "stationarity_window_s": "[48,60], four consecutive 3-second bins",
+    "postinfusion_observation_s": 300,
+    "sample_interval_s": 1,
+    "results_namespace": "results/pressure_matched_drug_response_confirmatory/private/"
+  },
+  "baseline_acceptance": {
+    "maximum_absolute_sbp_difference_mmHg": 0.25,
+    "maximum_absolute_dbp_difference_mmHg": 0.25,
+    "measurement_window_s": "30 <= elapsed_s < 60 seconds",
+    "require_stationarity_pass": true,
+    "stop_before_drug_if_pair_fails": true
+  },
+  "outcomes": {
+    "hypernatremia": {
+      "event_threshold_mEq_L": 145.0,
+      "baseline_outputs_each_target_route_repeat": [
+        "aortic sodium concentration",
+        "renal plasma flow",
+        "urine production rate"
+      ],
+      "record": [
+        "preinfusion active status",
+        "first observed onset time",
+        "infusion versus follow-up onset",
+        "peak sodium",
+        "change from own baseline"
+      ],
+      "validity": "Outcome after a valid baseline; do not exclude the run or change dose/analysis because of the sodium response."
+    },
+    "diuresis": "retain as an outcome; do not exclude a valid challenged run",
+    "irreversible_state": "retain as outcome; preserve trace and report run termination",
+    "repeatability": "compare full requested numeric trajectories and event times; report every nonzero difference",
+    "effect_interpretation": "Report per-target route contrasts, absolute and relative estimates where defined, full trajectories, and repeat consistency. No post hoc significance/minimum-effect cutoff and no pooling when direction reverses."
+  },
+  "interpretation": "Model-level response contrast in one StandardMale body; no population or clinical inference."
+}

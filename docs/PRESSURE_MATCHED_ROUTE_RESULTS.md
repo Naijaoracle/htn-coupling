@@ -45,3 +45,6 @@ Across all four cases, the averaged direct-minus-modifier inlet effect on mean p
 ## Recommendation
 
 Do not spend another long run on a dense mild/intermediate grid until the alternate-trajectory behavior is understood. The 0.001 higher-target refinement can be considered later only if a tighter nearest-to-stock setting is necessary; the current high-target evidence already supports three reproducible pressure matches and the downstream factorial shows the intended route-dependent waveform difference.
+
+
+Follow-up noise-floor attribution and restart investigation: see [PRESSURE_MATCHED_FOLLOWUP.md](PRESSURE_MATCHED_FOLLOWUP.md).

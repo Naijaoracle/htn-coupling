@@ -1,0 +1,7 @@
+target,route,status,numeric_variables_compared,maximum_absolute_numeric_difference,exact_numeric_trace_match,event_onsets_identical,exact_repeat_match
+mild,direct,compared,31,0.0,True,True,True
+mild,modifier,compared,31,0.0,True,True,True
+intermediate,direct,compared,31,0.0,True,True,True
+intermediate,modifier,compared,31,0.0,True,True,True
+higher,direct,compared,31,0.0,True,True,True
+higher,modifier,compared,31,0.0,True,True,True

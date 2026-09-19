@@ -1,0 +1,83 @@
+{
+  "experiment": "pressure_matched_drug_response_confirmation_02",
+  "status": "complete",
+  "interpretation": "Single-body StandardMale Pulse model confirmation; numerical repeats are not biological/population replicates.",
+  "htn_coupling_revision": "728802dfedaee42ae58f8ec3fdf3fa1d7f56ae12",
+  "exploratory_record_commit": "303066e",
+  "confirmatory_precommit_commit": "728802dfedaee42ae58f8ec3fdf3fa1d7f56ae12",
+  "runner_correction_commit": "728802d",
+  "protocol_path": "docs/PRESSURE_MATCHED_DRUG_RESPONSE_CONFIRMATORY_PROTOCOL.md",
+  "protocol_commit": "728802dfedaee42ae58f8ec3fdf3fa1d7f56ae12",
+  "protocol_sha256": "00137049185dc6ee42af4c12533f41e3326286ad231f830af40748b426927d36",
+  "configuration_path": "config/pressure_matched_drug_response_confirmatory_v1.json",
+  "configuration_sha256": "439febad35b4640c1a2d740b10285fa5a6b6b9c0e4c85ad8f26542d3f2d7b436",
+  "runner_path": "scripts/run_pressure_matched_drug_response_confirmatory.py",
+  "runner_sha256": "a0859795bcd53ea0d4da1eb55f48598e20e5b82b3bb2bd462e6aa5258a37128c",
+  "helper_sha256": "e29bbfd29260b3c0adfa9400202e00f6121d069c9ff36788e869f3f74672db06",
+  "test_sha256": "f2fa18fc0f6e43995faa8ab310594093e9ad16bfc1cd1c2b0220a4b13f5cff73",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "stage0_sha256": "1b0c930372fc7c82982f4ecccda7dab34569b03c2a8bd678c78194e79b7a56eb",
+  "source_state_hashes": {
+    "modifier_standardmale_checkpoint_sha256": "2f1c4416afec84b1b903988aa98833b7e672169a072c6f826a45aa90a7ef2115",
+    "direct_patient_payload_sha256": {
+      "mild": "cce4d70a81f562df7eae0a2e14d69046e99ba3d358474cb3f2e3bf2ff5fc505d",
+      "intermediate": "8119bfb3e07a376d35d81753ea4dd6deb07a6e57deb1640f64c4779338448c0d",
+      "higher": "ab880365e42a6c4aab1836b3cb4d608524a2d1b040f24566f336520567ba556e"
+    }
+  },
+  "challenge": {
+    "dose_ug_kg_min": 0.2,
+    "concentration_ug_mL": 1.0,
+    "rate_mL_s": 0.25703567633333335,
+    "duration_s": 300,
+    "post_observation_s": 300,
+    "nominal_volume_equivalent_mL": 77.1107029,
+    "modeled_carrier_fluid_load": false
+  },
+  "design": {
+    "baseline_screen_pairs": 6,
+    "challenged_runs": 12,
+    "challenged_pair_gates_passed": 6,
+    "full_trace_samples_per_challenged_run": 660,
+    "all_full_runs_completed": true,
+    "irreversible_state_runs": 0
+  },
+  "repeatability": {
+    "route_target_comparisons": 6,
+    "all_numeric_traces_exact": true,
+    "all_event_onsets_exact": true,
+    "maximum_absolute_trace_difference": 0.0
+  },
+  "hypernatremia": {
+    "threshold_mEq_L": 145.0,
+    "direct_runs_with_event": 0,
+    "modifier_runs_event_preexisting": 2,
+    "modifier_runs_event_during_infusion": 4,
+    "counts_are_run_counts_including_numerical_repeats": true
+  },
+  "aborted_attempt": "Attempt 01 was aborted for a runner IPC failure. All its traces and logs remain under the ignored private results path; no attempt 01 values are used here. Two challenge gates passed before interruption and infusion exposure is unverified for those incomplete pairs.",
+  "private_raw_run_manifest": "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/run_manifest.json",
+  "private_trace_sha256": {
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/mild/replicate_01/direct/challenge/challenge_trace.csv.gz": "7228918f2ab24c44974af6abce19c1b391d828879d19a3b9339cb5effd85b789",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/mild/replicate_01/modifier/challenge/challenge_trace.csv.gz": "89d3a1c09de3f9977989aadda957be97cd50467e80bf88e5c5e57457795de3cd",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/mild/replicate_02/direct/challenge/challenge_trace.csv.gz": "7511dc3abb69cc25200219e8a5626776cc90a96c82fd55667fb443c068d40d4f",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/mild/replicate_02/modifier/challenge/challenge_trace.csv.gz": "236dae4688992c5f72b48518f3d086b3b152f59fcec77f4a7defdf6d7fce810b",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/intermediate/replicate_01/direct/challenge/challenge_trace.csv.gz": "5d807510e6ffb5a7b5b9beef02c2e9256936a18af704ec71e774bc8da53824e5",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/intermediate/replicate_01/modifier/challenge/challenge_trace.csv.gz": "8c2c4f89b6c212ba2e0451f8686ecb3f8afd63b5bb388fc69ef4437e7f4c13fb",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/intermediate/replicate_02/direct/challenge/challenge_trace.csv.gz": "c6c1ebaca8d86a99b5f8b1f97355a6aeeb06e4e5d22e626f6c911527b251d63e",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/intermediate/replicate_02/modifier/challenge/challenge_trace.csv.gz": "4c28dc47bcdc39eb29115e201613fab5b9608638b26a1c8fc39490da6865f0b7",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/higher/replicate_01/direct/challenge/challenge_trace.csv.gz": "d61148f29da312379fbc5486da80882768ad2b8c258ecaf2e40e99db969e7ce4",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/higher/replicate_01/modifier/challenge/challenge_trace.csv.gz": "c510a7d1c0240e0ccdc3ec59a9d8ac6e5da762a221ec3340897c3a62536393d5",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/higher/replicate_02/direct/challenge/challenge_trace.csv.gz": "ccaa62b07188feb7a50b0ae30a5ae3743ad2addd90ff32560efe067786e67296",
+    "results/pressure_matched_drug_response_confirmatory/private/confirmation_02/higher/replicate_02/modifier/challenge/challenge_trace.csv.gz": "81e4ac5d49ead4869c3a280fa36fc384b4e6dde78dc44a018a55ad595491f1d3"
+  },
+  "public_artifact_sha256": {
+    "docs/PRESSURE_MATCHED_DRUG_RESPONSE_CONFIRMATORY_RESULTS.md": "78e6e49f93ebe871550af4dcd931a2d3898be1f678ddeffaf284b786045cd860",
+    "results/pressure_matched_drug_response_confirmatory/aggregate_confirmation_02.csv": "87197ca0986c104156e7c29d33b1a09c295a75b72e84f729ae052d819ff3deeb",
+    "results/pressure_matched_drug_response_confirmatory/paired_contrasts_confirmation_02.csv": "69a448bcf6956ecf95b8aa9989963303a3450f0e99d51dd04746ca21bf820b6f",
+    "results/pressure_matched_drug_response_confirmatory/repeatability_confirmation_02.csv": "c6489f1bf6c4ec18af62491a9f18593c368ec661f3b96ec4ce45f2d04104f91f"
+  },
+  "initial_confirmatory_precommit_commit": "a5a0c91729f6459f6e42868faa2d54c79e0a569e",
+  "protocol_and_runner_fix_commit": "728802dfedaee42ae58f8ec3fdf3fa1d7f56ae12",
+  "private_run_manifest_sha256": "d2a0cf3cf6adeeb14c6de2f7c2f7dc5060f5383e855d3e17b7903823649cc0be"
+}

@@ -26,6 +26,8 @@ All outputs from the corrected engine go under `results/pressure_matched_routes_
 
 The direct state for each target must pass the Amendment 2 stationarity gate before any modifier evaluations are admitted. Refinement seeds are restricted to successful, stationarity-passing evaluations; nonstationary low-objective points cannot seed a local refinement. The search runner includes a targeted historical panel that runs each of the three coordinates below in three separate worker processes after direct-target stationarity passes:
 
+Coarse-grid batches are checkpointed to `search_evaluations.csv` as they complete. A resumed run skips parameter coordinates already recorded as completed, avoiding lost work after interruption.
+
 | Target | Resistance multiplier | Arterial compliance multiplier |
 |---|---:|---:|
 | Mild | 1.300 | 0.720 |

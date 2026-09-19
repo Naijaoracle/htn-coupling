@@ -35,3 +35,29 @@ def test_missing_stationarity_column_fails_closed():
         {"target": "mild", "status": "ok", "R": 1.0, "C": 0.8, "J": 1.0},
     ])
     assert search._local_minima(evaluations, "mild", 0.1) == []
+
+
+def test_coarse_search_checkpoints_and_skips_completed_points(tmp_path, monkeypatch):
+    monkeypatch.setattr(search, "OUT", tmp_path)
+    pd.DataFrame([{"target": "mild", "status": "ok", "stationarity_pass": True}]).to_csv(
+        tmp_path / "direct_states.csv", index=False)
+    jobs = [
+        {"case_id": f"coarse_{index}", "target": "mild", "R": 1.0 + index * 0.1,
+         "C": 0.8, "achieved_systolic_mmHg": 130.0,
+         "achieved_diastolic_mmHg": 80.0}
+        for index in range(3)
+    ]
+    monkeypatch.setattr(search, "coarse_jobs", lambda direct: jobs)
+    submitted = []
+
+    def fake_run_jobs(batch, workers):
+        submitted.extend(batch)
+        return [{**job, "status": "ok", "systolic_mmHg": 130.0,
+                 "diastolic_mmHg": 80.0} for job in batch]
+
+    monkeypatch.setattr(search, "run_jobs", fake_run_jobs)
+    first = search.coarse_search(workers=1)
+    second = search.coarse_search(workers=1)
+    assert len(first) == 3
+    assert len(second) == 3
+    assert len(submitted) == 3

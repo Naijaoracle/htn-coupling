@@ -549,8 +549,11 @@ def main() -> None:
     parser.add_argument("--final-search", action="store_true", help="permit direct and coarse model evaluations")
     args = parser.parse_args()
     directories()
-    if any(step in {"targeted-panel", "direct", "coarse", "refine", "finalize"} for step in args.steps) and not args.final_search:
+    evaluation_steps = {"targeted-panel", "direct", "coarse", "refine", "finalize"}
+    if any(step in evaluation_steps for step in args.steps) and not args.final_search:
         raise SystemExit("Final evaluations require --final-search after predeclaration review")
+    if any(step in evaluation_steps for step in args.steps):
+        require_stage0()
     if "stage0-gate" in args.steps:
         print(json.dumps(stage0_gate(), indent=2))
     if "manifest" in args.steps:

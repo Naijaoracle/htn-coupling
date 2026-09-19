@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from itertools import product
 from pathlib import Path
-from typing import Iterable, Mapping, Sequence
+import re
+from typing import Iterable, Mapping
 
 BASELINE_START_S = 30
 BASELINE_STOP_S = 60  # half-open: include 30, exclude 60
@@ -55,3 +56,10 @@ def challenge_gate_passes(challenged: Mapping, peer_screen: Mapping, pressure_to
         abs(float(challenged[metric]) - float(peer_screen[metric])) <= pressure_tolerance
         for metric in ("systolic_mmHg", "diastolic_mmHg")
     )
+
+
+def attempt_output_directory(base: Path, label: str) -> Path:
+    """Return a unique run-attempt directory and reject path traversal labels."""
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,47}", label) or label in {".", ".."}:
+        raise ValueError(f"invalid attempt label: {label!r}")
+    return Path(base) / label

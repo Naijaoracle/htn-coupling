@@ -107,3 +107,8 @@ results/pressure_matched_drug_response_confirmatory/**
 !results/pressure_matched_drug_response_confirmatory/paired_contrasts_confirmation_02.csv
 !results/pressure_matched_drug_response_confirmatory/repeatability_confirmation_02.csv
 !results/pressure_matched_drug_response_confirmatory/manifest_confirmation_02.json
+
+!results/pressure_matched_drug_response_multibody/
+results/pressure_matched_drug_response_multibody/**
+!results/pressure_matched_drug_response_multibody/*.csv
+!results/pressure_matched_drug_response_multibody/*.json

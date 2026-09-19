@@ -25,7 +25,7 @@ from tqdm import tqdm
 
 ROOT = Path(__file__).resolve().parents[1]
 PULSE = Path(os.environ.get("PULSE_ROOT", "../pulse-physiology-engine"))
-BIN = PULSE / "build/install/bin"
+BIN = Path(os.environ.get("PULSE_BIN", PULSE / "build/install/bin")).resolve()
 OUT = ROOT / "results/stage6"
 PRIVATE = OUT / "private"
 CASES = PRIVATE / "cases"
@@ -92,6 +92,14 @@ def pulse_symbols():
     from pulse.cdm.scalars import (FrequencyUnit, PressureTimePerVolumeUnit,
                                    PressureUnit, VolumePerTimeUnit)
     from pulse.engine.PulseEngine import PulseEngine
+    if "PULSE_ROOT" in os.environ:
+        import PyPulse
+        expected = subprocess.check_output(
+            ["git", "-C", str(PULSE.resolve()), "rev-parse", "--short=9", "HEAD"],
+            text=True).strip()
+        if PyPulse.__hash__ != expected:
+            raise RuntimeError(
+                f"Pulse Python binding hash {PyPulse.__hash__} does not match source {expected}")
     return locals()
 
 

@@ -92,3 +92,11 @@ results/pressure_matched_routes_v2/coupled_openbf/configs/**
 results/pressure_matched_routes_v2/coupled_openbf/configs/*/**
 !results/pressure_matched_routes_v2/coupled_openbf/configs/*/*.yaml
 !results/pressure_matched_routes_v2/coupled_openbf/configs/*/*.dat
+
+!results/pressure_matched_drug_response/
+results/pressure_matched_drug_response/**
+!results/pressure_matched_drug_response/aggregate_v1.csv
+!results/pressure_matched_drug_response/dose_selection_v1.csv
+!results/pressure_matched_drug_response/hypernatremia_diagnostic_v1.csv
+!results/pressure_matched_drug_response/hypernatremia_diagnostic_v2.csv
+!results/pressure_matched_drug_response/manifest_v1.json

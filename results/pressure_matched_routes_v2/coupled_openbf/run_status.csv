@@ -1,0 +1,5 @@
+case,status,returncode,wall_s
+direct_inlet_direct_resistance,ok,0,64.65625220199581
+direct_inlet_modifier_resistance,ok,0,90.41096110499348
+modifier_inlet_direct_resistance,ok,0,44.891020466020564
+modifier_inlet_modifier_resistance,ok,0,73.73117957598879

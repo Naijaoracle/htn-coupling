@@ -78,3 +78,17 @@ results/pressure_matched_routes_v2/**
 !results/pressure_matched_routes_v2/*.csv
 !results/pressure_matched_routes_v2/*.json
 !results/pressure_matched_routes_v2/*.png
+!results/pressure_matched_routes_v2/coupled_openbf/
+results/pressure_matched_routes_v2/coupled_openbf/**
+!results/pressure_matched_routes_v2/coupled_openbf/*.csv
+!results/pressure_matched_routes_v2/coupled_openbf/*.json
+!results/pressure_matched_routes_v2/coupled_openbf/inlets/
+results/pressure_matched_routes_v2/coupled_openbf/inlets/**
+!results/pressure_matched_routes_v2/coupled_openbf/inlets/*.dat
+!results/pressure_matched_routes_v2/coupled_openbf/inlets/*.csv
+!results/pressure_matched_routes_v2/coupled_openbf/configs/
+results/pressure_matched_routes_v2/coupled_openbf/configs/**
+!results/pressure_matched_routes_v2/coupled_openbf/configs/*/
+results/pressure_matched_routes_v2/coupled_openbf/configs/*/**
+!results/pressure_matched_routes_v2/coupled_openbf/configs/*/*.yaml
+!results/pressure_matched_routes_v2/coupled_openbf/configs/*/*.dat

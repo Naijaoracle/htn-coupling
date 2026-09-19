@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-09-19T15:11:50.617603+00:00",
+  "protocol_sha256": "7372c7dd1dd07ea4fec37c75b99a4a755827b315d5b7fb1e5a98985e07730c41",
+  "stage0_sha256": "c22dd3e5153ab19d18a9efef8c6e52a4a3a8575e43b317020181983c5e3fb932",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "pulse_upstream_revision": "e8a36497b8ba78e788dc201a6baf74e1c297c56f",
+  "pulse_runtime_git_hash": "99e2d50cb",
+  "pulse_runtime_build_time": "Sat Sep 19 12:42:19 2026",
+  "pulse_build_configuration": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "CMAKE_CXX_COMPILER": "/usr/bin/c++",
+    "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG",
+    "CMAKE_INSTALL_PREFIX": "{PULSE_BUILD_DIR}/install",
+    "Pulse_GEN_DATA": "OFF",
+    "Pulse_JAVA_API": "OFF",
+    "Pulse_PYTHON_API": "ON",
+    "Pulse_SUPERBUILD": "OFF",
+    "protobuf_DIR": "locally cached dependency package",
+    "Eigen3_DIR": "locally cached dependency package",
+    "pybind11_DIR": "locally cached dependency package"
+  },
+  "openbf_revision": "928c046906687c1347bf5496b47325acd0b2c032",
+  "htn_coupling_revision": "766937ab2e0b414adf679aaa062fd89b5c9cc3f2",
+  "htn_coupling_worktree_status": [],
+  "julia_version": "julia version 1.11.2",
+  "python_version": "3.12.9 | packaged by Anaconda, Inc. | (main, Feb  6 2025, 18:56:27) [GCC 11.2.0]",
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "pulse_path": "{PULSE_ROOT}",
+  "pulse_runtime_data_root": "{PULSE_BIN}",
+  "pulse_build_path": "{PULSE_BUILD_DIR}",
+  "openbf_path": "{OPENBF_ROOT}",
+  "htn_coupling_path": "{HTN_COUPLING_ROOT}"
+}

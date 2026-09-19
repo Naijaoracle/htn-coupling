@@ -12,8 +12,15 @@
   "valid_completed_stages": [
     "targeted historical panel",
     "231-point coarse grid",
-    "0.02 refinement: 336 evaluations"
+    "0.02 refinement: 336 evaluations",
+    "corrected 0.005 refinement: 183 evaluations"
   ],
   "corrective_rule": "Seed each refinement only from successful stationary results on the immediately preceding completed grid; persist every refinement batch.",
-  "protocol_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_4.md"
+  "protocol_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_4.md",
+  "corrected_fine_rerun": {
+    "evaluations": 183,
+    "stationarity_passed": 183,
+    "pressure_and_stationarity_passing_candidates": 17,
+    "independently_confirmed_candidates": 17
+  }
 }

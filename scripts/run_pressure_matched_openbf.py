@@ -20,15 +20,32 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from bridge_units import mmhg_s_per_ml_to_pa_s_per_m3
 from extract_stage4_pulse_inlet import average_cycles
 from prepare_stage4_openbf import equivalent_terminal_resistance
-from stage5_pipeline import SITES, waveform_metrics
+import stage5_pipeline as stage5
+
+SITES = stage5.SITES
 
 OPENBF = Path(os.environ.get("OPENBF_ROOT", ROOT.parent / "openBF"))
 BASE = OPENBF / "models/boileau2015/adan56/adan56.yaml"
 RUNNER = ROOT / "scripts/run_stage4_openbf.jl"
-SOURCE = ROOT / "results/pressure_matched_routes/private/cases"
-OUT = ROOT / "results/pressure_matched_routes/coupled_openbf"
+V2 = ROOT / "results/pressure_matched_routes_v2"
+SOURCE = V2 / "private/cases"
+OUT = V2 / "coupled_openbf"
 DIRECT = SOURCE / "direct_higher/stable_trace.csv.gz"
-MODIFIER = SOURCE / "confirm_higher_3_R1.995_C0.465/stable_trace.csv.gz"
+
+
+def selected_higher_modifier_trace() -> tuple[Path, dict]:
+    primary = pd.read_csv(V2 / "primary_solutions.csv")
+    higher = primary[primary.target.eq("higher")]
+    if len(higher) != 1:
+        raise RuntimeError("expected exactly one confirmed higher-target primary solution")
+    row = higher.iloc[0]
+    if not bool(row.rerun_pass) or not bool(row.stationarity_pass):
+        raise RuntimeError("higher-target primary failed stationarity or independent confirmation")
+    case_id = str(row.case_id)
+    trace = SOURCE / f"rerun_{case_id}/stable_trace.csv.gz"
+    if not trace.is_file():
+        raise RuntimeError(f"missing independent confirmation trace for {case_id}")
+    return trace, row.to_dict()
 
 
 def sha256(path: Path) -> str:
@@ -59,7 +76,8 @@ def extract_inlet(name: str, source: Path) -> dict:
     max_rmse = float(np.max(rmses) / np.max(flow_ml_s))
     if rel_error > 0.01:
         raise RuntimeError(f"{name} flow integral differs from Pulse CO by {rel_error:.3%}")
-    return {"name": name, "source_trace": str(source),
+    return {"name": name,
+            "source_trace": "{HTN_COUPLING_ROOT}/" + str(source.relative_to(ROOT)),
             "source_trace_sha256": sha256(source), "inlet": str(path),
             "inlet_sha256": sha256(path), "cycles_averaged": len(periods),
             "cycle_period_s": float(t[-1]), "pulse_reported_co_L_min": reported_co,
@@ -106,10 +124,88 @@ def run_case(item: dict) -> dict:
             "wall_s": elapsed}
 
 
+def attribution_tables(metric_frame: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Compare the matched diagonal and factorial shapes to the saved inlet-perturbation benchmark."""
+    noise = pd.read_csv(ROOT / "results/pressure_matched_routes/coupled_openbf/primary_noise_attribution.csv")
+    floors = {(row.site, row.metric): float(row.stage4_6_perturbation_floor)
+              for row in noise.itertuples(index=False)}
+    direct_case = "direct_inlet_direct_resistance"
+    modifier_case = "modifier_inlet_modifier_resistance"
+    metrics = ("systolic_mmHg", "diastolic_mmHg", "mean_mmHg",
+               "pulse_pressure_mmHg", "time_to_peak_phase")
+    primary_rows = []
+    for site in SITES:
+        rows = metric_frame[metric_frame.vessel.eq(site)].set_index("case")
+        direct, modifier = rows.loc[direct_case], rows.loc[modifier_case]
+        for metric in metrics:
+            difference = float(direct[metric] - modifier[metric])
+            floor = floors[(site, metric)]
+            primary_rows.append({
+                "site": site, "metric": metric,
+                "direct_route_value": float(direct[metric]),
+                "modifier_route_value": float(modifier[metric]),
+                "direct_minus_modifier": difference,
+                "absolute_effect": abs(difference),
+                "stage4_6_perturbation_floor": floor,
+                "effect_to_floor_ratio": abs(difference) / floor,
+                "attribution_threshold_ratio": 1.25,
+                "clears_1p25x_floor": abs(difference) >= 1.25 * floor,
+                "phase_shift_direct_vs_modifier": np.nan,
+                "comparison": "direct inlet + direct WK3 resistance vs confirmed modifier inlet + modifier WK3 resistance",
+            })
+        direct_dir = OUT / "runs" / direct_case
+        modifier_dir = OUT / "runs" / modifier_case
+        _, direct_pressure = stage5.phase_pressure(direct_dir, site)
+        _, modifier_pressure = stage5.phase_pressure(modifier_dir, site)
+        shape, shift = stage5.aligned_shape_rmse(direct_pressure, modifier_pressure)
+        floor = floors[(site, "phase_aligned_normalised_shape_rmse")]
+        primary_rows.append({
+            "site": site, "metric": "phase_aligned_normalised_shape_rmse",
+            "direct_route_value": np.nan, "modifier_route_value": np.nan,
+            "direct_minus_modifier": np.nan, "absolute_effect": shape,
+            "stage4_6_perturbation_floor": floor,
+            "effect_to_floor_ratio": shape / floor,
+            "attribution_threshold_ratio": 1.25,
+            "clears_1p25x_floor": shape >= 1.25 * floor,
+            "phase_shift_direct_vs_modifier": shift,
+            "comparison": "direct inlet + direct WK3 resistance vs confirmed modifier inlet + modifier WK3 resistance",
+        })
+
+    factorial_rows = []
+    comparisons = [
+        ("inlet", "direct", "direct_inlet_direct_resistance", "modifier_inlet_direct_resistance"),
+        ("inlet", "modifier", "direct_inlet_modifier_resistance", "modifier_inlet_modifier_resistance"),
+        ("resistance", "direct", "direct_inlet_direct_resistance", "direct_inlet_modifier_resistance"),
+        ("resistance", "modifier", "modifier_inlet_direct_resistance", "modifier_inlet_modifier_resistance"),
+    ]
+    for site in SITES:
+        floor = floors[(site, "phase_aligned_normalised_shape_rmse")]
+        for factor, held, case_a, case_b in comparisons:
+            _, pressure_a = stage5.phase_pressure(OUT / "runs" / case_a, site)
+            _, pressure_b = stage5.phase_pressure(OUT / "runs" / case_b, site)
+            shape, shift = stage5.aligned_shape_rmse(pressure_a, pressure_b)
+            factorial_rows.append({
+                "site": site, "changed_factor": factor, "held_factor_level": held,
+                "case_a": case_a, "case_b": case_b,
+                "phase_aligned_normalised_shape_rmse": shape,
+                "optimal_phase_shift": shift,
+                "stage4_6_perturbation_floor": floor,
+                "effect_to_floor_ratio": shape / floor,
+                "clears_1p25x_floor": shape >= 1.25 * floor,
+            })
+    primary = pd.DataFrame(primary_rows)
+    factorial = pd.DataFrame(factorial_rows)
+    primary.to_csv(OUT / "primary_noise_attribution.csv", index=False)
+    factorial.to_csv(OUT / "factorial_shape_attribution.csv", index=False)
+    return primary, factorial
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     direct = extract_inlet("direct_higher", DIRECT)
-    modifier = extract_inlet("modifier_higher_R1.995_C0.465", MODIFIER)
+    modifier_trace, primary_solution = selected_higher_modifier_trace()
+    modifier_name = f"modifier_higher_R{float(primary_solution['R']):.3f}_C{float(primary_solution['C']):.3f}"
+    modifier = extract_inlet(modifier_name, modifier_trace)
     base = yaml.safe_load(BASE.read_text())
     published_r, outlets = equivalent_terminal_resistance(base)
     scales = {
@@ -125,24 +221,40 @@ def main() -> None:
         for resistance_label, scale in scales.items():
             cases.append(write_config(f"{inlet_label}_inlet_{resistance_label}_resistance",
                                       inlet, scale))
-    source_manifest = json.loads((ROOT / "results/pressure_matched_routes/run_manifest.json").read_text())
+    source_manifest = json.loads((V2 / "run_manifest.json").read_text())
+    inlet_records = []
+    for record in (direct, modifier):
+        sanitized = dict(record)
+        sanitized["inlet"] = "{HTN_COUPLING_ROOT}/" + str(Path(record["inlet"]).relative_to(ROOT))
+        inlet_records.append(sanitized)
     manifest = {
         "created_utc": datetime.now(timezone.utc).isoformat(),
-        "protocol": str(ROOT / "config/pressure_matched_route_v1.json"),
+        "protocol": "{HTN_COUPLING_ROOT}/config/pressure_matched_route_v1.json",
+        "protocol_amendment": "{HTN_COUPLING_ROOT}/docs/STAGE_MATCHED_ROUTE_AMENDMENT_4.md",
+        "primary_solution": {key: primary_solution[key] for key in
+                              ("target", "R", "C", "systolic_mmHg", "diastolic_mmHg",
+                               "rerun_systolic_residual_mmHg", "rerun_diastolic_residual_mmHg")},
         "pulse_revision": source_manifest["pulse_revision"],
         "pulse_runtime_path": source_manifest.get("pulse_path"),
         "openbf_revision": subprocess.check_output(
             ["git", "-C", str(OPENBF), "rev-parse", "HEAD"], text=True).strip(),
         "coupling_revision": subprocess.check_output(
             ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip(),
-        "openbf_base_yaml": str(BASE), "wk3_outlets": outlets,
+        "openbf_base_yaml": "{OPENBF_ROOT}/models/boileau2015/adan56/adan56.yaml",
+        "wk3_outlets": outlets,
         "published_parallel_terminal_resistance_pa_s_m3": published_r,
         "svr_mmHg_s_mL": {"direct": direct["median_pulse_svr_mmHg_s_mL"],
                            "modifier": modifier["median_pulse_svr_mmHg_s_mL"]},
         "global_wk3_resistance_scales": scales,
-        "inlets": [direct, modifier], "cases": cases,
+        "inlets": inlet_records, "cases": cases,
         "design": "2x2 cross: direct/modifier flow inlet by direct/modifier global WK3 R scale; E and Cc held at published values; 15 cycles",
     }
+    manifest["cases"] = []
+    for item in cases:
+        sanitized = dict(item)
+        sanitized["yaml"] = "{HTN_COUPLING_ROOT}/" + str(Path(item["yaml"]).relative_to(ROOT))
+        sanitized["inlet"] = "{HTN_COUPLING_ROOT}/" + str(Path(item["inlet"]).relative_to(ROOT))
+        manifest["cases"].append(sanitized)
     (OUT / "run_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     run_rows = [run_case(item) for item in cases]
     pd.DataFrame(run_rows).to_csv(OUT / "run_status.csv", index=False)
@@ -179,7 +291,14 @@ def main() -> None:
                                   (pivot.loc["direct", "direct"] - pivot.loc["modifier", "direct"])
                                   - (pivot.loc["direct", "modifier"] - pivot.loc["modifier", "modifier"]))})
     pd.DataFrame(contrasts).to_csv(OUT / "factorial_contrasts.csv", index=False)
+    primary_attribution, shape_attribution = attribution_tables(metric_frame)
     print(metric_frame.to_string(index=False))
+    print("\nPrimary comparison vs Stage 4.6 inlet-perturbation benchmark:")
+    print(primary_attribution[["site", "metric", "absolute_effect",
+                               "stage4_6_perturbation_floor", "effect_to_floor_ratio",
+                               "clears_1p25x_floor"]].to_string(index=False))
+    print("\nFactorial shape contrasts:")
+    print(shape_attribution.to_string(index=False))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,148 @@
+{
+  "schema": "htn-coupling.pressure-matched-drug-response-multibody",
+  "version": 1,
+  "protocol": "docs/PRESSURE_MATCHED_DRUG_RESPONSE_MULTIBODY_PROTOCOL.md",
+  "status": "precommit; no multi-body initialization performed",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "pulse_binding_hash": "99e2d50cb",
+  "stage0_csv_sha256": "c22dd3e5153ab19d18a9efef8c6e52a4a3a8575e43b317020181983c5e3fb932",
+  "stage0_gate_sha256": "1b0c930372fc7c82982f4ecccda7dab34569b03c2a8bd678c78194e79b7a56eb",
+  "body_panel_source": "config/stage5_acute_panel_v1.json",
+  "body_panel_source_sha256": "d317a0d02fa37ec43bff2ee9275df4a5ed96fa5b7e94605a02ec9caca428ddf4",
+  "body_panel": [
+    {
+      "body_id": "male_low_bmi",
+      "sex": "Male",
+      "age_years": 41,
+      "height_cm": 186.6,
+      "weight_kg": 56.6
+    },
+    {
+      "body_id": "male_high_bmi",
+      "sex": "Male",
+      "age_years": 64,
+      "height_cm": 163.5,
+      "weight_kg": 80.1
+    },
+    {
+      "body_id": "female_low_bmi",
+      "sex": "Female",
+      "age_years": 52,
+      "height_cm": 155.5,
+      "weight_kg": 39.6
+    },
+    {
+      "body_id": "female_high_bmi",
+      "sex": "Female",
+      "age_years": 51,
+      "height_cm": 157.5,
+      "weight_kg": 74.4
+    }
+  ],
+  "target": {
+    "label": "intermediate",
+    "systolic_mmHg": 140.0,
+    "diastolic_mmHg": 90.0
+  },
+  "pressure_match": {
+    "maximum_absolute_sbp_residual_mmHg": 0.25,
+    "maximum_absolute_dbp_residual_mmHg": 0.25,
+    "stationarity_window_s": 12.0,
+    "stationarity_bins": 4,
+    "maximum_stationarity_bin_median_range_mmHg": 0.25,
+    "modifier_domain": {
+      "resistance_multiplier": [
+        1.0,
+        2.0
+      ],
+      "arterial_compliance_multiplier": [
+        0.4,
+        1.0
+      ]
+    },
+    "search": {
+      "method": "bounded finite-difference Newton search on the two measured pressure residuals",
+      "initial_point": {
+        "resistance_multiplier": 1.715,
+        "arterial_compliance_multiplier": 0.595
+      },
+      "initial_central_difference_step": {
+        "resistance_multiplier": 0.1,
+        "arterial_compliance_multiplier": 0.1
+      },
+      "maximum_coordinate_step": 0.25,
+      "maximum_unique_evaluations_per_body": 20,
+      "maximum_backtracks_per_iteration": 3,
+      "acceptance": "measured stationary SBP and DBP each within 0.25 mmHg of that body's direct state",
+      "failure_policy": "record no match and do not replace the body or widen the domain/tolerance",
+      "maximum_iterations": 4
+    },
+    "independent_modifier_confirmation_runs": 2
+  },
+  "challenge": {
+    "substance": "Norepinephrine",
+    "dose_ug_kg_min": 0.2,
+    "concentration_ug_mL": 1.0,
+    "infusion_duration_s": 300,
+    "pre_infusion_observation_s": 60,
+    "baseline_window_s": "30 <= elapsed_s < 60",
+    "post_infusion_observation_s": 300,
+    "sample_interval_s": 1,
+    "fresh_process_repetitions_per_route_body": 2,
+    "carrier_fluid_behavior": "The pinned Pulse revision adds drug mass but does not add infusion carrier fluid to the cardiovascular fluid system.",
+    "body_specific_rates": [
+      {
+        "body_id": "male_low_bmi",
+        "weight_kg": 56.6,
+        "rate_mL_s": 0.18866666666666668,
+        "administered_mass_ug": 56.6,
+        "nominal_volume_mL": 56.6
+      },
+      {
+        "body_id": "male_high_bmi",
+        "weight_kg": 80.1,
+        "rate_mL_s": 0.267,
+        "administered_mass_ug": 80.1,
+        "nominal_volume_mL": 80.1
+      },
+      {
+        "body_id": "female_low_bmi",
+        "weight_kg": 39.6,
+        "rate_mL_s": 0.132,
+        "administered_mass_ug": 39.6,
+        "nominal_volume_mL": 39.6
+      },
+      {
+        "body_id": "female_high_bmi",
+        "weight_kg": 74.4,
+        "rate_mL_s": 0.248,
+        "administered_mass_ug": 74.4,
+        "nominal_volume_mL": 74.4
+      }
+    ]
+  },
+  "outcomes": {
+    "primary": [
+      "peak 10-second rolling-median change in SVR",
+      "maximum absolute 10-second rolling-median change in heart rate"
+    ],
+    "secondary": [
+      "MAP",
+      "SBP",
+      "DBP",
+      "cardiac output",
+      "renal plasma flow",
+      "urine production",
+      "aortic sodium",
+      "cerebral flow",
+      "renal flow",
+      "event timing"
+    ],
+    "comparison": "direct minus modifier separately within each body and numerical repeat",
+    "replication_interpretation": "bodies are the cross-body units; fresh-process repeats assess deterministic numerical reproducibility and are not additional bodies",
+    "no_match_or_invalid_baseline": "retain and report; do not replace the body or infer a route response for it"
+  },
+  "results_namespace": "results/pressure_matched_drug_response_multibody/",
+  "pulse_python_binding_sha256": "1f36fbd303b711ccfb1fbb96337b283221705fc6a5cf7214fc8ad14f838523d3",
+  "pulse_c_library_sha256": "60d82177db58b2c502f738c37719489813b84127ed3baed884e564977165a7a6"
+}

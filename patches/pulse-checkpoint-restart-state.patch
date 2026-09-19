@@ -1,0 +1,37 @@
+diff --git a/src/cpp/engine/common/system/physiology/NervousModel.h b/src/cpp/engine/common/system/physiology/NervousModel.h
+index 179ccbc9b..84d4c4853 100644
+--- a/src/cpp/engine/common/system/physiology/NervousModel.h
++++ b/src/cpp/engine/common/system/physiology/NervousModel.h
+@@ -65 +65 @@ namespace pulse
+-    bool   m_Stage7ResettingEnabled;
++    bool   m_Stage7ResettingEnabled = false;
+@@ -68,3 +68,3 @@ namespace pulse
+-    double m_BaroreceptorResetMidpoint_mmHg;
+-    double m_BaroreceptorFastResetOffset_mmHg;
+-    double m_BaroreceptorSlowResetOffset_mmHg;
++    double m_BaroreceptorResetMidpoint_mmHg = 0.0;
++    double m_BaroreceptorFastResetOffset_mmHg = 0.0;
++    double m_BaroreceptorSlowResetOffset_mmHg = 0.0;
+diff --git a/src/cpp/engine/io/protobuf/PBPhysiology.cpp b/src/cpp/engine/io/protobuf/PBPhysiology.cpp
+index 166bb329c..5d7fd5ef4 100644
+--- a/src/cpp/engine/io/protobuf/PBPhysiology.cpp
++++ b/src/cpp/engine/io/protobuf/PBPhysiology.cpp
+@@ -60,0 +61,2 @@ namespace pulse
++    if (src.has_mechanicsmodifiers())
++      ::PBPhysiology::Serialize(src.mechanicsmodifiers(), *dst.m_MechanicsModifiers);
+@@ -179,0 +182 @@ namespace pulse
++    dst.set_allocated_mechanicsmodifiers(::PBPhysiology::Unload(*src.m_MechanicsModifiers));
+@@ -332,0 +336,3 @@ namespace pulse
++    // Older checkpoints did not serialize the enable flag. Their nonzero reset midpoint
++    // identifies an active Stage 7 state; newer checkpoints carry the explicit flag.
++    dst.m_Stage7ResettingEnabled = src.stage7resettingenabled() || src.baroreceptorresetmidpoint_mmhg() != 0.0;
+@@ -355,0 +362 @@ namespace pulse
++    dst.set_stage7resettingenabled(src.m_Stage7ResettingEnabled);
+diff --git a/src/schema/pulse/engine/bind/Physiology.proto b/src/schema/pulse/engine/bind/Physiology.proto
+index fe50b7fc6..64ce31748 100644
+--- a/src/schema/pulse/engine/bind/Physiology.proto
++++ b/src/schema/pulse/engine/bind/Physiology.proto
+@@ -81,0 +82 @@ message CardiovascularData
++  pulse.cdm.bind.CardiovascularMechanicsModifiersData MechanicsModifiers                             = 54;
+@@ -132,0 +134 @@ message NervousData
++  bool                                      Stage7ResettingEnabled                            = 15;

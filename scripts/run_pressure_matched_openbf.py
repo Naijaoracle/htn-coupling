@@ -153,6 +153,10 @@ def main() -> None:
         run_dir = OUT / "runs" / item["case"]
         for site in SITES:
             m = waveform_metrics(run_dir, item["case"], site)
+            # The protocol withdrew the reflected-wave detector endpoint.
+            for key in ("reflected_wave_present", "reflected_wave_phase",
+                        "augmentation_pressure_mmHg", "augmentation_index_pct"):
+                m.pop(key, None)
             metrics.append({**m, "inlet_source": item["case"].split("_inlet_")[0],
                             "resistance_source": item["case"].split("_inlet_")[1].removesuffix("_resistance"),
                             "global_wk3_resistance_scale": item["global_wk3_resistance_scale"]})
@@ -161,7 +165,7 @@ def main() -> None:
     # Pairwise factorial contrasts: mean differences across the other factor.
     contrasts = []
     numeric = ["systolic_mmHg", "diastolic_mmHg", "mean_mmHg", "pulse_pressure_mmHg",
-               "time_to_peak_phase", "augmentation_pressure_mmHg", "augmentation_index_pct"]
+               "time_to_peak_phase"]
     for site in SITES:
         site_frame = metric_frame[metric_frame.vessel == site]
         for metric in numeric:

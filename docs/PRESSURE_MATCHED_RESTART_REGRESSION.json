@@ -1,0 +1,27 @@
+{
+  "status": "passed in isolated candidate engine build",
+  "pulse_source_revision": "a04eaa690c9f8535eaf3ca8cdd8bfe8ee091fa1f",
+  "comparison": "candidate reload continuation against archived uninterrupted 12-second trace",
+  "checks": [
+    "first reload",
+    "second save and reload"
+  ],
+  "max_absolute_difference": 0.0,
+  "cases": {
+    "mild_R1.300_C0.720": {
+      "max_abs_diff_first_reload": 0.0,
+      "max_abs_diff_second_reload": 0.0,
+      "resistance_multiplier": 1.3,
+      "compliance_multiplier": 0.72,
+      "stage7_enabled": true
+    },
+    "intermediate_R1.720_C0.600": {
+      "max_abs_diff_first_reload": 0.0,
+      "max_abs_diff_second_reload": 0.0,
+      "resistance_multiplier": 1.72,
+      "compliance_multiplier": 0.6,
+      "stage7_enabled": false
+    }
+  },
+  "qualification": "Archived checkpoints predate the new schema. The regression supplies their known action multipliers and Stage 7 setting in typed protobuf state before load; it validates new save/reload persistence and does not claim to reconstruct missing action settings from old checkpoints."
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "htn-coupling.pressure-matched-refinement-audit",
+  "date": "2026-09-19",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "issue": "The 0.005 refinement selected minima from a mixed coarse/refined table. Isolated coarse points with no 0.02 neighbors were incorrectly admitted as minima.",
+  "disposition": "Exploratory fine-step runs were stopped and excluded from aggregate search results, acceptance, and confirmation.",
+  "archived_private_directory": "results/pressure_matched_routes_v2/private/exploratory_refinement_seed_filter_bug/",
+  "archived_case_directories": 244,
+  "archived_complete_trace_files": 228,
+  "interrupted_cases_without_complete_trace": 16,
+  "target_reached_before_stop": "higher",
+  "valid_completed_stages": [
+    "targeted historical panel",
+    "231-point coarse grid",
+    "0.02 refinement: 336 evaluations"
+  ],
+  "corrective_rule": "Seed each refinement only from successful stationary results on the immediately preceding completed grid; persist every refinement batch.",
+  "protocol_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_4.md"
+}

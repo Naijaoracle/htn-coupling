@@ -1,0 +1,12 @@
+{
+ "TestSuite": [
+  {
+   "Name": "SerializationTest",
+   "Performed": true,
+   "Tests": 1,
+   "TestCase": [
+    {}
+   ]
+  }
+ ]
+}

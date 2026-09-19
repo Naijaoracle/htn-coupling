@@ -335,6 +335,23 @@ def _local_minima(frame: pd.DataFrame, target: str, spacing: float) -> list[dict
     return minima
 
 
+def _refinement_seed_frame(frame: pd.DataFrame, previous: float,
+                           coarse_spacing: float) -> pd.DataFrame:
+    """Use only the completed grid from the immediately preceding resolution.
+
+    Coarse points outside a refined neighborhood have no adjacent points at
+    the finer spacing. Treating an empty neighbor set as a local minimum would
+    seed spurious refinements around isolated coarse points.
+    """
+    if abs(float(previous) - float(coarse_spacing)) <= 1e-12:
+        if "refinement_step" not in frame.columns:
+            return frame
+        return frame[frame.refinement_step.isna()]
+    if "refinement_step" not in frame.columns:
+        return frame.iloc[0:0]
+    return frame[pd.to_numeric(frame.refinement_step, errors="coerce") == float(previous)]
+
+
 def refine_search(workers: int) -> pd.DataFrame:
     """Refine successful local minima using the predeclared step sequence."""
     protocol = load_protocol()
@@ -342,15 +359,17 @@ def refine_search(workers: int) -> pd.DataFrame:
     result = pd.read_csv(OUT / "search_evaluations.csv")
     bounds_r = protocol["modifier_domain"]["resistance_multiplier"]
     bounds_c = protocol["modifier_domain"]["arterial_compliance_multiplier"]
-    previous = float(protocol["coarse_grid_steps"]["resistance"])
+    coarse_spacing = float(protocol["coarse_grid_steps"]["resistance"])
+    previous = coarse_spacing
     for step in protocol["refinement_steps"]:
         jobs = []
         completed = completed_case_keys(result)
+        seed_frame = _refinement_seed_frame(result, previous, coarse_spacing)
         for target in direct.index:
             reference = direct.loc[target]
             if reference.status != "ok":
                 continue
-            minima = _local_minima(result, target, previous)
+            minima = _local_minima(seed_frame, target, previous)
             seen = set()
             for minimum in minima:
                 r0, r1 = max(bounds_r[0], minimum["R"]-previous), min(bounds_r[1], minimum["R"]+previous)
@@ -370,20 +389,27 @@ def refine_search(workers: int) -> pd.DataFrame:
                                      "requested_diastolic_mmHg": reference.requested_diastolic_mmHg,
                                      "achieved_systolic_mmHg": reference.systolic_mmHg,
                                      "achieved_diastolic_mmHg": reference.diastolic_mmHg})
-        rows = run_jobs(jobs, workers)
-        for row in rows:
-            row["J"] = objective(row, row, protocol) if row["status"] == "ok" else np.nan
-            if row["status"] != "ok" and "failure_category" not in row:
-                row["failure_category"] = "evaluation_failure"
-        if rows:
-            result = pd.concat([result, pd.DataFrame(rows)], ignore_index=True)
-            result = result.drop_duplicates(subset=["target", "R", "C"], keep="last")
-        # Persist each completed stage so an interrupted finer search retains
-        # its results instead of keeping them only in memory.
-        result.to_csv(OUT / "search_evaluations.csv", index=False)
-        if "refinement_step" in result:
-            checkpoint = result[result.refinement_step.eq(step)]
+        batch_size = max(1, 4 * workers)
+        for start in range(0, len(jobs), batch_size):
+            rows = run_jobs(jobs[start:start + batch_size], workers)
+            for row in rows:
+                row["J"] = objective(row, row, protocol) if row["status"] == "ok" else np.nan
+                if row["status"] != "ok" and "failure_category" not in row:
+                    row["failure_category"] = "evaluation_failure"
+            if rows:
+                result = pd.concat([result, pd.DataFrame(rows)], ignore_index=True)
+                result = result.drop_duplicates(subset=["target", "R", "C"], keep="last")
+            # Save each batch; completed_case_keys lets a restarted stage skip
+            # these evaluations without using partial fine grids as seed maps.
+            result.to_csv(OUT / "search_evaluations.csv", index=False)
+            checkpoint = (result[result.refinement_step.eq(step)]
+                          if "refinement_step" in result else result.iloc[0:0])
             checkpoint.to_csv(OUT / f"search_checkpoint_refine_{step:g}.csv", index=False)
+        # Persist even an empty stage and retain its explicit checkpoint.
+        result.to_csv(OUT / "search_evaluations.csv", index=False)
+        checkpoint = (result[result.refinement_step.eq(step)]
+                      if "refinement_step" in result else result.iloc[0:0])
+        checkpoint.to_csv(OUT / f"search_checkpoint_refine_{step:g}.csv", index=False)
         previous = float(step)
     return result
 

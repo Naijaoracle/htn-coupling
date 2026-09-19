@@ -1,0 +1,21 @@
+{
+  "created_utc": "2026-09-19T11:53:07.704692+00:00",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "previous_gate_sha256": "462c43248785ce45771b056b53443252414ec066ae50bee0d3b276a42fcfab0a",
+  "expected_sha256": "c22dd3e5153ab19d18a9efef8c6e52a4a3a8575e43b317020181983c5e3fb932",
+  "passed": true,
+  "files": [
+    {
+      "role": "independent_rerun_1",
+      "path": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/private/stage0_repeats/rerun_1.csv",
+      "bytes": 46097513,
+      "sha256": "c22dd3e5153ab19d18a9efef8c6e52a4a3a8575e43b317020181983c5e3fb932"
+    },
+    {
+      "role": "independent_rerun_2",
+      "path": "{HTN_COUPLING_ROOT}/results/pressure_matched_routes_v2/private/stage0_repeats/rerun_2.csv",
+      "bytes": 46097513,
+      "sha256": "c22dd3e5153ab19d18a9efef8c6e52a4a3a8575e43b317020181983c5e3fb932"
+    }
+  ]
+}

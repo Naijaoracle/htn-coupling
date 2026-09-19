@@ -61,3 +61,22 @@ def test_coarse_search_checkpoints_and_skips_completed_points(tmp_path, monkeypa
     assert len(first) == 3
     assert len(second) == 3
     assert len(submitted) == 3
+
+
+def test_finer_refinement_seeds_only_from_immediately_preceding_grid():
+    rows = []
+    for r in (1.0, 1.1):
+        rows.append({"target": "higher", "status": "ok", "stationarity_pass": True,
+                     "R": r, "C": 0.4, "J": -100.0, "refinement_step": float("nan")})
+    for r in (1.48, 1.50, 1.52):
+        for c in (0.58, 0.60, 0.62):
+            rows.append({"target": "higher", "status": "ok", "stationarity_pass": True,
+                         "R": r, "C": c, "J": 0.0 if (r, c) == (1.50, 0.60) else 1.0,
+                         "refinement_step": 0.02})
+    mixed = pd.DataFrame(rows)
+    # The old mixed-grid call admitted isolated coarse points as minima.
+    assert len(search._local_minima(mixed, "higher", 0.02)) > 1
+    seed_frame = search._refinement_seed_frame(mixed, previous=0.02, coarse_spacing=0.1)
+    minima = search._local_minima(seed_frame, "higher", 0.02)
+    assert minima == [{"R": 1.5, "C": 0.6, "J": 0.0}]
+    assert set(seed_frame.refinement_step.unique()) == {0.02}

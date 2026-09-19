@@ -1,0 +1,612 @@
+{
+ "TestSuite": [
+  {
+   "Name": "SetupPatientTest",
+   "Performed": true,
+   "Tests": 75,
+   "TestCase": [
+    {
+     "Name": "Defaults (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Defaults (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Set up twice",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Standard Male",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Standard Female",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Age",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Underage",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Over-Age",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Too Short",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Too Tall",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Height and Weight (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Height and Weight (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Severly Underweight BMI (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Severly Underweight BMI (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Obese BMI (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Obese BMI (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Underweight BMI (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Underweight BMI (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Overweight BMI (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Overweight BMI (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify BMI and Height",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify BMI and Weight",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify BMI (incorrect), Weight, and Height",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Body Fat Fraction",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Less Than Essential Fat Body Fat Fraction (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Less Than Essential Fat Body Fat Fraction (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Obese Body Fat Fraction (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Obese Body Fat Fraction (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Extremely Low HR Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Extremely High HR Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Bradycardic HR Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Tachycardic HR Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Computed HR Maximum",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify HR Min/Max",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "HR Max Lower Than HR Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "HR Min Greater Than HR Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic Arterial Pressure Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Diastolic Arterial Pressure Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic/Diastolic Arterial Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Hypotension (Systolic)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Hypertension (Systolic)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Hypotension (Diastolic)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Hypertension (Diastolic)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Narrow Pulse Pressure",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Named Haemodynamic Stage Metadata",
+     "Duration": {
+      "ScalarTime": {
+       "Value": 0.001,
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Hypertension Inside Declared Pressure Envelope",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Narrow Pulse Pressure Inside Declared Envelope",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Invalid Declared Pressure Envelope",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Pressure Ordering Violates Hard Physical Limit",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Mean Arterial Pressure Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Pulse Pressure Baseline",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Mean Arterial Pressure and Pulse Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic Pressure and Mean Arterial Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic Pressure and Pulse Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Diastolic Pressure and Mean Arterial Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Diastolic Pressure and Pulse Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic, Diastolic, and Mean Arterial Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic, Diastolic, and Pulse Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic, Mean Arterial Pressure, and Pulse Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Diastolic, Mean Arterial Pressure, and Pulse Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Systolic, Diastolic, Mean Arterial Pressure, and Pulse Pressure Baselines",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Blood Volume",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Hypovolemia",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Excessive Blood Volume",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Respiration Rate",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Respiration Rate Too High",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Respiration Rate Too Low",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Right Lung Ratio",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Right Lung Ratio Too High",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Right Lung Ratio Too Low",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Total Lung Capacity, Functional Residual Capacity, and Residual Volume",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Alveoli Surface Area",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Skin Surface Area",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Basal Metabolic Rate (male)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    },
+    {
+     "Name": "Specify Basal Metabolic Rate (female)",
+     "Duration": {
+      "ScalarTime": {
+       "Unit": "s"
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -51,5 +51,6 @@
   "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
   "stage0_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_1.md",
   "measurement_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_2.md",
-  "engine_and_search_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_3.md"
+  "engine_and_search_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_3.md",
+  "search_implementation_amendment": "docs/STAGE_MATCHED_ROUTE_AMENDMENT_4.md"
 }

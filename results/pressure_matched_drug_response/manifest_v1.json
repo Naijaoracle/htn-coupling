@@ -1,0 +1,265 @@
+{
+  "experiment": "pressure_matched_drug_response_v1",
+  "htn_coupling_revision": "5bd9637e289393bb07f38e367e30e7400d5e5047",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "stage0_gate_sha256": "1b0c930372fc7c82982f4ecccda7dab34569b03c2a8bd678c78194e79b7a56eb",
+  "configuration": "config/pressure_matched_drug_response_v1.json",
+  "runner": "scripts/run_pressure_matched_drug_response.py",
+  "dose_selection_report": "results/pressure_matched_drug_response/private/dose_selection_v1/selection_report.json",
+  "paired_baseline_gate": "results/pressure_matched_drug_response/private/paired_runs_v1/paired_baseline_gate.json",
+  "paired_runs": {
+    "mild_direct": {
+      "infusion_completed": true,
+      "post_observation_completed": true,
+      "irreversible_state": false,
+      "stationarity_pass": true,
+      "active_events": [
+        "Diuresis",
+        "StartOfCardiacCycle",
+        "StartOfExhale",
+        "StartOfInhale"
+      ],
+      "active_events_predrug": []
+    },
+    "mild_modifier": {
+      "infusion_completed": true,
+      "post_observation_completed": true,
+      "irreversible_state": false,
+      "stationarity_pass": true,
+      "active_events": [
+        "Hypernatremia",
+        "StartOfCardiacCycle",
+        "StartOfExhale",
+        "StartOfInhale"
+      ],
+      "active_events_predrug": []
+    },
+    "intermediate_direct": {
+      "infusion_completed": true,
+      "post_observation_completed": true,
+      "irreversible_state": false,
+      "stationarity_pass": true,
+      "active_events": [
+        "Diuresis",
+        "StartOfCardiacCycle",
+        "StartOfExhale",
+        "StartOfInhale"
+      ],
+      "active_events_predrug": [
+        "StartOfCardiacCycle",
+        "StartOfExhale"
+      ]
+    },
+    "intermediate_modifier": {
+      "infusion_completed": true,
+      "post_observation_completed": true,
+      "irreversible_state": false,
+      "stationarity_pass": true,
+      "active_events": [
+        "Diuresis",
+        "Hypernatremia",
+        "StartOfCardiacCycle",
+        "StartOfExhale",
+        "StartOfInhale"
+      ],
+      "active_events_predrug": [
+        "Diuresis",
+        "StartOfCardiacCycle"
+      ]
+    },
+    "higher_direct": {
+      "infusion_completed": true,
+      "post_observation_completed": true,
+      "irreversible_state": false,
+      "stationarity_pass": true,
+      "active_events": [
+        "Diuresis",
+        "Natriuresis",
+        "StartOfCardiacCycle",
+        "StartOfExhale",
+        "StartOfInhale"
+      ],
+      "active_events_predrug": [
+        "StartOfExhale"
+      ]
+    },
+    "higher_modifier": {
+      "infusion_completed": true,
+      "post_observation_completed": true,
+      "irreversible_state": false,
+      "stationarity_pass": true,
+      "active_events": [
+        "Diuresis",
+        "Hypernatremia",
+        "StartOfCardiacCycle",
+        "StartOfExhale"
+      ],
+      "active_events_predrug": [
+        "Diuresis",
+        "Hypernatremia",
+        "StartOfExhale"
+      ]
+    }
+  },
+  "baseline_gate": {
+    "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+    "stage0_sha256": "1b0c930372fc7c82982f4ecccda7dab34569b03c2a8bd678c78194e79b7a56eb",
+    "baseline_window": "30 <= elapsed_s < 60",
+    "pairs": {
+      "mild": {
+        "direct_modifier_sbp_difference_mmHg": 0.16123368662209714,
+        "direct_modifier_dbp_difference_mmHg": -0.08125492635477372,
+        "stationarity_pass": true,
+        "screen_baselines": {
+          "direct": {
+            "systolic_mmHg": 129.01798799866958,
+            "diastolic_mmHg": 80.18663167587404,
+            "map_mmHg": 106.03689631649905,
+            "heart_rate_per_min": 72.02619685965033,
+            "cardiac_output_L_min": 6.172104430013028,
+            "svr_mmHg_s_mL": 0.9770102582164546,
+            "LeftKidneyVasculature_inflow_mL_min": 577.6101629362217,
+            "RightKidneyVasculature_inflow_mL_min": 577.6101629362211,
+            "BrainVasculature_inflow_mL_min": 689.860600263811,
+            "baroreceptor_heart_rate_scale": 0.9994194285347218,
+            "baroreceptor_heart_elastance_scale": 0.9999706782088252,
+            "baroreceptor_resistance_scale": 0.999703922848941,
+            "baroreceptor_compliance_scale": 1.0000968634959722
+          },
+          "modifier": {
+            "systolic_mmHg": 128.85675431204749,
+            "diastolic_mmHg": 80.26788660222881,
+            "map_mmHg": 105.846844008445,
+            "heart_rate_per_min": 71.99583918938355,
+            "cardiac_output_L_min": 5.027448853729926,
+            "svr_mmHg_s_mL": 1.2138854763039766,
+            "LeftKidneyVasculature_inflow_mL_min": 390.6885739384013,
+            "RightKidneyVasculature_inflow_mL_min": 390.68857393840244,
+            "BrainVasculature_inflow_mL_min": 574.4661119217922,
+            "baroreceptor_heart_rate_scale": 0.9986915607288038,
+            "baroreceptor_heart_elastance_scale": 0.9999339172085249,
+            "baroreceptor_resistance_scale": 0.9993582885584149,
+            "baroreceptor_compliance_scale": 1.000202710308718
+          }
+        },
+        "pass": true
+      },
+      "intermediate": {
+        "direct_modifier_sbp_difference_mmHg": 0.16523858905824795,
+        "direct_modifier_dbp_difference_mmHg": 0.1792045350198208,
+        "stationarity_pass": true,
+        "screen_baselines": {
+          "direct": {
+            "systolic_mmHg": 139.95407237137456,
+            "diastolic_mmHg": 89.7605203199959,
+            "map_mmHg": 116.1111377810702,
+            "heart_rate_per_min": 72.03336836402488,
+            "cardiac_output_L_min": 6.13569880970967,
+            "svr_mmHg_s_mL": 1.0783733864337481,
+            "LeftKidneyVasculature_inflow_mL_min": 583.5620088858086,
+            "RightKidneyVasculature_inflow_mL_min": 583.5620088858047,
+            "BrainVasculature_inflow_mL_min": 688.4693091471778,
+            "baroreceptor_heart_rate_scale": 0.9995444475446582,
+            "baroreceptor_heart_elastance_scale": 0.9999769923002353,
+            "baroreceptor_resistance_scale": 0.9997803453860812,
+            "baroreceptor_compliance_scale": 1.0000668879522225
+          },
+          "modifier": {
+            "systolic_mmHg": 139.78883378231632,
+            "diastolic_mmHg": 89.58131578497608,
+            "map_mmHg": 115.84477270482076,
+            "heart_rate_per_min": 72.01047058918945,
+            "cardiac_output_L_min": 4.225166741538173,
+            "svr_mmHg_s_mL": 1.5952717023485647,
+            "LeftKidneyVasculature_inflow_mL_min": 325.8949983140892,
+            "RightKidneyVasculature_inflow_mL_min": 325.8949983140904,
+            "BrainVasculature_inflow_mL_min": 496.0996760011068,
+            "baroreceptor_heart_rate_scale": 0.9989644941870395,
+            "baroreceptor_heart_elastance_scale": 0.9999477017266187,
+            "baroreceptor_resistance_scale": 0.9994927116510088,
+            "baroreceptor_compliance_scale": 1.00015771370546
+          }
+        },
+        "pass": true
+      },
+      "higher": {
+        "direct_modifier_sbp_difference_mmHg": -0.06083834118217624,
+        "direct_modifier_dbp_difference_mmHg": -0.03467580884785093,
+        "stationarity_pass": true,
+        "screen_baselines": {
+          "direct": {
+            "systolic_mmHg": 148.60283203009487,
+            "diastolic_mmHg": 90.70342585407553,
+            "map_mmHg": 120.97897832244118,
+            "heart_rate_per_min": 72.03276111160717,
+            "cardiac_output_L_min": 6.422806444611074,
+            "svr_mmHg_s_mL": 1.069899987612994,
+            "LeftKidneyVasculature_inflow_mL_min": 635.0909247079555,
+            "RightKidneyVasculature_inflow_mL_min": 635.0909247079561,
+            "BrainVasculature_inflow_mL_min": 729.33899667137,
+            "baroreceptor_heart_rate_scale": 0.9995799420825319,
+            "baroreceptor_heart_elastance_scale": 0.9999787849536637,
+            "baroreceptor_resistance_scale": 0.9997878365556794,
+            "baroreceptor_compliance_scale": 1.0000694422408167
+          },
+          "modifier": {
+            "systolic_mmHg": 148.66367037127705,
+            "diastolic_mmHg": 90.73810166292338,
+            "map_mmHg": 120.8895014637227,
+            "heart_rate_per_min": 72.0193046942993,
+            "cardiac_output_L_min": 3.81937598071635,
+            "svr_mmHg_s_mL": 1.8488956742844307,
+            "LeftKidneyVasculature_inflow_mL_min": 273.0386616671418,
+            "RightKidneyVasculature_inflow_mL_min": 273.03866166714135,
+            "BrainVasculature_inflow_mL_min": 453.3703215351013,
+            "baroreceptor_heart_rate_scale": 0.9991996968321055,
+            "baroreceptor_heart_elastance_scale": 0.9999595806480865,
+            "baroreceptor_resistance_scale": 0.9996133020232472,
+            "baroreceptor_compliance_scale": 1.0001182367804553
+          }
+        },
+        "pass": true
+      }
+    },
+    "all_pairs_pass": true
+  },
+  "public_aggregate": "results/pressure_matched_drug_response/aggregate_v1.csv",
+  "public_dose_selection": "results/pressure_matched_drug_response/dose_selection_v1.csv",
+  "private_full_traces": "results/pressure_matched_drug_response/private/",
+  "formal_protocol_commit_before_paired_runs": false,
+  "protocol_status_note": "Protocol file was in Downloads and was not committed before paired runs; treat the result as exploratory model characterisation.",
+  "executed_pair_gate_baseline_window": "30 <= elapsed_s <= 60 (60-second sample captured before infusion action)",
+  "corrected_analysis_baseline_window": "30 <= elapsed_s < 60",
+  "analysis_correction": "Recomputed baseline gates and response deltas from saved traces; all three screening and challenge pairs still pass.",
+  "local_artifact_sha256": {
+    "config/pressure_matched_drug_response_v1.json": "112ddb2b4b03b5c5c6b238a1a0324c4ad290d8849c8f7e0c097146668187eeb0",
+    "scripts/run_pressure_matched_drug_response.py": "5948c86a5df166bbd7be135e3fe88aa9b7b34f5ee0d643ee0667b053c1b4cf70",
+    "docs/PRESSURE_MATCHED_DRUG_RESPONSE_RESULTS.md": "1ea3a46b98bc40ea634f6d3b07eb7eeacfe15e0d9fb3a975cca38a01dfb499a1",
+    "results/pressure_matched_drug_response/aggregate_v1.csv": "52b9399e8d98d32621ec2f3fc9b98af959f4d1e63f24cbf31de7797c695f8dc0",
+    "results/pressure_matched_drug_response/dose_selection_v1.csv": "0fa10892d55320ada9c00bd3eca7c96f1b780de34003f055aa2d9de6e672cf8d",
+    "scripts/diagnose_pressure_matched_hypernatremia.py": "b74545b74522cd7c178c2e78b8d5c61de2a581d256276ae593ef8d4f9cd0fc8a",
+    "results/pressure_matched_drug_response/hypernatremia_diagnostic_v1.csv": "c5f47635b02803b00e95fc81a6bc38bcc9c39ec476c5819f154f85aebdd480e5",
+    "results/pressure_matched_drug_response/hypernatremia_diagnostic_v2.csv": "618a1d061609a855ee41ee92e8ecf1f88750416d74ca93f8ce065a243d84581b"
+  },
+  "htn_coupling_head_revision": "5bd9637e289393bb07f38e367e30e7400d5e5047",
+  "protocol_document_name": "STAGE_PRESSURE_MATCHED_DRUG_RESPONSE_PROTOCOL.md",
+  "protocol_document_current_sha256": "1a1b26ac9399ceb426187c32d44a067d9e1174cf0b00ed4f40a38b7751a5263e",
+  "hypernatremia_diagnostic": {
+    "runner": "scripts/diagnose_pressure_matched_hypernatremia.py",
+    "result_v1": "results/pressure_matched_drug_response/hypernatremia_diagnostic_v1.csv",
+    "renal_output_result_v2": "results/pressure_matched_drug_response/hypernatremia_diagnostic_v2.csv",
+    "full_traces": "results/pressure_matched_drug_response/private/hypernatremia_diagnostic_v2/",
+    "status": "Exploratory follow-up; not part of confirmatory protocol",
+    "same_mass_concentration_sensitivity": {
+      "direct": {
+        "max_abs_numeric_trace_difference": 0.0,
+        "identical": true
+      },
+      "modifier": {
+        "max_abs_numeric_trace_difference": 0.0,
+        "identical": true
+      }
+    },
+    "vehicle_control": "Not run: pinned infusion routine has a TODO to add fluid to the fluid system, so zero-concentration infusion cannot model carrier-fluid volume."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "protocol": "STAGE_PRESSURE_MATCHED_DRUG_RESPONSE_PROTOCOL.md",
+  "protocol_status": "dose_locked_before_paired_runs",
+  "purpose": "Model-characterisation experiment; not a clinical dosing recommendation",
+  "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+  "htn_coupling_revision": "5bd9637e289393bb07f38e367e30e7400d5e5047",
+  "pressure_match_source_revision": "766937ab2e0b414adf679aaa062fd89b5c9cc3f2",
+  "stage0_sha256": "1b0c930372fc7c82982f4ecccda7dab34569b03c2a8bd678c78194e79b7a56eb",
+  "dose_selection": {
+    "reference_state": "direct intermediate target, 140/90 mmHg patient request",
+    "patient_mass_lb": 170.0,
+    "patient_mass_kg": 77.1107029,
+    "candidate_doses_ug_kg_min": [
+      0.05,
+      0.1,
+      0.2,
+      0.5,
+      1.0
+    ],
+    "screen_rule": "Choose the lowest tested dose with positive 10-second median MAP and SVR changes each greater than three times the largest corresponding no-drug drift, no irreversible-state event, and a passing independent repeat.",
+    "selected_dose_ug_kg_min": 0.2,
+    "selected_dose_replicates": 2,
+    "dose_screen_outputs": "results/pressure_matched_drug_response/private/dose_selection_v1/"
+  },
+  "drug_challenge": {
+    "substance": "Norepinephrine",
+    "route": "infusion",
+    "dose_ug_kg_min": 0.2,
+    "concentration_ug_mL": 1.0,
+    "pulse_rate_mL_s": 0.25703567633333335,
+    "administered_mass_ug": 77.1107029,
+    "infusion_duration_s": 300,
+    "pre_infusion_observation_s": 60,
+    "post_infusion_observation_s": 300,
+    "pulse_timestep_s": 0.02,
+    "reservoir_volume_mL": 77.11584361352666,
+    "carrier_fluid_behavior": "The pinned Pulse revision adds drug mass from concentration and rate but does not add infusion fluid to the cardiovascular fluid system. The volume field controls reservoir depletion only."
+  },
+  "baseline_acceptance": {
+    "maximum_absolute_sbp_difference_mmHg": 0.25,
+    "maximum_absolute_dbp_difference_mmHg": 0.25,
+    "measurement_window_s": "30 <= elapsed_s < 60 seconds",
+    "require_stationarity_pass": true,
+    "stop_before_drug_if_pair_fails": true
+  },
+  "measurement": {
+    "sample_interval_s": 1,
+    "baseline_window_s": "30 <= elapsed_s < 60 seconds",
+    "primary_trajectories": [
+      "SBP",
+      "DBP",
+      "MAP",
+      "heart rate",
+      "cardiac output",
+      "systemic vascular resistance",
+      "left renal flow",
+      "right renal flow",
+      "cerebral flow",
+      "baroreflex scales"
+    ],
+    "report_all_active_events": true,
+    "drug_induced_irreversible_state_is_an_outcome": true
+  },
+  "matched_primary_states": {
+    "mild": {
+      "modifier_R": 1.3,
+      "modifier_C": 0.715
+    },
+    "intermediate": {
+      "modifier_R": 1.715,
+      "modifier_C": 0.595
+    },
+    "higher": {
+      "modifier_R": 1.985,
+      "modifier_C": 0.46
+    }
+  },
+  "protocol_commit_before_paired_runs": false,
+  "interpretation_status": "Exploratory model characterisation; not a formally precommitted experiment"
+}

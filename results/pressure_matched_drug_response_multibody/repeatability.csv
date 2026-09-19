@@ -1,0 +1,9 @@
+body_id,route,status,exact_numeric_trace_match,event_onsets_identical,max_abs_numeric_difference
+male_low_bmi,direct,compared,True,True,0.0
+male_low_bmi,modifier,compared,True,True,0.0
+male_high_bmi,direct,compared,True,True,0.0
+male_high_bmi,modifier,compared,True,True,0.0
+female_low_bmi,direct,compared,True,True,0.0
+female_low_bmi,modifier,compared,True,True,0.0
+female_high_bmi,direct,compared,True,True,0.0
+female_high_bmi,modifier,compared,True,True,0.0

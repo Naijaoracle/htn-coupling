@@ -1,0 +1,241 @@
+{
+  "status": "complete",
+  "attempt_label": "multibody_01",
+  "started_utc": "2026-09-19T22:05:34.853354+00:00",
+  "completed_utc": "2026-09-19T23:40:27.058515+00:00",
+  "locks": {
+    "pulse_revision": "99e2d50cb7d0e0893690bf113d2f7924bb933f56",
+    "pulse_binding_hash": "99e2d50cb",
+    "stage0_gate_sha256": "1b0c930372fc7c82982f4ecccda7dab34569b03c2a8bd678c78194e79b7a56eb",
+    "stage0_reference_csv_sha256": "c22dd3e5153ab19d18a9efef8c6e52a4a3a8575e43b317020181983c5e3fb932",
+    "body_panel_sha256": "d317a0d02fa37ec43bff2ee9275df4a5ed96fa5b7e94605a02ec9caca428ddf4",
+    "configuration_sha256": "c0a79f6982a10ac1226f3729075e40984dd288783552d0bc229b6658fd63c10a",
+    "protocol_sha256": "b29ff66a2df8ca1677c7a64e804423f23bf231833c1ffa78e751b4be181c333c",
+    "runner_sha256": "d79b4b8ae523e424d8dcd99a2ae7196da44ad3e900783c94b42855a5b8728694",
+    "helper_sha256": "920222111ac80555111b11ad2e8ab04d836161024946576482d700d4fd9ad9f5",
+    "tests_sha256": "500631246f9d920802dfc960395c309f012bf154340ca0c624d93bd07cb3d0fa"
+  },
+  "body_details": {
+    "male_low_bmi": {
+      "body": {
+        "body_id": "male_low_bmi",
+        "sex": "Male",
+        "age_years": 41,
+        "height_cm": 186.6,
+        "weight_kg": 56.6
+      },
+      "status": "accepted_pair",
+      "base_state_sha256": "3d9711f165e7f5d7d0f300780644349f2f449d36f993018cb8ea05c55aa4bd40",
+      "base_patient_sha256": "3b0c9711adc67619d9ce8d1c9ccd7c41bee6695ced06593fc51ee4e689471e7e",
+      "direct_patient_sha256": "141616479fd623ee10915193b85ca7242f07af1d3f28de0beede5e2a5fb1ecab",
+      "direct_target": {
+        "status": "ok",
+        "systolic_mmHg": 138.5991094730667,
+        "diastolic_mmHg": 89.77920325457539,
+        "stationarity_pass": true
+      },
+      "search_evaluations": 11,
+      "selected_modifier": {
+        "R": 1.68223,
+        "C": 0.629164,
+        "systolic_mmHg": 138.64185320133166,
+        "diastolic_mmHg": 89.90808475081802,
+        "stationarity_pass": true,
+        "independent_confirmation_passes": 2,
+        "accepted": true
+      },
+      "baseline_pair_pass_by_replicate": {
+        "1": true,
+        "2": true
+      }
+    },
+    "male_high_bmi": {
+      "body": {
+        "body_id": "male_high_bmi",
+        "sex": "Male",
+        "age_years": 64,
+        "height_cm": 163.5,
+        "weight_kg": 80.1
+      },
+      "status": "accepted_pair",
+      "base_state_sha256": "78c6a3b75f7ab1ff150ed44e7e0321dcfd36e4e93458e78731fe9e4918993e3a",
+      "base_patient_sha256": "1ad1c30f4036061eead7e51ef532833a6abe18f148f27c1cd757609183d34a76",
+      "direct_patient_sha256": "31a228fe41c3ee829851e06b036473734ac25312978cef4c68afbcffa0e48812",
+      "direct_target": {
+        "status": "ok",
+        "systolic_mmHg": 138.71097895535115,
+        "diastolic_mmHg": 89.6562977610817,
+        "stationarity_pass": true
+      },
+      "search_evaluations": 6,
+      "selected_modifier": {
+        "R": 1.691898,
+        "C": 0.612919,
+        "systolic_mmHg": 138.73684530749048,
+        "diastolic_mmHg": 89.64027770289464,
+        "stationarity_pass": true,
+        "independent_confirmation_passes": 2,
+        "accepted": true
+      },
+      "baseline_pair_pass_by_replicate": {
+        "1": true,
+        "2": true
+      }
+    },
+    "female_low_bmi": {
+      "body": {
+        "body_id": "female_low_bmi",
+        "sex": "Female",
+        "age_years": 52,
+        "height_cm": 155.5,
+        "weight_kg": 39.6
+      },
+      "status": "accepted_pair",
+      "base_state_sha256": "28ba1eec16a47a38f0de45c871a6efe54bd701c7024024fa25b69af55423b6e7",
+      "base_patient_sha256": "e0418ca9040e44b030748964d2cc810f40ee9b472eca1574d3175bd4cc222206",
+      "direct_patient_sha256": "d01409d2ed9c93d67ae33ed89172ff3aa7caefc598f578015de12cc6b01f21fa",
+      "direct_target": {
+        "status": "ok",
+        "systolic_mmHg": 140.5838789546539,
+        "diastolic_mmHg": 89.29044795493697,
+        "stationarity_pass": true
+      },
+      "search_evaluations": 6,
+      "selected_modifier": {
+        "R": 1.706074,
+        "C": 0.594313,
+        "systolic_mmHg": 140.58233764088868,
+        "diastolic_mmHg": 89.28935273322787,
+        "stationarity_pass": true,
+        "independent_confirmation_passes": 2,
+        "accepted": true
+      },
+      "baseline_pair_pass_by_replicate": {
+        "1": true,
+        "2": true
+      }
+    },
+    "female_high_bmi": {
+      "body": {
+        "body_id": "female_high_bmi",
+        "sex": "Female",
+        "age_years": 51,
+        "height_cm": 157.5,
+        "weight_kg": 74.4
+      },
+      "status": "accepted_pair",
+      "base_state_sha256": "bb223e069860855fa45a04b90841314a4683e9b9cc2a6dab7f31cab800c9b801",
+      "base_patient_sha256": "f05773b8d43d502abb4addbb8f661979d7d681042a215a0973ca43e359189c25",
+      "direct_patient_sha256": "f2f98cd6488ebc49058f6c3ee5142c0fb6e309c5b40b2401942b47a26d723339",
+      "direct_target": {
+        "status": "ok",
+        "systolic_mmHg": 138.54534715742219,
+        "diastolic_mmHg": 89.54053789647257,
+        "stationarity_pass": true
+      },
+      "search_evaluations": 6,
+      "selected_modifier": {
+        "R": 1.674889,
+        "C": 0.623824,
+        "systolic_mmHg": 138.57969556380917,
+        "diastolic_mmHg": 89.51077301505578,
+        "stationarity_pass": true,
+        "independent_confirmation_passes": 2,
+        "accepted": true
+      },
+      "baseline_pair_pass_by_replicate": {
+        "1": true,
+        "2": true
+      }
+    }
+  },
+  "challenge_pair_statuses": {
+    "male_low_bmi/replicate_01": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    },
+    "male_low_bmi/replicate_02": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    },
+    "male_high_bmi/replicate_01": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    },
+    "male_high_bmi/replicate_02": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    },
+    "female_low_bmi/replicate_01": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    },
+    "female_low_bmi/replicate_02": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    },
+    "female_high_bmi/replicate_01": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    },
+    "female_high_bmi/replicate_02": {
+      "status": "complete",
+      "gate": {
+        "screen_pair_pass": true,
+        "challenged_pair_pass": true,
+        "direct_against_screened_modifier_pass": true,
+        "modifier_against_screened_direct_pass": true,
+        "pass": true
+      }
+    }
+  },
+  "summary": {
+    "bodies_in_panel": 4,
+    "accepted_pairs": 4,
+    "challenge_runs": 16,
+    "complete_challenge_runs": 16
+  },
+  "raw_traces_location": "private ignored results directory; not tracked"
+}

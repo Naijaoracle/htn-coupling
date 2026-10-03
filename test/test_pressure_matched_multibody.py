@@ -98,6 +98,6 @@ def test_local_search_finds_a_synthetic_stationary_pressure_match(monkeypatch, t
 
 
 @pytest.mark.parametrize("label", ["", "../escape", "has space", "x" * 49])
-def test_attempt_label_cannot_escape_result_root(label):
+def test_attempt_label_cannot_escape_result_root(label, tmp_path):
     with pytest.raises(ValueError):
-        helpers.attempt_output_directory(Path("/tmp/results"), label)
+        helpers.attempt_output_directory(tmp_path / "results", label)

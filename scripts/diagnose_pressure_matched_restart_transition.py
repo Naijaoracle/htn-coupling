@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PULSE = Path(os.environ.get("PULSE_ROOT", "/tmp/pulse-htn-a04"))
+PULSE = Path(os.environ.get("PULSE_ROOT", ROOT.parent / "pulse-physiology-engine"))
 BIN = PULSE / "build/install/bin"
 PYTHON = PULSE / "build/install/python"
 if str(PYTHON) not in sys.path:

@@ -1,0 +1,43 @@
+{
+  "dataset_id": "synthetic_session_exchange_v1",
+  "scenario": "synthetic_session_demo",
+  "seed": 20261003,
+  "source_prefix": "SYNTH:",
+  "baseline_hr_bpm": 72.0,
+  "hr_noise_sd_bpm": 1.0,
+  "hr_noise_ar1": 0.7,
+  "rr_jitter_sd_s": 0.012,
+  "session_span_s": {"continuous": [-14.0, 586.0], "h10_beats": [-172.0, 647.0]},
+  "protocol_origin_s": 320.0,
+  "takes": {
+    "rest_1": {"start_s": 0.0, "phase": "rest"},
+    "rest_2": {"start_s": 80.0, "phase": "rest"},
+    "rest_3": {"start_s": 155.0, "phase": "rest"},
+    "recovery_1": {"start_s": 320.0, "phase": "recovery"},
+    "recovery_2": {"start_s": 424.0, "phase": "recovery"},
+    "recovery_3": {"start_s": 506.0, "phase": "recovery"}
+  },
+  "take_duration_s": 58.6,
+  "bouts": [
+    {"cessation_s": 310.0, "peak_bpm": 150.0, "tau_s": 30.0},
+    {"cessation_s": 414.0, "peak_bpm": 142.0, "tau_s": 26.0},
+    {"cessation_s": 496.0, "peak_bpm": 134.0, "tau_s": 22.0}
+  ],
+  "ramp_s": 30.0,
+  "rates_hz": {"rgb": 30, "continuous": 25, "ecg_internal": 100, "acoustic_internal": 50, "pcg_rms": 1},
+  "rgb": {"baseline": {"r": 182.0, "g": 128.0, "b": 112.0}, "pulse_gain": {"r": 0.18, "g": 0.55, "b": 0.22},
+          "noise_sd": 0.05, "drift_amp": 0.15, "drift_hz": 0.05, "motion_rest": 0.02, "motion_recovery": 0.08},
+  "ecg": {"adc_baseline": 2048.0, "adc_gain": 700.0, "noise_sd": 0.015},
+  "max30102": {"ir_baseline": 110000.0, "red_baseline": 104000.0, "ir_gain": 2500.0, "red_gain": 1800.0, "noise_sd": 60.0, "delay_s": 0.2},
+  "pcg": {"window_s": 30.0, "start_s": 16.65, "stop_s": 586.65, "ch2_gain": 0.8},
+  "ensemble": {
+    "intensities": [0.05, 0.1, 0.15, 0.2, 0.25, 0.3],
+    "durations_s": [30.0, 45.0, 60.0],
+    "delays_s": [0.0, 5.0, 10.0, 15.0],
+    "peak_per_intensity_bpm": 120.0,
+    "peak_duration_factor_per_s": 0.01,
+    "tau_base_s": 18.0,
+    "tau_per_duration_s": 0.15,
+    "conditioning_sigma_bpm": 10.0
+  }
+}

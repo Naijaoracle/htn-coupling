@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Circulation State Renderer</title>
+  <style>
+    :root{ --bg:#0f1220; --panel:#161a2b; --ink:#e6e9f5; --muted:#99a1c2; --accent:#5ad1ff; --ok:#43d17b; --warn:#ffbd2e; --bad:#ff5566 }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:radial-gradient(1200px 700px at 20% 0%, #1a2140 0%, #0f1220 60%);
+      color:var(--ink); font:14px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+      display:grid; grid-template-columns: 400px 1fr; grid-template-rows: auto 1fr; grid-template-areas: "header header" "panel view";
+      gap:12px; padding:12px;
+    }
+    header{grid-area:header; display:flex; align-items:center; justify-content:space-between; background:var(--panel); border-radius:14px; padding:10px 14px; box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    header h1{font-size:16px; margin:0; letter-spacing:.3px}
+    header small{color:var(--muted)}
+
+    #panel{grid-area:panel; background:var(--panel); border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.25); padding:14px; overflow:auto}
+    #view{grid-area:view; position:relative; background:#0b0f1b; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.25); overflow:hidden}
+
+    .section{margin-bottom:16px; border:1px solid #232845; border-radius:12px}
+    .section h2{margin:0; font-size:13px; letter-spacing:.4px; color:var(--muted); padding:10px 12px; border-bottom:1px solid #232845}
+    .section .content{padding:10px 12px}
+
+    .kpis{display:grid; grid-template-columns: 1fr 1fr; gap:8px}
+    .kpi{background:#12162a; border:1px solid #232845; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:6px}
+    .kpi .label{font-size:12px; color:var(--muted)}
+    .kpi .value{font-size:20px}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:8px; margin:6px 0}
+    .row label{font-size:13px; color:var(--ink)}
+
+      input[type="range"]{width:100%}
+
+      @media (pointer: coarse) {
+        input[type="range"] {
+          height: 20px;
+          -webkit-appearance: none;
+          appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+          height: 24px;
+          width: 24px;
+          -webkit-appearance: none;
+          appearance: none;
+          background: var(--accent);
+          border-radius: 50%;
+          cursor: pointer;
+        }
+
+        .switch {
+          width: 50px;
+          height: 26px;
+        }
+
+        .slider:before {
+          height: 22px;
+          width: 22px;
+        }
+
+        input:checked + .slider:before {
+          transform: translateX(24px);
+        }
+      }
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:4px 8px; background:#10152a; border:1px solid #232845; border-radius:999px; font-size:12px; color:var(--muted)}
+    .grid{display:grid; gap:8px}
+    .grid.cols-2{grid-template-columns: 1fr 1fr}
+    .grid.cols-3{grid-template-columns: 1fr 1fr 1fr}
+    .btn{cursor:pointer; border:1px solid #232845; background:#131935; color:var(--ink); padding:8px 10px; border-radius:10px}
+    .btn:hover{border-color:#2f3761}
+    .btn.warn{border-color:#51410f; background:#2a220b; color:#ffdf7a}
+    .btn.ok{border-color:#1f3b26; background:#0e1f14; color:#a7f3c9}
+    .btn.ghost{background:transparent}
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
+    .switch{position:relative; display:inline-block; width:44px; height:22px}
+    .switch input{opacity:0; width:0; height:0}
+    .slider{position:absolute; cursor:pointer; inset:0; background:#303554; transition:.2s; border-radius:999px}
+    .slider:before{content:""; position:absolute; height:18px; width:18px; left:2px; top:2px; background:white; border-radius:50%; transition:.2s}
+    input:checked + .slider{background:var(--accent)}
+    input:checked + .slider:before{transform:translateX(22px)}
+    .hr{height:1px; background:#232845; margin:10px -12px}
+
+    canvas{display:block}
+    #hud{position:absolute; top:10px; left:10px; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.1); padding:10px; border-radius:10px; backdrop-filter: blur(4px)}
+    #hud .line{display:flex; align-items:center; gap:8px}
+    #hud .key{color:#cbd2ff; font-size:12px; min-width:110px}
+    .reset-btn{position:absolute; top:8px; right:8px; width:24px; height:24px; background:var(--accent); border:none; border-radius:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:12px; color:#0f1220; font-weight:bold; opacity:0.8; transition:opacity 0.2s}
+    .reset-btn:hover{opacity:1}
+    #tests{white-space:pre-wrap; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; background:#10152a; border:1px solid #232845; border-radius:10px; padding:8px}
+
+    .legend{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .dot{width:10px; height:10px; border-radius:50%}
+    .oxy{background:#ff6677}
+    .deoxy{background:#4aa8ff}
+
+    .nav-buttons { position: fixed; left: 12px; top: 12px; display: flex; gap: 8px; z-index: 100; }
+    .home-button, .scoring-link, .cv-link { height: 44px; background: #ffffff; border: 2px solid #2ecc71; border-radius: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 3px 12px rgba(0,0,0,0.3); }
+    .home-button { width: 44px; }
+    .scoring-link, .cv-link { font-size: 12px; font-weight: 600; color: #2ecc71; padding: 0 14px; white-space: nowrap; display: flex; align-items: center; }
+    .home-button:hover, .scoring-link:hover, .cv-link:hover { background: #2ecc71; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(46,204,113,0.4); }
+    .home-button:hover svg { fill: white; }
+    .scoring-link svg, .cv-link svg { width: 18px; height: 18px; fill: #2ecc71; margin-right: 6px; }
+    .scoring-link:hover svg, .cv-link:hover svg { fill: white; }
+    .scoring-link:hover, .cv-link:hover { color: white; background: #2ecc71; }
+
+    .explainer-card { position: fixed; right: 12px; bottom: 12px; background: var(--panel); border: 1px solid #232845; border-radius: 14px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); max-width: 280px; z-index: 100; }
+    .explainer-card h3 { margin: 0 0 8px 0; font-size: 14px; color: var(--accent); }
+    .explainer-card p { margin: 0; font-size: 12px; line-height: 1.4; color: var(--muted); }
+
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px;
+      }
+
+      #panel {
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+
+      #view {
+        min-height: 400px;
+      }
+
+      header {
+        padding: 8px 12px;
+      }
+
+      header h1 {
+        font-size: 14px;
+      }
+
+      .nav-buttons {
+        flex-wrap: wrap;
+        gap: 6px;
+        left: 8px;
+        top: 8px;
+      }
+
+      .home-button, .scoring-link, .cv-link {
+        height: 36px;
+        font-size: 11px;
+      }
+
+      .home-button {
+        width: 36px;
+      }
+
+      .scoring-link, .cv-link {
+        padding: 0 10px;
+      }
+
+      .scoring-link svg, .cv-link svg {
+        width: 14px;
+        height: 14px;
+        margin-right: 4px;
+      }
+
+      .explainer-card {
+        position: static;
+        margin: 12px;
+        max-width: none;
+        border-radius: 12px;
+        padding: 12px;
+        order: 999;
+      }
+
+      .explainer-card h3 {
+        font-size: 13px;
+      }
+
+      .explainer-card p {
+        font-size: 11px;
+      }
+
+      .section {
+        margin-bottom: 12px;
+      }
+
+      .section h2 {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+
+      .section .content {
+        padding: 8px 10px;
+      }
+
+      .kpis {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .kpi {
+        padding: 8px;
+      }
+
+      .kpi .value {
+        font-size: 18px;
+      }
+
+      .row {
+        margin: 4px 0;
+      }
+
+      .row label {
+        font-size: 12px;
+      }
+
+      .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pill {
+        font-size: 11px;
+        padding: 3px 6px;
+      }
+
+      .grid.cols-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #hud {
+        top: 8px;
+        left: 8px;
+        padding: 8px;
+        font-size: 11px;
+      }
+
+      #hud .key {
+        min-width: 90px;
+        font-size: 11px;
+      }
+
+      .reset-btn {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+        top: 6px;
+        right: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 6px;
+        gap: 6px;
+      }
+
+      header {
+        padding: 6px 8px;
+      }
+
+      header h1 {
+        font-size: 12px;
+      }
+
+      .nav-buttons {
+        gap: 4px;
+        left: 6px;
+        top: 6px;
+      }
+
+      .home-button, .scoring-link, .cv-link {
+        height: 32px;
+        font-size: 10px;
+      }
+
+      .home-button {
+        width: 32px;
+      }
+
+      .scoring-link, .cv-link {
+        padding: 0 8px;
+      }
+
+      .scoring-link svg, .cv-link svg {
+        width: 12px;
+        height: 12px;
+        margin-right: 3px;
+      }
+
+      #panel {
+        padding: 10px;
+        max-height: 45vh;
+      }
+
+      #view {
+        min-height: 300px;
+      }
+
+      .explainer-card {
+        margin: 8px;
+        padding: 10px;
+      }
+
+      .explainer-card h3 {
+        font-size: 12px;
+      }
+
+      .explainer-card p {
+        font-size: 10px;
+      }
+
+      .section {
+        margin-bottom: 8px;
+        border-radius: 8px;
+      }
+
+      .section h2 {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+
+      .section .content {
+        padding: 6px 8px;
+      }
+
+      .kpi {
+        padding: 6px;
+      }
+
+      .kpi .label {
+        font-size: 11px;
+      }
+
+      .kpi .value {
+        font-size: 16px;
+      }
+
+      .row label {
+        font-size: 11px;
+      }
+
+      .btn {
+        padding: 6px 8px;
+        font-size: 11px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pill {
+        font-size: 10px;
+        padding: 2px 5px;
+      }
+
+      .small {
+        font-size: 11px;
+      }
+
+      #hud {
+        top: 6px;
+        left: 6px;
+        padding: 6px;
+        font-size: 10px;
+      }
+
+      #hud .key {
+        min-width: 80px;
+        font-size: 10px;
+      }
+
+      .reset-btn {
+        width: 18px;
+        height: 18px;
+        font-size: 9px;
+        top: 4px;
+        right: 4px;
+      }
+    }
+    /* Embedded, dashboard-driven renderer mode. */
+    html, body { height:100%; min-height:620px; overflow:hidden; }
+    body { grid-template-columns:minmax(320px,20%) minmax(0,1fr); grid-template-rows:1fr; grid-template-areas:"panel view"; gap:8px; padding:8px; }
+    .nav-buttons, header, .explainer-card, #panel .section:nth-child(2), #panel .section:nth-child(3),
+    #panel .section:nth-child(4), #panel .section:nth-child(5), #panel .section:nth-child(6),
+    #panel .content > div[style*="margin-top:12px"] { display:none !important; }
+    #panel { overflow:hidden; padding:8px; }
+    #panel .section { margin:0; }
+    #view { min-height:600px; height:100%; }
+    @media (max-width:768px) { body { display:grid; grid-template-columns:1fr; grid-template-rows:220px minmax(360px,1fr); grid-template-areas:"panel" "view"; } #panel { max-height:none; } #view { min-height:360px; } }
+  </style>
+
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js" } }
+  </script>
+</head>
+<body>
+  <div class="nav-buttons">
+    <a href="/" class="home-button" aria-label="Home" title="Return to homepage">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+      </svg>
+    </a>
+    <a href="/ward-simulator.html" class="scoring-link" aria-label="Emergency Room" title="Emergency Room Simulator">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 9v6"/>
+        <path d="M9 12h6"/>
+      </svg>
+      Emergency Room
+    </a>
+    <a href="/hypertension-coupling-observatory.html" class="cv-link" aria-label="Hypertension Coupling Observatory" title="Hypertension Coupling Observatory">🧬 Coupling Observatory</a>
+    <a href="/cardiomyocyte.html" class="cv-link" aria-label="Cardiomyocyte" title="Cardiomyocyte Simulator">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+      Cardiomyocyte
+    </a>
+  </div>
+
+  <header>
+    <h1>Circulation renderer <small class="muted">dashboard state input</small></h1>
+    <div class="pill" id="ctxPill">Renderer: auto</div>
+  </header>
+
+  <aside id="panel">
+    <div class="section">
+      <h2>Readouts</h2>
+      <div class="content">
+        <div class="kpis" id="kpis">
+          <div class="kpi" data-kpi="hr">
+            <div class="row"><span class="label" id="hrLabel">Heart Rate</span>
+              <label class="switch"><input type="checkbox" id="toggleHR" checked><span class="slider"></span></label>
+            </div>
+            <div class="value" id="hrVal">-- bpm</div>
+          </div>
+          <div class="kpi" data-kpi="bp">
+            <div class="row"><span class="label">Blood Pressure</span>
+              <label class="switch"><input type="checkbox" id="toggleBP" checked><span class="slider"></span></label>
+            </div>
+            <div class="value" id="bpVal">-- / -- mmHg</div>
+            <div class="small muted" id="mapVal">MAP -- mmHg</div>
+          </div>
+          <div class="kpi" data-kpi="vol">
+            <div class="row"><span class="label">Blood Volume</span>
+              <label class="switch"><input type="checkbox" id="toggleVOL" checked><span class="slider"></span></label>
+            </div>
+            <div class="value" id="volVal">-- L</div>
+            <div class="small muted">Infusion <span id="infRateVal">0</span> mL/h</div>
+          </div>
+          <div class="kpi" data-kpi="co">
+            <div class="row"><span class="label">Cardiac Output</span>
+              <span class="pill small" id="coOrigin">derived</span>
+            </div>
+            <div class="value" id="coVal">-- L/min</div>
+          <div class="small muted">SV <span id="svVal">--</span> mL <span id="svOrigin"></span> • SVR <span id="svrVal">--</span></div>
+          <div class="small muted">Aortic inflow <span id="aorticFlowVal">--</span> mL/s • aortic pressure <span id="aorticPressureVal">--</span> mmHg</div>
+          </div>
+        </div>
+        <div class="small muted" id="stateMode" style="margin-top:8px"></div>
+        <div class="row" id="trajectoryControls" style="margin-top:8px; gap:6px; flex-wrap:wrap">
+          <button class="btn" id="playTrajectory">Play from cursor</button>
+          <button class="btn" id="inspectCursor">Inspect cursor</button>
+          <span class="small muted" id="playbackStatus"></span>
+        </div>
+        <div style="margin-top:12px; border-top:1px solid #232845; padding-top:12px;">
+          <div class="row"><span class="label">Trends (60s)</span></div>
+          <canvas id="trendGraph" width="360" height="80" style="width:100%; height:80px; background:#10152a; border-radius:6px;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Clinical Scenarios</h2>
+      <div class="content grid cols-2">
+        <button class="btn" onclick="applyScenario('normal')">Normal Sinus</button>
+        <button class="btn warn" onclick="applyScenario('shock')">Hypovolemic Shock</button>
+        <button class="btn warn" onclick="applyScenario('hypertension')">Hypertension</button>
+        <button class="btn warn" onclick="applyScenario('hf')">Heart Failure</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Medications</h2>
+      <div class="content grid">
+        <div class="row"><strong>Adrenaline</strong><span class="small muted" id="adrVal">0.00</span></div>
+        <input type="range" id="adr" min="0" max="1" step="0.01" value="0">
+        <div class="small muted">Effect: ↑HR, ↑contractility, ↑SVR</div>
+        <div class="hr"></div>
+
+        <div class="row"><strong>Alpha blocker</strong><span class="small muted" id="alphaVal">0.00</span></div>
+        <input type="range" id="alpha" min="0" max="1" step="0.01" value="0">
+        <div class="small muted">Effect: ↓SVR, reflex ↑HR</div>
+        <div class="hr"></div>
+
+        <div class="row"><strong>Calcium channel blocker</strong><span class="small muted" id="ccbVal">0.00</span></div>
+        <input type="range" id="ccb" min="0" max="1" step="0.01" value="0">
+        <div class="small muted">Effect: ↓HR, ↓contractility, mild ↓SVR</div>
+        <div class="hr"></div>
+
+        <div class="row"><strong>Fluids</strong></div>
+        <div class="grid cols-3">
+          <button class="btn ok" id="bolus250">+250 mL</button>
+          <button class="btn ok" id="bolus500">+500 mL</button>
+          <button class="btn" id="diurese">-250 mL</button>
+        </div>
+        <div class="row">
+          <label>Infusion rate</label>
+          <span class="small muted" id="infusionLabel">0 mL/h</span>
+        </div>
+        <input type="range" id="infusion" min="0" max="2000" step="25" value="0">
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Simulation</h2>
+      <div class="content">
+        <div class="grid cols-2">
+          <button class="btn" id="reset">Reset</button>
+          <label class="row" style="justify-content:flex-start; gap:10px">
+            <span>Pause</span>
+            <label class="switch"><input type="checkbox" id="pause"><span class="slider"></span></label>
+          </label>
+        </div>
+        <div class="small muted" style="margin-top:8px">Renderer only; not a medical device.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Legend</h2>
+      <div class="content legend">
+        <span class="dot oxy"></span><span class="small">Oxygenated</span>
+        <span class="dot deoxy"></span><span class="small">Deoxygenated</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Diagnostics</h2>
+      <div class="content">
+        <div class="row">
+          <button class="btn" id="runTests">Run tests</button>
+          <span class="small muted">Quick model checks</span>
+        </div>
+        <div id="tests"></div>
+      </div>
+    </div>
+  </aside>
+
+  <main id="view">
+    <div id="hud">
+      <div class="line"><span class="key">Relative flow-motion encoding</span> <span id="flowHud">--</span></div>
+      <div class="line"><span class="key">Relative resistance/calibre encoding</span> <span id="radHud">--</span></div>
+      <div class="line"><span class="key">Arterial distension encoding</span> <span id="pressureHud">--</span></div>
+      <div class="line"><span class="key">Episode time</span> <span id="episodeTime">--</span></div>
+      <button class="reset-btn" id="resetView" title="Reset camera view">↻</button>
+    </div>
+  </main>
+
+  <div class="explainer-card">
+    <h3>State-driven renderer</h3>
+    <p>This view consumes the selected model state supplied by the dashboard. It does not infer physiology or change the source trajectory.</p>
+  </div>
+
+  <script type="module">
+    // Dashboard input is either Pulse model state or observed HR used only as
+    // an illustrative cadence driver.
+    const INPUT = /*__PATIENT_STATE__*/;
+    const INSPECTION_INPUT = JSON.parse(JSON.stringify(INPUT || {}));
+    const TRAJECTORY = INPUT?.trajectory || null;
+    const OBSERVED_HR_MODE = INPUT?.renderer_mode === 'observed_hr_cadence';
+    const INPUT_FIELDS = new Set(INPUT?.provided_fields || []);
+    const BASE = {
+      HR: 70,
+      SV: 70,
+      VOL: 5.0,
+      SVR: 1.0,
+      MAP_TARGET: 93,
+      MMHG_GAIN: 19
+    };
+
+    const PR_LEAD = 0.12; // seconds atrial lead over ventricular systole
+
+    const state = {
+      t: Number(INPUT?.time_s ?? 0),
+      paused: false,
+      external: Boolean(INPUT),
+      visualPhase: Number(INPUT?.waveform_template?.phase_cycles_at_cursor ?? 0),
+      volumeL: Number(INPUT?.blood_volume_L ?? BASE.VOL),
+      hr: Number(INPUT?.hr_bpm ?? BASE.HR),
+      contractility: 0,
+      svr: Number(INPUT?.svr_relative ?? BASE.SVR),
+      svrAbsolute: INPUT?.svr_absolute_mmHg_s_mL ?? null,
+      sv: Number(INPUT?.stroke_volume_mL ?? BASE.SV),
+      co: Number(INPUT?.cardiac_output_L_min ?? 4.9),
+      map: Number(INPUT?.map_mmHg ?? 0),
+      sbp: Number(INPUT?.systolic_mmHg ?? 0),
+      dbp: Number(INPUT?.diastolic_mmHg ?? 0),
+      pulsePressure: 40,
+      aorticFlow: Number(INPUT?.aortic_inflow_mL_s ?? 0),
+      aorticPressure: Number(INPUT?.aortic_pressure_mmHg ?? 0),
+      playing: false,
+      trajectoryMode: false,
+      visualPhaseSource: OBSERVED_HR_MODE ? 'integrated observed HR; illustrative phase' : (INPUT?.waveform_template ? 'Pulse inflow template' : 'HR fallback'),
+      parentPlayheadAccess: null,
+      lastParentPlayheadUpdateMs: 0,
+      med: { adr: 0, alpha: 0, ccb: 0, infusion_mL_per_h: 0 }
+    };
+    const WAVEFORM = INPUT?.waveform_template || null;
+    const AORTIC_PRESSURE_REFERENCE_MMHG = Number(INPUT?.visual_mapping?.aortic_pressure_reference_mmHg ?? 95);
+    const AORTIC_PRESSURE_DISPLAY_GAIN = Number(INPUT?.visual_mapping?.aortic_pressure_display_gain_per_mmHg ?? 0.00025);
+    function cycleValue(values, phase){
+      if(!Array.isArray(values) || values.length < 2) return null;
+      const p=((phase%1)+1)%1, x=p*values.length, i=Math.floor(x), f=x-i;
+      const a=Number(values[i]), b=Number(values[(i+1)%values.length]);
+      return Number.isFinite(a)&&Number.isFinite(b)?a+(b-a)*f:null;
+    }
+    function pulseInputsAtPhase(phase){
+      if(state.trajectoryMode){
+        const flow=INPUT_FIELDS.has('aortic_inflow_mL_s')?state.aorticFlow:null;
+        const pressure=INPUT_FIELDS.has('aortic_pressure_mmHg')?state.aorticPressure:null;
+        const displayScale=Number(TRAJECTORY?.aortic_inflow_display_scale_mL_s || 0);
+        return {ejection:flow!==null&&displayScale>0?clamp(flow/displayScale,0,1):null,flow,pressure};
+      }
+      const flow=cycleValue(WAVEFORM?.aortic_inflow_mL_s,phase);
+      const pressure=cycleValue(WAVEFORM?.aortic_pressure_mmHg,phase);
+      const peak=Number(WAVEFORM?.aortic_inflow_peak_mL_s || 0);
+      return {
+        ejection: flow!==null&&peak>0?clamp(flow/peak,0,1):null,
+        flow,
+        pressure
+      };
+    }
+
+    function mechanicalPhaseAt(timeS){
+      const metadata=TRAJECTORY?.mechanical_phase;
+      const onsets=metadata?.onset_times_s;
+      if(!metadata?.available || !Array.isArray(onsets) || onsets.length<2) return null;
+      let lo=0, hi=onsets.length;
+      while(lo<hi){ const mid=(lo+hi)>>1; if(Number(onsets[mid])<timeS) lo=mid+1; else hi=mid; }
+      let cycles;
+      if(lo===0){
+        const period=Number(onsets[1])-Number(onsets[0]);
+        cycles=(timeS-Number(onsets[0]))/period;
+      } else if(lo>=onsets.length){
+        const n=onsets.length, period=Number(onsets[n-1])-Number(onsets[n-2]);
+        cycles=(n-1)+(timeS-Number(onsets[n-1]))/period;
+      } else {
+        const start=Number(onsets[lo-1]), end=Number(onsets[lo]);
+        cycles=(lo-1)+(timeS-start)/(end-start);
+      }
+      return ((cycles%1)+1)%1;
+    }
+
+    function setParentPlotPlayhead(timeS, visible){
+      if(state.parentPlayheadAccess===false) return;
+      try{
+        const parentDoc=window.parent.document;
+        const plots=parentDoc.querySelectorAll('.js-plotly-plot');
+        plots.forEach((gd,index)=>{
+          let overlay=gd.querySelector(':scope > .pulse-renderer-playhead-overlay');
+          if(!visible){ if(overlay) overlay.remove(); return; }
+          const layout=gd._fullLayout, axis=layout?.xaxis, size=layout?._size;
+          if(!layout || !axis || !size || !Array.isArray(axis.range) || axis.range.length<2) return;
+          const x0=Number(axis.range[0]), x1=Number(axis.range[1]), t=Number(timeS);
+          if(!Number.isFinite(x0)||!Number.isFinite(x1)||x0===x1) return;
+          if(!overlay){
+            overlay=parentDoc.createElement('div');
+            overlay.className='pulse-renderer-playhead-overlay';
+            overlay.dataset.playheadIndex=String(index);
+            Object.assign(overlay.style,{position:'absolute',inset:'0',width:'100%',height:'100%',pointerEvents:'none',zIndex:'20',overflow:'hidden'});
+            const line=parentDoc.createElement('div');
+            line.className='pulse-renderer-playhead-line';
+            Object.assign(line.style,{position:'absolute',width:'2px',background:'#2878d0',opacity:'0.95',boxShadow:'0 0 2px rgba(0,0,0,.5)'});
+            overlay.appendChild(line);
+            if(window.parent.getComputedStyle(gd).position==='static') gd.style.position='relative';
+            gd.appendChild(overlay);
+          }
+          const line=overlay.firstElementChild;
+          const fraction=(t-x0)/(x1-x0);
+          const offset=Number.isFinite(Number(axis._offset))?Number(axis._offset):Number(size.l||0);
+          const length=Number.isFinite(Number(axis._length))?Number(axis._length):Number(size.w||0);
+          Object.assign(line.style,{left:`${offset+fraction*length}px`,top:`${Number(size.t||0)}px`,height:`${Number(size.h||0)}px`,display:fraction>=0&&fraction<=1?'block':'none'});
+          line.title=`Renderer playhead ${t.toFixed(2)} s`;
+        });
+        state.parentPlayheadAccess=true;
+      }catch(_error){ state.parentPlayheadAccess=false; }
+    }
+
+    function advanceVisualPhase(dt){
+      if(state.trajectoryMode){
+        const phase=mechanicalPhaseAt(state.t);
+        if(phase!==null){ state.visualPhase=phase; state.visualPhaseSource='Pulse aortic-inflow onsets'; }
+        else { state.visualPhase=(state.visualPhase+state.hr/60*dt)%1; state.visualPhaseSource=OBSERVED_HR_MODE?'integrated observed HR; illustrative phase':'integrated HR fallback'; }
+        const now=performance.now();
+        if(now-state.lastParentPlayheadUpdateMs>=50){ setParentPlotPlayhead(state.t,true); state.lastParentPlayheadUpdateMs=now; }
+      } else {
+        const period=Number(WAVEFORM?.cycle_period_s);
+        state.visualPhase=(state.visualPhase+(period>0?dt/period:state.hr/60*dt))%1;
+      }
+    }
+
+    const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    function sampleTrajectoryField(key, timeS){
+      const series=TRAJECTORY?.series?.[key];
+      if(!series || !Array.isArray(series.time_s) || series.time_s.length<1) return {value:null,status:'unavailable',reason:'series missing'};
+      const times=series.time_s, values=series.values;
+      let lo=0, hi=times.length;
+      while(lo<hi){ const mid=(lo+hi)>>1; if(times[mid]<timeS) lo=mid+1; else hi=mid; }
+      if(lo<times.length && Math.abs(times[lo]-timeS)<=1e-8) return {value:Number(values[lo]),status:'supplied',sample_time_s:timeS,cursor_delta_s:0,source_sample_times_s:[Number(times[lo])],method:'source_sample',bracket_width_s:0};
+      if(lo===0 || lo===times.length) return {value:null,status:'unavailable',reason:'playhead outside series time range'};
+      const t0=Number(times[lo-1]), t1=Number(times[lo]), width=t1-t0;
+      if(!(width>0) || width>Number(INPUT.freshness_limit_s)) return {value:null,status:'unavailable',reason:'source bracket exceeds freshness limit',source_sample_times_s:[t0,t1],bracket_width_s:width};
+      const fraction=(timeS-t0)/width;
+      return {value:Number(values[lo-1])+(Number(values[lo])-Number(values[lo-1]))*fraction,status:'supplied',sample_time_s:timeS,cursor_delta_s:0,source_sample_times_s:[t0,t1],method:'linear_interpolation',bracket_width_s:width};
+    }
+
+    function syncStateFromInput(){
+      INPUT_FIELDS.clear(); (INPUT.provided_fields||[]).forEach(k=>INPUT_FIELDS.add(k));
+      state.hr=INPUT_FIELDS.has('hr_bpm')?Number(INPUT.hr_bpm):BASE.HR;
+      state.map=INPUT_FIELDS.has('map_mmHg')?Number(INPUT.map_mmHg):0;
+      state.sbp=INPUT_FIELDS.has('systolic_mmHg')?Number(INPUT.systolic_mmHg):0;
+      state.dbp=INPUT_FIELDS.has('diastolic_mmHg')?Number(INPUT.diastolic_mmHg):0;
+      state.co=INPUT_FIELDS.has('cardiac_output_L_min')?Number(INPUT.cardiac_output_L_min):4.9;
+      state.sv=INPUT_FIELDS.has('stroke_volume_mL')?Number(INPUT.stroke_volume_mL):BASE.SV;
+      state.volumeL=INPUT_FIELDS.has('blood_volume_L')?Number(INPUT.blood_volume_L):BASE.VOL;
+      state.svr=INPUT.svr_relative!==undefined?Number(INPUT.svr_relative):BASE.SVR;
+      state.svrAbsolute=INPUT.svr_absolute_mmHg_s_mL!==undefined?Number(INPUT.svr_absolute_mmHg_s_mL):null;
+      state.aorticFlow=INPUT_FIELDS.has('aortic_inflow_mL_s')?Number(INPUT.aortic_inflow_mL_s):0;
+      state.aorticPressure=INPUT_FIELDS.has('aortic_pressure_mmHg')?Number(INPUT.aortic_pressure_mmHg):0;
+      state.t=Number(INPUT.time_s ?? state.t);
+    }
+
+    function applyTrajectoryAt(timeS){
+      if(!TRAJECTORY?.available) return {ok:false,reason:TRAJECTORY?.reason || 'trajectory unavailable'};
+      const nextValues={}, nextProvenance={}, provided=[], derived=[];
+      for(const key of Object.keys(TRAJECTORY.series||{})){
+        const sample=sampleTrajectoryField(key,timeS);
+        if(sample.value===null || !Number.isFinite(sample.value)){
+          nextProvenance[key]={value:null,provenance:'unavailable',sample_time_s:null,cursor_delta_s:null,...sample};
+          continue;
+        }
+        nextValues[key]=sample.value; provided.push(key);
+        nextProvenance[key]={value:sample.value,provenance:'supplied',source:TRAJECTORY.series[key].source,channel:TRAJECTORY.series[key].channel,unit:TRAJECTORY.series[key].unit,...sample};
+      }
+      if(!provided.includes('hr_bpm')) return {ok:false,reason:nextProvenance.hr_bpm?.reason || 'HR is unavailable at the playback time'};
+      if(!provided.includes('stroke_volume_mL') && provided.includes('cardiac_output_L_min')){
+        nextValues.stroke_volume_mL=nextValues.cardiac_output_L_min*1000/nextValues.hr_bpm; derived.push('stroke_volume_mL');
+        nextProvenance.stroke_volume_mL={value:nextValues.stroke_volume_mL,provenance:'arithmetic_derived',inputs:['cardiac_output_L_min','hr_bpm'],sample_time_s:timeS,cursor_delta_s:0};
+      }
+      if(provided.includes('svr_absolute_mmHg_s_mL')){
+        nextValues.svr_relative=nextValues.svr_absolute_mmHg_s_mL/Number(INPUT.svr_reference_mmHg_s_mL);
+        derived.push('svr_relative');
+        nextProvenance.svr_relative={value:nextValues.svr_relative,provenance:'reference_normalized',inputs:['svr_absolute_mmHg_s_mL'],sample_time_s:timeS,cursor_delta_s:0,reference_mmHg_s_mL:Number(INPUT.svr_reference_mmHg_s_mL)};
+      }
+      for(const key of Object.keys(INPUT)) if(!(key in nextValues) && !['trajectory','waveform_template','visual_mapping','source','episode_id','renderer_mode','svr_reference_mmHg_s_mL','freshness_limit_s'].includes(key)) delete INPUT[key];
+      Object.assign(INPUT,nextValues,{time_s:timeS,cursor_time_s:timeS,provided_fields:provided,derived_fields:derived,field_provenance:nextProvenance});
+      state.t=timeS; syncStateFromInput();
+      return {ok:true};
+    }
+
+    function restoreInspectionCursor(){
+      for(const key of Object.keys(INPUT)) delete INPUT[key];
+      Object.assign(INPUT,JSON.parse(JSON.stringify(INSPECTION_INPUT)));
+      state.playing=false; state.paused=false;
+      state.trajectoryMode=false;
+      state.visualPhase=Number(INPUT.phase_cycles_at_cursor ?? INPUT.waveform_template?.phase_cycles_at_cursor ?? 0);
+      state.visualPhaseSource=OBSERVED_HR_MODE?'integrated observed HR; illustrative phase':(WAVEFORM?'Pulse inflow template':'HR fallback');
+      setParentPlotPlayhead(state.t,false);
+      syncStateFromInput();
+      document.getElementById('playbackStatus').textContent='Inspecting the selected dashboard cursor.';
+    }
+
+    function advanceTrajectoryPlayback(dt){
+      if(!state.playing || !TRAJECTORY?.available) return;
+      const endTime=Number(TRAJECTORY.end_time_s);
+      const nextTime=Math.min(endTime,state.t+dt);
+      const result=applyTrajectoryAt(nextTime);
+      if(!result.ok){
+        state.playing=false; state.paused=true;
+        document.getElementById('playbackStatus').textContent=`Playback stopped at ${state.t.toFixed(2)} s: ${result.reason}.`;
+        refreshPlaybackControls();
+        return;
+      }
+      if(nextTime>=endTime-1e-8){
+        state.playing=false; state.paused=true;
+        document.getElementById('playbackStatus').textContent=`Episode end reached at ${state.t.toFixed(2)} s.`;
+        refreshPlaybackControls();
+      }
+    }
+
+    function updateModel(dt) {
+      // 1. Volume Status
+      const dV = (state.med.infusion_mL_per_h / 3600) * dt / 1000;
+      state.volumeL = clamp(state.volumeL + dV, 2.0, 9.0);
+
+      // 2. Medication Effects
+      const { adr, alpha: alp, ccb } = state.med;
+
+      // Heart Rate effects
+      const dHR_med = 30 * adr + 10 * alp - 15 * ccb;
+
+      // Inotropy (Contractility) effects
+      const dInot_med = 0.5 * adr - 0.3 * ccb;
+
+      // SVR effects: Adr increases, Alpha blockers decrease, CCB mild decrease
+      const svr_med_mult = (1 + 0.4 * adr) * (1 - 0.45 * alp) * (1 - 0.12 * ccb);
+
+      // Apply pharmacodynamics with inertia (lerp)
+      state.contractility = clamp(lerp(state.contractility, dInot_med, 0.5 * dt), -0.6, 0.8);
+      state.svr = clamp(lerp(state.svr, BASE.SVR * svr_med_mult, 0.8 * dt), 0.4, 2.2);
+
+      // 3. Hemodynamics
+      // Frank-Starling curve (Preload)
+      // Use square relation for steeper drop-off in hypovolemia
+      const preload = clamp(Math.pow(state.volumeL / BASE.VOL, 2), 0.3, 1.5);
+
+      // Afterload effect on Stroke Volume
+      const afterload = 1 / (1 + 0.35 * (state.svr - 1));
+
+      // Calculate Stroke Volume
+      const sv_unclamped = BASE.SV * preload * (1 + state.contractility) * afterload;
+      state.sv = clamp(sv_unclamped, 30, 130);
+
+      // Calculate MAP (Mean Arterial Pressure)
+      // CO = HR * SV
+      const co_now = (state.hr * state.sv) / 1000;
+      state.map = clamp(co_now * state.svr * BASE.MMHG_GAIN, 30, 160);
+
+      // Baroreceptor Reflex (Autonomic control)
+      const reflex = 0.18 * (BASE.MAP_TARGET - state.map);
+      const targetHR = clamp(BASE.HR + dHR_med + reflex, 35, 160);
+      state.hr = lerp(state.hr, targetHR, 0.8 * dt);
+
+      // Derived values
+      state.co = (state.hr * state.sv) / 1000;
+
+      // Pulse Pressure (widens with SV, narrows with damping/SVR)
+      const pp = clamp(40 * (state.sv / BASE.SV) * Math.pow(1 / state.svr, 0.5), 20, 90);
+      state.pulsePressure = pp;
+      state.sbp = clamp(state.map + 0.5 * pp, 60, 220);
+      state.dbp = clamp(state.map - 0.5 * pp, 30, 130);
+
+      state.t += dt;
+    }
+
+    // Geometry spec shared by WebGL and 2D
+    function segmentSpec(W,P){
+      const leftCol=W.left+0.45, rightCol=W.right-0.45, topRow=W.top-0.25, botRow=W.bottom+0.25;
+      // Structure: [start, mid, end, systemic, oxySet, radius, isArtery]
+      // oxySet: null=continue, true=become oxygenated, false=become deoxygenated
+      return [
+        [P.RA,{x:-0.9,y:-0.15},P.RV,false,null,0.08,false],
+        [P.RV,{x:leftCol-0.45,y:0.25},{x:leftCol, y:1.05},false,null,0.10,true],  // Pulmonary artery - very mild pulse
+        // Split pulmonary artery before lungs - branch 1
+        [{x:leftCol,y:1.05},{x:leftCol-0.12,y:topRow+0.08},{x:-0.35, y:topRow+0.05},false,null,0.09,true],  // Pulmonary artery branch
+        // Split pulmonary artery before lungs - branch 2
+        [{x:leftCol,y:1.05},{x:leftCol+0.12,y:topRow+0.08},{x:-0.15, y:topRow+0.05},false,null,0.09,true],  // Pulmonary artery branch
+        // Inside lungs - color change happens here (start deoxygenated)
+        [{x:-0.35, y:topRow+0.05},{x:-0.25, y:topRow},{x:-0.25, y:topRow-0.05},false,true,0.08,false],
+        [{x:-0.15, y:topRow+0.05},{x:-0.05, y:topRow},{x:0.05, y:topRow-0.05},false,true,0.08,false],
+        // Rejoin pulmonary veins after lungs - branch 1
+        [{x:-0.25, y:topRow-0.05},{x:0.05, y:topRow-0.08},{x:rightCol-0.15, y:topRow-0.08},false,null,0.09,false],
+        // Rejoin pulmonary veins after lungs - branch 2
+        [{x:0.05, y:topRow-0.05},{x:0.25, y:topRow-0.08},{x:rightCol+0.15, y:topRow-0.08},false,null,0.09,false],
+        // Rejoined pulmonary vein to LA
+        [{x:rightCol, y:topRow-0.08},{x:rightCol, y:1.15},P.LA,false,null,0.10,false],
+        [P.LA,{x:0.9,y:-0.1},P.LV,false,null,0.08,false],
+        [P.LV,{x:1.0,y:0.4},{x:rightCol-0.1, y:0.9},true,null,0.12,true],  // Aorta start - artery
+        [{x:rightCol-0.1, y:0.9},{x:rightCol, y:0.6},{x:rightCol, y:-1.8},true,null,0.12,true],  // Aorta - artery
+        // Split aorta before body - branch 1
+        [{x:rightCol,y:-1.8},{x:rightCol-0.15,y:botRow+0.08},{x:0.35, y:botRow+0.05},true,null,0.11,true],
+        // Split aorta before body - branch 2
+        [{x:rightCol,y:-1.8},{x:rightCol+0.15,y:botRow+0.08},{x:0.15, y:botRow+0.05},true,null,0.11,true],
+        // Inside body - color change happens here (start oxygenated)
+        [{x:0.35, y:botRow+0.05},{x:0.25, y:botRow},{x:0.25, y:botRow-0.05},true,false,0.09,false],
+        [{x:0.15, y:botRow+0.05},{x:0.05, y:botRow},{x:-0.05, y:botRow-0.05},true,false,0.09,false],
+        // Rejoin vena cava after body - branch 1
+        [{x:0.25, y:botRow-0.05},{x:-0.05, y:botRow-0.08},{x:leftCol+0.15, y:botRow-0.08},true,null,0.10,false],
+        // Rejoin vena cava after body - branch 2
+        [{x:-0.05, y:botRow-0.05},{x:-0.25, y:botRow-0.08},{x:leftCol-0.15, y:botRow-0.08},true,null,0.10,false],
+        // Rejoined vena cava to RA
+        [{x:leftCol, y:botRow-0.08},{x:leftCol, y:-1.3},P.RA,true,null,0.12,false]
+      ];
+    }
+
+    const el=s=>document.querySelector(s);
+    const hrVal=el('#hrVal'); const bpVal=el('#bpVal'); const mapVal=el('#mapVal'); const volVal=el('#volVal'); const coVal=el('#coVal'); const svVal=el('#svVal'); const svrVal=el('#svrVal'); const infRateVal=el('#infRateVal');
+    const adr=el('#adr'); const alpha=el('#alpha'); const ccb=el('#ccb'); const adrVal=el('#adrVal'); const alphaVal=el('#alphaVal'); const ccbVal=el('#ccbVal');
+    const infusion=el('#infusion'); const infusionLabel=el('#infusionLabel'); const bolus250=el('#bolus250'); const bolus500=el('#bolus500'); const diurese=el('#diurese');
+    const resetBtn=el('#reset');     const pause=el('#pause'); const toggleHR=el('#toggleHR'); const toggleBP=el('#toggleBP'); const toggleVOL=el('#toggleVOL');
+    const kpiHR=document.querySelector('[data-kpi="hr"]'); const kpiBP=document.querySelector('[data-kpi="bp"]'); const kpiVOL=document.querySelector('[data-kpi="vol"]');
+    function refreshToggles(){ kpiHR.style.display=toggleHR.checked?'':'none'; kpiBP.style.display=toggleBP.checked?'':'none'; kpiVOL.style.display=toggleVOL.checked?'':'none' }
+    toggleHR.addEventListener('change',refreshToggles); toggleBP.addEventListener('change',refreshToggles); toggleVOL.addEventListener('change',refreshToggles);
+
+    // --- Trend Graph System ---
+    const trendCanvas = document.getElementById('trendGraph');
+    const trendCtx = trendCanvas.getContext('2d');
+    const history = { hr: [], sbp: [], dbp: [], t: [] };
+    const MAX_POINTS = 300; // 60s at 5fps update for graph
+
+    function updateTrends(dt) {
+      if (state.paused) return;
+      // Push data every ~200ms to avoid noise
+      if (!history.lastT || state.t - history.lastT > 0.2) {
+        history.hr.push(state.hr);
+        history.sbp.push(state.sbp);
+        history.dbp.push(state.dbp);
+        history.t.push(state.t);
+        if (history.hr.length > MAX_POINTS) {
+          history.hr.shift(); history.sbp.shift(); history.dbp.shift(); history.t.shift();
+        }
+        history.lastT = state.t;
+      }
+    }
+
+    function drawTrends() {
+      const w = trendCanvas.width, h = trendCanvas.height;
+      trendCtx.clearRect(0, 0, w, h);
+
+      if (history.hr.length < 2) return;
+
+      // Helper to map values
+      const mapY = (val, min, max) => h - ((val - min) / (max - min) * h);
+      const stepX = w / MAX_POINTS;
+
+      // Draw HR (Green)
+      trendCtx.strokeStyle = '#43d17b';
+      trendCtx.lineWidth = 1.5;
+      trendCtx.beginPath();
+      for (let i = 0; i < history.hr.length; i++) {
+        const x = w - (history.hr.length - i) * stepX;
+        const y = mapY(history.hr[i], 30, 180); // HR range 30-180
+        if (i===0) trendCtx.moveTo(x, y); else trendCtx.lineTo(x, y);
+      }
+      trendCtx.stroke();
+
+      // Draw BP Area (Yellow/Orange)
+      trendCtx.fillStyle = 'rgba(255, 189, 46, 0.15)';
+      trendCtx.beginPath();
+      for (let i = 0; i < history.sbp.length; i++) {
+        const x = w - (history.sbp.length - i) * stepX;
+        const yTop = mapY(history.sbp[i], 0, 250);
+        if (i===0) trendCtx.moveTo(x, yTop); else trendCtx.lineTo(x, yTop);
+      }
+      for (let i = history.dbp.length - 1; i >= 0; i--) {
+        const x = w - (history.dbp.length - i) * stepX;
+        const yBot = mapY(history.dbp[i], 0, 250);
+        trendCtx.lineTo(x, yBot);
+      }
+      trendCtx.closePath();
+      trendCtx.fill();
+
+      // Draw BP Lines
+      trendCtx.strokeStyle = '#ffbd2e';
+      trendCtx.lineWidth = 1;
+      trendCtx.beginPath(); // SBP
+      for (let i = 0; i < history.sbp.length; i++) {
+        const x = w - (history.sbp.length - i) * stepX;
+        const y = mapY(history.sbp[i], 0, 250);
+        if (i===0) trendCtx.moveTo(x, y); else trendCtx.lineTo(x, y);
+      }
+      trendCtx.stroke();
+
+      trendCtx.beginPath(); // DBP
+      for (let i = 0; i < history.dbp.length; i++) {
+        const x = w - (history.dbp.length - i) * stepX;
+        const y = mapY(history.dbp[i], 0, 250);
+        if (i===0) trendCtx.moveTo(x, y); else trendCtx.lineTo(x, y);
+      }
+      trendCtx.stroke();
+    }
+
+    // --- Scenarios ---
+    window.applyScenario = (type) => {
+      // Reset first
+      state.med.adr = 0; state.med.alpha = 0; state.med.ccb = 0; state.med.infusion_mL_per_h = 0;
+      adr.value=0; alpha.value=0; ccb.value=0; infusion.value=0;
+
+      switch(type) {
+        case 'normal':
+          state.volumeL = 5.0;
+          break;
+        case 'shock':
+          state.volumeL = 3.2; // Hypovolemia
+          // Compensatory reaction will happen automatically by the model (reflex HR)
+          break;
+        case 'hypertension':
+          state.volumeL = 6.5;
+          state.med.adr = 0.3; // Increase SVR/HR
+          adr.value = 0.3;
+          break;
+        case 'hf':
+          state.volumeL = 6.0; // Fluid overload
+          state.med.ccb = 0.6; // Reduced contractility
+          ccb.value = 0.6;
+          break;
+      }
+    };
+
+    function updateUI(){
+      if(state.external){
+        el('#hrLabel').textContent=OBSERVED_HR_MODE?'Observed HR':'Heart Rate';
+        hrVal.textContent=INPUT_FIELDS.has('hr_bpm')?`${state.hr.toFixed(1)} bpm`:'--';
+        bpVal.textContent=INPUT_FIELDS.has('systolic_mmHg')&&INPUT_FIELDS.has('diastolic_mmHg')?`${state.sbp.toFixed(1)} / ${state.dbp.toFixed(1)} mmHg`:'-- / --';
+        mapVal.textContent=INPUT_FIELDS.has('map_mmHg')?`MAP ${state.map.toFixed(1)} mmHg`:'MAP --';
+        volVal.textContent=INPUT_FIELDS.has('blood_volume_L')?`${state.volumeL.toFixed(2)} L`:'--';
+        coVal.textContent=INPUT_FIELDS.has('cardiac_output_L_min')?`${state.co.toFixed(2)} L/min`:'--';
+        el('#coOrigin').textContent=INPUT_FIELDS.has('cardiac_output_L_min')?`${INPUT.source} output`:'not supplied';
+        svVal.textContent=INPUT_FIELDS.has('stroke_volume_mL')?`${state.sv.toFixed(1)}${(INPUT?.derived_fields || []).includes('stroke_volume_mL')?' (CO/HR)':''}`:'--';
+        el('#svOrigin').textContent=INPUT_FIELDS.has('stroke_volume_mL')?((INPUT?.derived_fields || []).includes('stroke_volume_mL')?'derived':'Pulse'):'not supplied';
+        svrVal.textContent=state.svrAbsolute!==null?`${Number(state.svrAbsolute).toFixed(3)} mmHg·s/mL (${state.svr.toFixed(2)}× ref.)`:'--';
+        el('#aorticFlowVal').textContent=INPUT_FIELDS.has('aortic_inflow_mL_s')?state.aorticFlow.toFixed(1):'--';
+        el('#aorticPressureVal').textContent=INPUT_FIELDS.has('aortic_pressure_mmHg')?state.aorticPressure.toFixed(1):'--';
+        infRateVal.textContent='--';
+        const currentPulse=pulseInputsAtPhase(state.visualPhase);
+        el('#flowHud').textContent=OBSERVED_HR_MODE?'not supplied; cadence only':(currentPulse.ejection!==null?`aortic inflow × ${currentPulse.ejection.toFixed(2)} (relative)`:(INPUT_FIELDS.has('cardiac_output_L_min')?`${(state.co/4.9).toFixed(2)} × renderer reference`:'--'));
+        el('#episodeTime').textContent=`${state.t.toFixed(2)} s`;
+        el('#radHud').textContent=OBSERVED_HR_MODE?'not supplied; vessels schematic':(state.svrAbsolute!==null?`${state.svr.toFixed(2)} × Pulse reference (schematic)`:'--');
+        el('#pressureHud').textContent=currentPulse.pressure!==null?`${currentPulse.pressure.toFixed(1)} mmHg; display gain ${AORTIC_PRESSURE_DISPLAY_GAIN}/mmHg`:'unavailable';
+        el('#stateMode').textContent=OBSERVED_HR_MODE
+          ? `${INPUT.source} / ${INPUT.field_provenance?.hr_bpm?.channel || 'HR'} · ${INPUT.episode_id} · ${state.playing?(state.paused?'playback paused':'playback time'):'inspection'} ${state.t.toFixed(2)} s; HR drives cadence only, phase is illustrative and not ECG-synchronized.`
+          : state.trajectoryMode
+          ? `${INPUT.source} · ${INPUT.episode_id} · ${state.playing?(state.paused?'playback paused':'playback time'):'playback stopped'} ${state.t.toFixed(2)} s (charts remain at origin cursor ${Number(INSPECTION_INPUT.time_s).toFixed(2)} s); phase: ${state.visualPhaseSource}; fields sampled with ≤ ${Number(INPUT.freshness_limit_s || 0).toFixed(2)} s brackets.`
+          : `${INPUT.source} · ${INPUT.episode_id} · inspect cursor ${state.t.toFixed(2)} s; scalar fields interpolated with ≤ ${Number(INPUT.freshness_limit_s || 0).toFixed(2)} s brackets. Beat template is the latest complete Pulse aortic-flow cycle; not ECG-synchronized.`;
+      } else {
+        hrVal.textContent=`${state.hr.toFixed(0)} bpm`;
+        bpVal.textContent=`${state.sbp.toFixed(0)} / ${state.dbp.toFixed(0)} mmHg`;
+        mapVal.textContent=`MAP ${state.map.toFixed(0)} mmHg`;
+        volVal.textContent=`${state.volumeL.toFixed(2)} L`;
+        coVal.textContent=`${state.co.toFixed(2)} L/min`;
+        el('#coOrigin').textContent='derived';
+        svVal.textContent=state.sv.toFixed(0);
+        el('#svOrigin').textContent='';
+        svrVal.textContent=state.svr.toFixed(2);
+        infRateVal.textContent=state.med.infusion_mL_per_h.toFixed(0);
+        el('#flowHud').textContent=`${(state.co/5).toFixed(2)} x baseline`;
+        el('#episodeTime').textContent=`${state.t.toFixed(2)} s`;
+        el('#radHud').textContent=`${(1/state.svr).toFixed(2)} relative`;
+      }
+      adrVal.textContent=Number(adr.value).toFixed(2);
+      alphaVal.textContent=Number(alpha.value).toFixed(2);
+      ccbVal.textContent=Number(ccb.value).toFixed(2);
+      infusionLabel.textContent=`${infusion.value} mL/h`;
+      drawTrends();
+    }
+    adr.addEventListener('input',()=>state.med.adr=Number(adr.value)); alpha.addEventListener('input',()=>state.med.alpha=Number(alpha.value)); ccb.addEventListener('input',()=>state.med.ccb=Number(ccb.value)); infusion.addEventListener('input',()=>{ state.med.infusion_mL_per_h=Number(infusion.value) });
+    bolus250.addEventListener('click',()=>{ state.volumeL=clamp(state.volumeL+0.25,2.0,9.0) }); bolus500.addEventListener('click',()=>{ state.volumeL=clamp(state.volumeL+0.50,2.0,9.0) }); diurese.addEventListener('click',()=>{ state.volumeL=clamp(state.volumeL-0.25,2.0,9.0) });
+    resetBtn.addEventListener('click',()=>{ Object.assign(state,{ volumeL:BASE.VOL, hr:BASE.HR, contractility:0, svr:BASE.SVR, sv:BASE.SV, med:{ adr:0, alpha:0, ccb:0, infusion_mL_per_h:0 } }); adr.value=0; alpha.value=0; ccb.value=0; infusion.value=0; runTests() });
+    pause.addEventListener('change',()=>{ state.paused=pause.checked }); refreshToggles();
+    const playTrajectoryButton=document.getElementById('playTrajectory');
+    const inspectCursorButton=document.getElementById('inspectCursor');
+    const playbackStatus=document.getElementById('playbackStatus');
+    function refreshPlaybackControls(){
+      const canPlay=Boolean(TRAJECTORY?.available) && Number(INPUT.time_s)<Number(TRAJECTORY.end_time_s)-1e-8;
+      playTrajectoryButton.disabled=!state.playing&&!canPlay;
+      if(state.playing) playTrajectoryButton.textContent=state.paused?'Resume playback':'Pause playback';
+      else playTrajectoryButton.textContent=canPlay?'Play from cursor':'At episode end';
+      if(!TRAJECTORY?.available) playbackStatus.textContent=TRAJECTORY?.reason || 'Playback unavailable';
+      else if(!state.playing && !playbackStatus.textContent) playbackStatus.textContent=canPlay
+        ? `${TRAJECTORY.start_time_s.toFixed(2)}–${TRAJECTORY.end_time_s.toFixed(2)} s · ${TRAJECTORY.sample_count} source samples`
+        : `Cursor is at episode end (${Number(TRAJECTORY.end_time_s).toFixed(2)} s). Move the dashboard cursor earlier to play.`;
+    }
+    playTrajectoryButton.addEventListener('click',()=>{
+      if(state.playing){
+        state.paused=!state.paused;
+        playbackStatus.textContent=state.paused?`Paused at ${state.t.toFixed(2)} s.`:`Resumed at ${state.t.toFixed(2)} s.`;
+      } else {
+        const result=applyTrajectoryAt(Number(INSPECTION_INPUT.time_s));
+        if(!result.ok){playbackStatus.textContent=`Playback stopped: ${result.reason}`;}
+        else if(state.t>=Number(TRAJECTORY.end_time_s)-1e-8){playbackStatus.textContent='Cursor is at the end of this episode. Move the dashboard cursor earlier to play.';}
+        else {
+          state.playing=true;state.trajectoryMode=true;state.paused=false;
+          const phase=mechanicalPhaseAt(state.t);
+          if(phase!==null){state.visualPhase=phase;state.visualPhaseSource='Pulse aortic-inflow onsets';}
+          else state.visualPhaseSource='integrated HR fallback';
+          setParentPlotPlayhead(state.t,true);
+          playbackStatus.textContent=`Playing from ${state.t.toFixed(2)} s to ${Number(TRAJECTORY.end_time_s).toFixed(2)} s.`;
+        }
+      }
+      refreshPlaybackControls();
+    });
+    inspectCursorButton.addEventListener('click',()=>{restoreInspectionCursor();refreshPlaybackControls()});
+    refreshPlaybackControls();
+
+    const view=document.getElementById('view'); const ctxPill=document.getElementById('ctxPill');
+
+    // Bootstrap: try WebGL path, else 2D canvas fallback
+    (async function start(){
+      try{
+        const THREE = await import('three');
+        const { OrbitControls } = await import('https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/controls/OrbitControls.js');
+        try{ initThree(THREE, OrbitControls); ctxPill.textContent=state.external?'State input: dashboard':'Renderer: WebGL' }catch(e){ console.warn('WebGL init failed', e); initFallback2D(); ctxPill.textContent=state.external?'State input: dashboard':'Renderer: 2D canvas'; document.getElementById('resetView').style.display='none' }
+      }catch(e){ console.warn('Three not available', e); initFallback2D(); ctxPill.textContent=state.external?'State input: dashboard':'Renderer: 2D canvas'; document.getElementById('resetView').style.display='none' }
+    })();
+
+    // 3D renderer path
+    function initThree(THREE, OrbitControls){
+      const renderer=new THREE.WebGLRenderer({antialias:true, powerPreference:'low-power'});
+      renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(1,1); view.appendChild(renderer.domElement);
+      const scene=new THREE.Scene(); scene.background=new THREE.Color(0x0b0f1b);
+      const camera=new THREE.PerspectiveCamera(45,1,0.1,100); camera.position.set(0,0,12);
+      const controls=new OrbitControls(camera,renderer.domElement); controls.enableDamping=true; controls.enablePan=false; controls.minDistance=6; controls.maxDistance=20;
+
+      // Reset view functionality
+      const resetViewBtn = document.getElementById('resetView');
+      resetViewBtn.addEventListener('click', () => {
+        camera.position.set(0, 0, 12);
+        controls.target.set(0, 0, 0);
+        controls.update();
+      });
+      const hemi=new THREE.HemisphereLight(0x88aaff,0x101020,1.0); scene.add(hemi); const dir=new THREE.DirectionalLight(0xff6688,0.9); dir.position.set(5,5,5); scene.add(dir);
+
+      const RED=new THREE.Color(0xff6677), BLUE=new THREE.Color(0x4aa8ff);
+
+      const W={ left:-3.2, right:3.2, top:2.6, bottom:-2.6 };
+      const P={ RA:new THREE.Vector3(-0.7, 0.45, 0), RV:new THREE.Vector3(-0.7,-0.65,0), LA:new THREE.Vector3( 0.7, 0.45, 0), LV:new THREE.Vector3( 0.7,-0.65,0) };
+
+      function roundedRectShape(x,y,w,h,r){ const s=new THREE.Shape(); s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r); s.lineTo(x+w,y+h-r); s.quadraticCurveTo(x+w,y+h,x+w-r,y+h); s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r); s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s }
+      function addExtrudedShape(shape, color, opacity=0.22, depth=0.08){ const geo=new THREE.ExtrudeGeometry(shape,{depth, bevelEnabled:false}); const mat=new THREE.MeshStandardMaterial({color, transparent:true, opacity, metalness:0.05, roughness:0.9}); const mesh=new THREE.Mesh(geo,mat); mesh.position.z=-0.15; scene.add(mesh); return mesh }
+      function ellipseShape(cx,cy,rx,ry){ const s=new THREE.Shape(); s.absellipse(cx,cy,rx,ry,0,Math.PI*2,false,0); return s }
+      addExtrudedShape(ellipseShape(-0.6, 2.35-0.45, 0.7, 0.9), 0x86bfff, 0.25);
+      addExtrudedShape(ellipseShape( 0.6, 2.35-0.45, 0.7, 0.9), 0x86bfff, 0.25);
+      const trach=new THREE.Mesh(new THREE.BoxGeometry(0.15,0.6,0.06), new THREE.MeshStandardMaterial({color:0xcfe8ff, transparent:true, opacity:0.35, metalness:0.05})); trach.position.set(0, 2.35-0.2, -0.12); scene.add(trach);
+      const bodyShape=roundedRectShape(-1.3, -2.35-0.8, 2.6, 0.9, 0.18); addExtrudedShape(bodyShape, 0xff9aa0, 0.22);
+
+      const heartShape=roundedRectShape(-1.35, -1.05, 2.7, 1.95, 0.26);
+      const heartGeo=new THREE.ExtrudeGeometry(heartShape,{depth:0.2, bevelEnabled:false});
+      const heartMat=new THREE.MeshStandardMaterial({color:0xff9aa0, transparent:true, opacity:0.18, metalness:0.1, roughness:0.7});
+      const heartMesh=new THREE.Mesh(heartGeo,heartMat); heartMesh.position.z=-0.11; scene.add(heartMesh);
+      const septum=new THREE.Mesh(new THREE.BoxGeometry(0.06,1.85,0.18), new THREE.MeshStandardMaterial({color:0xff9aa0, metalness:0.1, roughness:0.6})); septum.position.set(0,-0.07,-0.02); scene.add(septum);
+
+      function chamber(v,color,r=0.32){ const g=new THREE.SphereGeometry(r,42,42); const m=new THREE.MeshStandardMaterial({color, metalness:0.15, roughness:0.5}); const mesh=new THREE.Mesh(g,m); mesh.position.copy(v); scene.add(mesh); return mesh }
+      const ra=chamber(P.RA, BLUE, 0.32); const rv=chamber(P.RV, BLUE, 0.34); const la=chamber(P.LA, RED, 0.32); const lv=chamber(P.LV, RED, 0.36);
+
+      function makeLabel(text){ const canvas=document.createElement('canvas'); const s=256; canvas.width=s; canvas.height=64; const c=canvas.getContext('2d'); c.fillStyle='#00000088'; c.fillRect(0,0,s,64); c.font='28px sans-serif'; c.fillStyle='#fff'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(text,s/2,32); const tex=new THREE.CanvasTexture(canvas); tex.anisotropy=4; const mat=new THREE.SpriteMaterial({map:tex, transparent:true}); const sp=new THREE.Sprite(mat); sp.scale.set(1.8,0.45,1); return sp }
+      // chamber labels with RV/LV below, RA/LA above for clarity
+      const raLabel=makeLabel('RA'); const raPos=P.RA.clone(); raPos.y+=0.55; raLabel.position.copy(raPos); scene.add(raLabel);
+      const laLabel=makeLabel('LA'); const laPos=P.LA.clone(); laPos.y+=0.55; laLabel.position.copy(laPos); scene.add(laLabel);
+      const rvLabel=makeLabel('RV'); const rvPos=P.RV.clone(); rvPos.y-=0.55; rvLabel.position.copy(rvPos); scene.add(rvLabel);
+      const lvLabel=makeLabel('LV'); const lvPos=P.LV.clone(); lvPos.y-=0.55; lvLabel.position.copy(lvPos); scene.add(lvLabel);
+      const lungsLabel=makeLabel('Lungs'); lungsLabel.position.set(0, 2.6-0.25+0.55, 0); scene.add(lungsLabel);
+      const bodyLabel=makeLabel('Body'); bodyLabel.position.set(0, -2.6+0.25-0.55, 0); scene.add(bodyLabel);
+      const aortaLabel=makeLabel('Aorta'); aortaLabel.position.set(3.2-0.45+0.3, -0.2, 0); aortaLabel.scale.multiplyScalar(0.8); scene.add(aortaLabel);
+      const vcLabel=makeLabel('Vena cava'); vcLabel.position.set(-3.2+0.45-0.3, -0.2, 0); vcLabel.scale.multiplyScalar(0.8); scene.add(vcLabel);
+      const paLabel=makeLabel('Pulmonary artery'); paLabel.position.set(-2.2, 2.15, 0); paLabel.scale.multiplyScalar(0.8); scene.add(paLabel);
+      const pvLabel=makeLabel('Pulmonary vein'); pvLabel.position.set( 2.2, 2.15, 0); pvLabel.scale.multiplyScalar(0.8); scene.add(pvLabel);
+
+      function getGlowSprite(){
+        const c=document.createElement('canvas'); c.width=32; c.height=32;
+        const ctx=c.getContext('2d');
+        const g=ctx.createRadialGradient(16,16,0, 16,16,16);
+        g.addColorStop(0,'rgba(255,255,255,1)');
+        g.addColorStop(0.5,'rgba(255,255,255,0.2)');
+        g.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=g; ctx.fillRect(0,0,32,32);
+        return new THREE.CanvasTexture(c);
+      }
+      const glowTex = getGlowSprite();
+
+      const C=THREE.CatmullRomCurve3; const segments=[];
+      function validPoint(p){ return p && Number.isFinite(p.x) && Number.isFinite(p.y) }
+      function addSeg(a,b,c,systemic=false, oxySet=null, radius=0.10, isArtery=false){
+        if(!validPoint(a)||!validPoint(b)||!validPoint(c)) throw new Error('Invalid segment point');
+        const curve=new C([ new THREE.Vector3(a.x,a.y,0), new THREE.Vector3(b.x,b.y,0), new THREE.Vector3(c.x,c.y,0) ], false, 'centripetal');
+        const geom=new THREE.TubeGeometry(curve, 80, radius, 20, false);
+        // Glassy material: Transparent, shiny, allows seeing blood inside
+        const mat=new THREE.MeshPhysicalMaterial({
+          color:0x888888,
+          metalness:0.1,
+          roughness:0.1,
+          transmission: 0.6, // Glass-like transmission
+          transparent:true,
+          opacity:0.3,
+          depthWrite: false, // Prevents occlusion issues with internal particles
+          side: THREE.DoubleSide
+        });
+        const mesh=new THREE.Mesh(geom, mat); scene.add(mesh);
+        segments.push({curve, mesh, systemic, oxySet, isArtery, baseRadius: radius});
+      }
+
+      const spec=segmentSpec({ left:-3.2, right:3.2, top:2.6, bottom:-2.6 }, { RA:{x:-0.7,y:0.45}, RV:{x:-0.7,y:-0.65}, LA:{x:0.7,y:0.45}, LV:{x:0.7,y:-0.65} });
+      for(const s of spec){ addSeg(s[0],s[1],s[2],s[3],s[4],s[5],s[6]) }
+
+      const oxyAtSeg=[]; { let oxy=false; for(let i=0;i<segments.length;i++){ oxyAtSeg[i]=oxy; if(segments[i].oxySet!==null) oxy=segments[i].oxySet } }
+      // Tint the glass tubes slightly based on oxygenation
+      for(let i=0;i<segments.length;i++){
+        const c = oxyAtSeg[i] ? RED : BLUE;
+        segments[i].mesh.material.color.setHSL(c.getHSL({}).h, 0.5, 0.1); // Keep it dark/subtle
+        segments[i].mesh.material.emissive.copy(c).multiplyScalar(0.1); // Slight inner glow
+      }
+
+      const path=segments.map(s=>({ curve:s.curve, len:s.curve.getLength() }));
+      const totalLen=path.reduce((a,b)=>a+b.len,0); const cum=[]; let acc=0; for(const p of path){ cum.push(acc); acc+=p.len }
+
+      // Store segment positions for wave calculations
+      for(let i=0;i<segments.length;i++){
+        segments[i].pathStart = cum[i] / totalLen; // normalized start position in circuit
+        segments[i].pathLen = path[i].len / totalLen; // normalized segment length
+      }
+      function getPointByU(u){
+        if(!path || path.length === 0) return { pos: new THREE.Vector3(0,0,0), seg: 0 };
+        const d=u*totalLen;
+        let i=0;
+        while(i<path.length-1 && d>=cum[i+1]) i++;
+        if(i >= path.length) i = path.length - 1;
+        if(!path[i] || !path[i].curve || path[i].len <= 0) return { pos: new THREE.Vector3(0,0,0), seg: 0 };
+        const local=Math.max(0, Math.min(1, (d-cum[i])/path[i].len));
+        try {
+          const pos = path[i].curve.getPoint(local);
+          if(!pos || !pos.isVector3) return { pos: new THREE.Vector3(0,0,0), seg: i };
+          return { pos, seg:i };
+        } catch(e) {
+          return { pos: new THREE.Vector3(0,0,0), seg: i };
+        }
+      }
+
+      const N=1400; const positions=new Float32Array(N*3); const progress=new Float32Array(N); const colors=new Float32Array(N*3);
+      const bloodGeom=new THREE.BufferGeometry();
+      // Glowing blood particles
+      const bloodMat=new THREE.PointsMaterial({
+        size:0.15, // Larger because of soft glow
+        map: glowTex,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        vertexColors:true
+      });
+      for(let i=0;i<N;i++){ progress[i]=Math.random(); const {pos,seg}=getPointByU(progress[i]); positions[i*3]=pos.x; positions[i*3+1]=pos.y; positions[i*3+2]=pos.z; const c=oxyAtSeg[seg]?RED:BLUE; colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b }
+      bloodGeom.setAttribute('position',new THREE.BufferAttribute(positions,3)); bloodGeom.setAttribute('progress',new THREE.BufferAttribute(progress,1)); bloodGeom.setAttribute('color',new THREE.BufferAttribute(colors,3)); const blood=new THREE.Points(bloodGeom,bloodMat); scene.add(blood);
+
+      function onResize(){ const rect=view.getBoundingClientRect(); renderer.setSize(rect.width,rect.height); camera.aspect=rect.width/rect.height; camera.updateProjectionMatrix() } window.addEventListener('resize',onResize); onResize();
+
+      let last=performance.now();
+      function animate(now){
+        requestAnimationFrame(animate);
+        const dt=Math.min(0.05,(now-last)/1000);
+        last=now;
+        if(!state.paused){
+          if(!state.external){ updateModel(dt); updateTrends(dt); }
+          if(state.external&&state.playing) advanceTrajectoryPlayback(dt);
+          if(!state.paused){
+            advanceVisualPhase(dt);
+          }
+        }
+        const beatHz=state.hr/60;
+        const rateBeat=Math.max(0, Math.sin(2*Math.PI*state.visualPhase));
+        const pulse=pulseInputsAtPhase(state.visualPhase);
+        const ejectionLevel=pulse.ejection===null?rateBeat:pulse.ejection;
+        const vAmp=OBSERVED_HR_MODE?0.04:clamp(0.04+0.004*(state.sv-BASE.SV),0.02,0.10);
+        const lvScale=1+vAmp*ejectionLevel;
+        const rvScale=1+vAmp*rateBeat;
+        const aBeat=OBSERVED_HR_MODE?0:Math.max(0, Math.sin(2*Math.PI*(state.visualPhase + PR_LEAD*beatHz)));
+        const aAmp=OBSERVED_HR_MODE?0:Math.min(0.30*vAmp, 0.03);
+        const aScale=1 + aAmp*aBeat;
+        ra.scale.setScalar(aScale); la.scale.setScalar(aScale); lv.scale.setScalar(lvScale); rv.scale.setScalar(rvScale*0.98);
+        const sysScale=OBSERVED_HR_MODE?1:clamp(1/Math.sqrt(state.svr),0.7,1.6);
+        // Display-only pressure-to-distension gain; this is not a vessel
+        // compliance model and does not imply pulse-wave propagation.
+        const pressureScale=OBSERVED_HR_MODE?1:(pulse.pressure===null?1:1+clamp((pulse.pressure-AORTIC_PRESSURE_REFERENCE_MMHG)*AORTIC_PRESSURE_DISPLAY_GAIN,-0.015,0.015));
+
+        for(const s of segments){
+          if(s.isArtery){
+            if(s.systemic){
+              s.mesh.scale.set(sysScale * pressureScale, sysScale * pressureScale, pressureScale);
+            } else {
+              // No pulmonary pressure waveform is supplied in this export.
+              s.mesh.scale.set(1,1,1);
+            }
+          } else if(s.systemic){
+            // Non-artery systemic vessels
+            s.mesh.scale.set(sysScale, sysScale, 1);
+          }
+        }
+        blood.visible=!OBSERVED_HR_MODE;
+        const speed=OBSERVED_HR_MODE?0:(WAVEFORM?clamp(0.08+0.22*ejectionLevel,0.05,0.36):clamp(0.16 + 0.10*(state.co-4.9), 0.05, 0.36)); const attr=blood.geometry.getAttribute('position'); const prog=blood.geometry.getAttribute('progress'); const col=blood.geometry.getAttribute('color');
+        for(let i=0;i<N;i++){ let u=prog.array[i]+speed*dt; if(u>1) u-=1; prog.array[i]=u; const {pos,seg}=getPointByU(u); attr.array[i*3]=pos.x; attr.array[i*3+1]=pos.y; attr.array[i*3+2]=pos.z; const c=oxyAtSeg[seg]?RED:BLUE; col.array[i*3]=c.r; col.array[i*3+1]=c.g; col.array[i*3+2]=c.b }
+        prog.needsUpdate=true; attr.needsUpdate=true; col.needsUpdate=true; updateUI(); controls.update(); renderer.render(scene,camera) }
+      requestAnimationFrame(animate)
+    }
+
+    // 2D canvas fallback
+    function initFallback2D(){
+      const canvas=document.createElement('canvas'); canvas.id='fallback2d'; view.appendChild(canvas); const ctx=canvas.getContext('2d');
+      function onResize(){ const r=view.getBoundingClientRect(); canvas.width=r.width; canvas.height=r.height } window.addEventListener('resize',onResize); onResize();
+
+      const RED='#ff6677', BLUE='#4aa8ff', PBG='rgba(120,190,255,0.10)', SBG='rgba(255,160,160,0.10)';
+      const text='#fff';
+
+      const W={ left:-3.2, right:3.2, top:2.6, bottom:-2.6 };
+      const P={ RA:{x:-0.7,y:0.45}, RV:{x:-0.7,y:-0.65}, LA:{x:0.7,y:0.45}, LV:{x:0.7,y:-0.65} };
+
+      function w2s(p){ const r=canvas.getBoundingClientRect(); const sx=r.width/(W.right-W.left); const sy=r.height/(W.top-W.bottom); return { x:(p.x-W.left)*sx, y:(W.top-p.y)*sy } }
+      function rrect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath() }
+
+      function drawBackground(){
+        const t=w2s({x:W.left+0.2,y:W.top}); const b=w2s({x:W.left+0.2,y:W.bottom}); const tr=w2s({x:W.right-0.2,y:W.top}); const br=w2s({x:W.right-0.2,y:W.bottom});
+        const heartTop=w2s({x:0,y:0.95}); const heartBot=w2s({x:0,y:-1.25});
+        ctx.fillStyle=PBG; ctx.strokeStyle='#86bfff'; ctx.lineWidth=2; rrect(t.x, t.y, tr.x-t.x, heartTop.y-t.y, 18); ctx.fill(); ctx.stroke();
+        ctx.fillStyle=SBG; ctx.strokeStyle='#ff9aa0'; ctx.lineWidth=2; rrect(b.x, heartBot.y, br.x-b.x, b.y-heartBot.y, 18); ctx.fill(); ctx.stroke();
+        ctx.fillStyle=text; ctx.font='14px system-ui, sans-serif'; ctx.textAlign='center'; ctx.fillText('Pulmonary circulation', (t.x+tr.x)/2, t.y+20); ctx.fillText('Systemic circulation', (b.x+br.x)/2, b.y-14);
+        ctx.font='12px system-ui, sans-serif'; ctx.fillText('Lung capillaries', (t.x+tr.x)/2, t.y+38); ctx.fillText('Capillaries of the body and organs', (b.x+br.x)/2, b.y-30);
+        const hb=w2s({x:-1.35,y:-1.05}), ht=w2s({x:1.35,y:0.9}); const hx=hb.x, hy=ht.y, hw=ht.x-hb.x, hh=w2s({x:0,y:-1.05}).y-hy;
+        ctx.fillStyle='rgba(255,120,120,0.12)'; ctx.strokeStyle='#ff9aa0'; ctx.lineWidth=2; rrect(hx, hy, hw, hh, 26); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle='#ff9aa0'; ctx.lineWidth=2; ctx.beginPath(); const sx=(hx+ht.x)/2; ctx.moveTo(sx,hy+6); ctx.lineTo(sx,hy+hh-6); ctx.stroke();
+        function oval(cx,cy,rx,ry,fill,stroke){ const s=w2s({x:cx,y:cy}); const rxp=rx*(canvas.width/(W.right-W.left)); const ryp=ry*(canvas.height/(W.top-W.bottom)); const grad=ctx.createRadialGradient(s.x,s.y,1,s.x,s.y,Math.max(rxp,ryp)); grad.addColorStop(0, fill); grad.addColorStop(1, 'rgba(134,191,255,0.15)'); ctx.fillStyle=grad; ctx.beginPath(); ctx.ellipse(s.x,s.y,rxp,ryp,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=stroke; ctx.stroke() }
+        const topRow=W.top-0.25, botRow=W.bottom+0.25;
+        ctx.lineWidth=1.5; oval(-0.6, topRow-0.45, 0.7, 0.9, 'rgba(134,191,255,0.35)', '#86bfff'); oval(0.6, topRow-0.45, 0.7, 0.9, 'rgba(134,191,255,0.35)', '#86bfff');
+        const txy1=w2s({x:0,y:topRow-0.2}); ctx.fillStyle='rgba(207,232,255,0.5)'; ctx.fillRect(txy1.x-6,txy1.y-30,12,60);
+        const bbx=w2s({x:-1.3,y:botRow-0.8}); const bbw=w2s({x:1.3,y:botRow+0.1}); ctx.strokeStyle='#ff9aa0'; ctx.lineWidth=2; rrect(bbx.x, bbx.y, bbw.x-bbx.x, bbw.y-bbx.y, 16); ctx.fillStyle='rgba(255,154,160,0.18)'; ctx.fill(); ctx.stroke();
+        function fibers(color,rows){ ctx.strokeStyle=color; for(let r=0;r<rows;r++){ ctx.globalAlpha=0.8; ctx.lineWidth=1; const y=bbx.y+14+r*((bbw.y-bbx.y)-28)/(rows-1); ctx.beginPath(); for(let x=bbx.x+10;x<=bbw.x-10;x+=6){ const t=(x-bbx.x)*0.06+r; const dy=Math.sin(t)*3 + Math.sin(t*1.7)*1.5; if(x===bbx.x+10) ctx.moveTo(x,y+dy); else ctx.lineTo(x,y+dy) } ctx.stroke(); ctx.globalAlpha=1 } }
+        fibers('#ff99aa',4); fibers('#7dbdff',4);
+      }
+
+      const leftCol=W.left+0.45, rightCol=W.right-0.45, topRow=W.top-0.25, botRow=W.bottom+0.25;
+      const segs=segmentSpec(W,P).map(s=>({ a:s[0], b:s[1], c:s[2], systemic:s[3], oxySet:s[4], isArtery:s[6]||false }));
+
+      function capillaryKnot(center,size,color){ ctx.strokeStyle=color; ctx.lineWidth=2; const c=w2s(center); const s=size*20; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2; const x=c.x + Math.cos(a*2.1)*(s*0.58) + Math.cos(a)*s*0.25; const y=c.y + Math.sin(a*1.8)*(s*0.48) + Math.sin(a*1.2)*s*0.15; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y) } ctx.closePath(); ctx.stroke() }
+      function qPoint(a,b,c,t){ return { x: (1-t)*(1-t)*a.x + 2*(1-t)*t*b.x + t*t*c.x, y: (1-t)*(1-t)*a.y + 2*(1-t)*t*b.y + t*t*c.y } }
+      function qTangent(a,b,c,t){ return { x: 2*(1-t)*(b.x-a.x) + 2*t*(c.x-b.x), y: 2*(1-t)*(b.y-a.y) + 2*t*(c.y-b.y) } }
+      function qPathLen(a,b,c){ const steps=32; let len=0; let prev=w2s(a); for(let i=1;i<=steps;i++){ const p=w2s(qPoint(a,b,c,i/steps)); len+=Math.hypot(p.x-prev.x,p.y-prev.y); prev=p } return len }
+      const info=segs.map(s=>({ ...s, len:qPathLen(s.a,s.b,s.c) }));
+      const totalLen=info.reduce((s,v)=>s+v.len,0); const cum=[]; let acc=0; for(const s of info){ cum.push(acc); acc+=s.len }
+
+      // Store segment positions for wave calculations
+      for(let i=0;i<info.length;i++){
+        info[i].pathStart = cum[i] / totalLen; // normalized start position in circuit
+        info[i].pathLen = info[i].len / totalLen; // normalized segment length
+      }
+
+      const oxyAtSeg=[]; { let oxy=false; for(let i=0;i<info.length;i++){ oxyAtSeg[i]=oxy; if(info[i].oxySet!==null) oxy=info[i].oxySet } }
+
+      const N=1300; const parts=new Float32Array(N); for(let i=0;i<N;i++) parts[i]=Math.random();
+      function getPointByU(u){ const d=u*totalLen; let i=0; while(i<info.length-1 && d>=cum[i+1]) i++; const s=info[i]; const local=(d-cum[i])/s.len; const p=qPoint(s.a,s.b,s.c,local); const scr=w2s(p); return {x:scr.x,y:scr.y, seg:i, t:local} }
+      function drawArrow(segIdx,t,color){ const s=info[segIdx]; const p=qPoint(s.a,s.b,s.c,t); const d=qTangent(s.a,s.b,s.c,t); const n=Math.hypot(d.x,d.y)||1; const ux=d.x/n, uy=d.y/n; const sp=w2s(p); ctx.fillStyle=color; ctx.beginPath(); const size=s.systemic?8:6; ctx.moveTo(sp.x+ux*0, sp.y+uy*0); ctx.lineTo(sp.x-uy*size+ux*size, sp.y+ux*size+uy*size); ctx.lineTo(sp.x+uy*size+ux*size, sp.y-ux*size+uy*size); ctx.closePath(); ctx.fill() }
+
+      function circle(p,r,color){ const s=w2s(p); ctx.fillStyle=color; ctx.beginPath(); ctx.arc(s.x,s.y,r,0,Math.PI*2); ctx.fill() }
+
+      function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        drawBackground();
+        capillaryKnot({x:0,y:topRow+0.03}, 1.0, '#cfe8ff');
+        capillaryKnot({x:0,y:botRow-0.03}, 1.0, '#ffd2d2');
+        const beatHz=state.hr/60; const rateBeat=Math.max(0, Math.sin(2*Math.PI*state.visualPhase)); const pulse=pulseInputsAtPhase(state.visualPhase); const ejectionLevel=pulse.ejection===null?rateBeat:pulse.ejection; const vAmp=OBSERVED_HR_MODE?0.04:Math.max(0.02, Math.min(0.10, 0.04 + 0.004*(state.sv-BASE.SV))); const lvScale=1+vAmp*ejectionLevel; const rvScale=1+vAmp*rateBeat; const aBeat=OBSERVED_HR_MODE?0:Math.max(0, Math.sin(2*Math.PI*(state.visualPhase + PR_LEAD*beatHz))); const aAmp=OBSERVED_HR_MODE?0:Math.min(0.30*vAmp, 0.03); const aScale=1 + aAmp*aBeat;
+        const pressureScale=OBSERVED_HR_MODE?1:(pulse.pressure===null?1:1+clamp((pulse.pressure-AORTIC_PRESSURE_REFERENCE_MMHG)*AORTIC_PRESSURE_DISPLAY_GAIN,-0.015,0.015));
+
+        for(let i=0;i<info.length;i++){
+          const s=info[i]; const A=w2s(s.a), B=w2s(s.b), C=w2s(s.c);
+          let width=OBSERVED_HR_MODE?5:(s.systemic? Math.max(3, 6*(1/Math.sqrt(state.svr))) : 5);
+          if(s.isArtery && s.systemic) width *= pressureScale;
+
+          ctx.lineWidth=width;
+          const oxy=oxyAtSeg[i]; ctx.strokeStyle=oxy?RED:BLUE; ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.quadraticCurveTo(B.x,B.y,C.x,C.y); ctx.stroke();
+          drawArrow(i,0.22, ctx.strokeStyle); drawArrow(i,0.55, ctx.strokeStyle); drawArrow(i,0.84, ctx.strokeStyle);
+        }
+        // 2D Particle Animation
+        const speed=OBSERVED_HR_MODE?0:(WAVEFORM?Math.max(0.05,Math.min(0.36,0.08+0.22*ejectionLevel)):Math.max(0.05, Math.min(0.36, 0.16 + 0.10*(state.co-4.9))));
+        // Update particles
+        for(let i=0;i<N&&!OBSERVED_HR_MODE;i++){
+          let u=parts[i]+speed*dt;
+          if(u>1) u-=1;
+          parts[i]=u;
+
+          const {x,y,seg}=getPointByU(u);
+          const oxy = oxyAtSeg[seg];
+          ctx.fillStyle = oxy ? RED : BLUE;
+          ctx.beginPath(); ctx.arc(x,y, 2, 0, Math.PI*2); ctx.fill();
+        }
+
+        circle(P.RA,16*aScale,'#4aa8ff'); circle(P.RV,16*rvScale*0.98,'#4aa8ff'); circle(P.LA,16*aScale,'#ff6677'); circle(P.LV,18*lvScale,'#ff6677');
+        // RA/RV/LA/LV labels in fallback
+        ctx.fillStyle='#ffffff'; ctx.font='12px system-ui, sans-serif'; ctx.textAlign='center';
+        const raP=w2s(P.RA), rvP=w2s(P.RV), laP=w2s(P.LA), lvP=w2s(P.LV);
+        ctx.fillText('RA', raP.x, raP.y-20); ctx.fillText('RV', rvP.x, rvP.y+22); ctx.fillText('LA', laP.x, laP.y-20); ctx.fillText('LV', lvP.x, lvP.y+24);
+        ctx.fillStyle='#c9d6ff'; ctx.font='11px system-ui, sans-serif'; ctx.textAlign='center';
+        ctx.fillText('Pulmonary artery', w2s({x:-2.6,y:1.2}).x, w2s({x:0,y:1.2}).y);
+        ctx.fillText('Pulmonary vein', w2s({x:2.6,y:1.2}).x, w2s({x:0,y:1.2}).y);
+        ctx.fillText('Aorta', w2s({x:2.6,y:-0.2}).x, w2s({x:0,y:-0.2}).y);
+        ctx.fillText('Vena cava', w2s({x:-2.6,y:-0.2}).x, w2s({x:0,y:-0.2}).y);
+      }
+
+      let last=performance.now();
+      function loop(now){
+        requestAnimationFrame(loop);
+        const dt=Math.min(0.05,(now-last)/1000);
+        last=now;
+        if(!state.paused){
+          if(!state.external){ updateModel(dt); updateTrends(dt); }
+          if(state.external&&state.playing) advanceTrajectoryPlayback(dt);
+          if(!state.paused){
+            advanceVisualPhase(dt);
+          }
+        }
+        updateUI();
+        draw();
+      }
+      requestAnimationFrame(loop)
+    }
+
+    // ---------- Tests ----------
+    const testsOut=el('#tests'); el('#runTests').addEventListener('click',runTests);
+    function modelStep(s, dt) {
+      const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+      const lerp = (a, b, t) => a + (b - a) * t;
+
+      const dV = (s.med.infusion_mL_per_h / 3600) * dt / 1000;
+      s.volumeL = clamp(s.volumeL + dV, 2.0, 9.0);
+
+      const { adr, alpha: alp, ccb } = s.med;
+      const dHR_med = 30 * adr + 10 * alp - 15 * ccb;
+      const dInot_med = 0.5 * adr - 0.3 * ccb;
+      const svr_med_mult = (1 + 0.4 * adr) * (1 - 0.45 * alp) * (1 - 0.12 * ccb);
+
+      s.contractility = clamp(lerp(s.contractility, dInot_med, 0.5 * dt), -0.6, 0.8);
+      s.svr = clamp(lerp(s.svr, BASE.SVR * svr_med_mult, 0.8 * dt), 0.4, 2.2);
+
+      const preload = clamp(Math.pow(s.volumeL / BASE.VOL, 2), 0.3, 1.5);
+      const afterload = 1 / (1 + 0.35 * (s.svr - 1));
+      const sv_unclamped = BASE.SV * preload * (1 + s.contractility) * afterload;
+      s.sv = clamp(sv_unclamped, 30, 130);
+
+      const co_now = (s.hr * s.sv) / 1000;
+      s.map = clamp(co_now * s.svr * BASE.MMHG_GAIN, 30, 160);
+
+      const reflex = 0.18 * (BASE.MAP_TARGET - s.map);
+      const targetHR = clamp(BASE.HR + dHR_med + reflex, 35, 160);
+      s.hr = lerp(s.hr, targetHR, 0.8 * dt);
+
+      s.co = (s.hr * s.sv) / 1000;
+      const pp = clamp(40 * (s.sv / BASE.SV) * Math.pow(1 / s.svr, 0.5), 20, 90);
+      s.sbp = clamp(s.map + 0.5 * pp, 60, 220);
+      s.dbp = clamp(s.map - 0.5 * pp, 30, 130);
+
+      s.t += dt;
+      return s;
+    }
+    function runTests(){ const lines=[]; const tol=(a,b,t)=>Math.abs(a-b)<=t; function sim(seconds,prep){ let s={ t:0, paused:false, volumeL:BASE.VOL, hr:BASE.HR, contractility:0, svr:BASE.SVR, sv:BASE.SV, co:0, map:0, sbp:0, dbp:0, pulsePressure:40, med:{ adr:0, alpha:0, ccb:0, infusion_mL_per_h:0 } }; if(prep) prep(s); let dt=0.02; for(let t=0;t<seconds;t+=dt){ s=modelStep(s,dt) } return s } function ok(name,cond,detail=""){ lines.push(`${cond?'PASS':'FAIL'} - ${name}${detail?` - ${detail}`:''}`) }
+      let s0=sim(8); ok('Baseline HR near 70 bpm', tol(s0.hr,70,5), `got ${s0.hr.toFixed(1)}`); ok('Baseline CO near 4.9 L/min', tol(s0.co,4.9,0.8), `got ${s0.co.toFixed(2)}`); ok('Baseline MAP plausible', s0.map>70 && s0.map<110, `got ${s0.map.toFixed(1)}`);
+      let sAdr=sim(8, s=>{ s.med.adr=0.8 }); ok('Adrenaline raises HR', sAdr.hr>s0.hr, `base ${s0.hr.toFixed(1)} now ${sAdr.hr.toFixed(1)}`); ok('Adrenaline raises MAP', sAdr.map>=s0.map, `base ${s0.map.toFixed(1)} now ${sAdr.map.toFixed(1)}`);
+      let sAlp=sim(8, s=>{ s.med.alpha=0.8 }); ok('Alpha blocker lowers SVR', sAlp.svr<s0.svr, `base ${s0.svr.toFixed(2)} now ${sAlp.svr.toFixed(2)}`); ok('Alpha blocker non-increase MAP', sAlp.map<=s0.map+2, `base ${s0.map.toFixed(1)} now ${sAlp.map.toFixed(1)}`); ok('Alpha blocker reflex HR not lower than baseline', sAlp.hr>=s0.hr-2, `base ${s0.hr.toFixed(1)} now ${sAlp.hr.toFixed(1)}`);
+      let sCcb=sim(8, s=>{ s.med.ccb=0.8 }); ok('CCB lowers HR', sCcb.hr<s0.hr, `base ${s0.hr.toFixed(1)} now ${sCcb.hr.toFixed(1)}`); ok('CCB non-increase MAP', sCcb.map<=s0.map+2, `base ${s0.map.toFixed(1)} now ${sCcb.map.toFixed(1)}`);
+      let sVol=sim(8, s=>{ s.volumeL=BASE.VOL+0.5 }); ok('Bolus raises SV', sVol.sv>=s0.sv, `base ${s0.sv.toFixed(1)} now ${sVol.sv.toFixed(1)}`); ok('Bolus raises CO', sVol.co>=s0.co, `base ${s0.co.toFixed(2)} now ${sVol.co.toFixed(2)}`);
+      let sInf=sim(600, s=>{ s.med.infusion_mL_per_h=1200 }); ok('Infusion raises volume', sInf.volumeL>s0.volumeL, `base ${s0.volumeL.toFixed(2)} now ${sInf.volumeL.toFixed(2)}`);
+      let sMaxAdr=sim(10, s=>{ s.med.adr=1.0; s.med.alpha=0; s.med.ccb=0 }); ok('HR upper clamp', sMaxAdr.hr<=160+1, `hr ${sMaxAdr.hr.toFixed(1)}`);
+      let sMaxCcb=sim(10, s=>{ s.med.ccb=1.0; s.med.adr=0; s.med.alpha=0 }); ok('HR lower clamp', sMaxCcb.hr>=35-1, `hr ${sMaxCcb.hr.toFixed(1)}`);
+      const gSpec=segmentSpec({ left:-3.2, right:3.2, top:2.6, bottom:-2.6 }, { RA:{x:-0.7,y:0.45}, RV:{x:-0.7,y:-0.65}, LA:{x:0.7,y:0.45}, LV:{x:0.7,y:-0.65} });
+      const allDefined=gSpec.every(s=>s[0]&&s[1]&&s[2]&&Number.isFinite(s[0].x)&&Number.isFinite(s[1].x)&&Number.isFinite(s[2].x));
+      ok('Geometry points defined', allDefined);
+      let flips=0, oxy=false; for(const s of gSpec){ if(s[4]!==null){ if(s[4]!==oxy){ flips++; oxy=s[4] } } }
+      ok('Oxygenation flips twice', flips===2, `flips ${flips}`);
+      // Find aorta segment (should be segment 10 based on new structure: LV to aorta start)
+      const aortaSeg = gSpec.find(s => s[6] === true && s[0] && s[0].x > 0.5); // isArtery and starts from LV area
+      const archY=aortaSeg ? aortaSeg[2].y : 0; ok('Aortic arch ascends', archY>0.5, `peak y ${archY}`);
+      // Atrial timing tests
+      const atrialLeadOk = PR_LEAD>=0.08 && PR_LEAD<=0.20; ok('Atrial lead 80-200 ms', atrialLeadOk, `lead ${PR_LEAD}s`);
+      const vAmpForTest=0.06, aAmpForTest=Math.min(0.30*vAmpForTest,0.03); ok('Atrial amplitude smaller than ventricular', aAmpForTest < vAmpForTest, `aAmp ${aAmpForTest.toFixed(3)} vAmp ${vAmpForTest.toFixed(3)}`);
+      testsOut.textContent=lines.join('\n'); return lines.every(l=>l.startsWith('PASS')) }
+    runTests();
+  </script>
+</body>
+</html>

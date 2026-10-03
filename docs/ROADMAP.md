@@ -1,9 +1,9 @@
 # Roadmap
 
-> **Optical thread:** the stages that were deliberately excluded from the
-> published manuscript (3, 4, 4b, 5 waveform work, 7b, 8) are synthesised in
-> [OPTICAL_STORY.md](OPTICAL_STORY.md) — narrative, open questions, and the
-> artefact index. Start there when this thread is picked up again.
+> **Optical thread:** the stages deliberately excluded from the published
+> manuscript (3, 4, 4b, 5 waveform work, 7b, 8) are documented individually in
+> the stage reports linked below. A consolidated narrative of that thread is
+> kept outside this repository.
 
 ## Stage 0 — Independent controls
 

@@ -102,7 +102,7 @@ def plot(domains, cohorts):
     for axis, (name, frame) in zip(axes, cohorts.items()):
         pressure = frame.dropna(subset=["systolic_mmHg", "diastolic_mmHg"])
         axis.hexbin(pressure.systolic_mmHg, pressure.diastolic_mmHg,
-                    gridsize=35, mincnt=1, cmap="Greys", bins="log")
+                    gridsize=35, mincnt=10, cmap="Greys", bins="log")  # cells under 10 participants are not drawn (disclosure control)
         for domain, color in zip(domains, ("tab:blue", "tab:orange", "tab:red")):
             points = domain.frame[["achieved_systolic_mmHg",
                                    "achieved_diastolic_mmHg"]].to_numpy()

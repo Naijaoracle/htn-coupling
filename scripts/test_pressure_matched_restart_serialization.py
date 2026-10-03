@@ -18,7 +18,7 @@ import pandas as pd
 from google.protobuf.json_format import MessageToJson, ParseDict
 
 ROOT = Path(__file__).resolve().parents[1]
-PULSE = Path(os.environ.get("PULSE_ROOT", "/tmp/pulse-stage7-diagnostic"))
+PULSE = Path(os.environ.get("PULSE_ROOT", ROOT.parent / "pulse-physiology-engine"))
 PREFIX = PULSE / "build/install"
 BIN = PREFIX / "bin"
 PYTHON = PREFIX / "python"

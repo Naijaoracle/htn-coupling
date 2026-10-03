@@ -1,0 +1,44 @@
+{
+  "dataset_id": "synthetic_recovery_demo_v1",
+  "scenario": "generic_exercise_recovery",
+  "seed": 20261003,
+  "duration_s": 60,
+  "hr": {
+    "hr0_bpm": 132.0,
+    "hr_inf_bpm": 92.0,
+    "tau_s": 28.0,
+    "noise_sd_bpm": 1.2,
+    "noise_ar1": 0.7,
+    "rr_jitter_sd_s": 0.012
+  },
+  "sampling_hz": {"ecg_like": 100, "ppg_like": 50, "rgb": 30, "acoustic_envelope": 50, "hr": 1},
+  "ecg_like": {"noise_sd": 0.015, "baseline_wander_amp": 0.05, "baseline_wander_hz": 0.25},
+  "ppg_like": {"amplitude": 1.0, "delay_s": 0.2, "noise_sd": 0.03},
+  "rgb_display_model": {
+    "baseline": {"r": 182.0, "g": 128.0, "b": 112.0},
+    "pulse_gain": {"r": 0.18, "g": 0.55, "b": 0.22},
+    "noise_sd": {"r": 0.05, "g": 0.05, "b": 0.05},
+    "drift_amp": 0.15,
+    "drift_hz": 0.05
+  },
+  "acoustic_envelope": {"s1_width_s": 0.03, "s2_width_s": 0.025, "s2_fraction_of_rr": 0.35, "noise_sd": 0.02},
+  "forecast": {
+    "context_end_s": 40,
+    "linear_fit_window_s": 15,
+    "illustrative_ml_style": {"damping_tau_s": 12.0, "band_bpm": 4.0, "wiggle_sd_bpm": 0.6},
+    "illustrative_mechanistic_style": {"assumed_hr_inf_bpm": 98.0, "assumed_tau_s": 35.0}
+  },
+  "research_results": {
+    "data_class": "aggregate_experimental",
+    "note": "These findings come from the private research session and are reported as aggregates only. They were not computed from the synthetic traces on this page and contain no participant recordings.",
+    "metric": "forecast MAE (bpm)",
+    "rows": [
+      {"recovery": 1, "timesfm": 7.1, "pulse": 9.1, "persistence": 8.2, "linear": 6.3},
+      {"recovery": 2, "timesfm": 4.0, "pulse": 8.4, "persistence": 4.1, "linear": 31.6},
+      {"recovery": 3, "timesfm": 4.1, "pulse": 19.6, "persistence": 3.7, "linear": 5.8}
+    ]
+  },
+  "banner": "Synthetic demonstration. The interactive physiological signals shown here are generated data created to demonstrate the software architecture. They are not participant recordings and are not derived from the private multimodal research session. Experimental findings are presented separately as aggregate results.",
+  "badge": "SYNTHETIC DATA",
+  "rgb_disclaimer": "Synthetic RGB demonstration. Generic channel modulation is used to exercise the rPPG processing and renderer. This is not a validated skin, camera or optical forward model."
+}

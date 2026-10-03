@@ -112,3 +112,11 @@ results/pressure_matched_drug_response_confirmatory/**
 results/pressure_matched_drug_response_multibody/**
 !results/pressure_matched_drug_response_multibody/*.csv
 !results/pressure_matched_drug_response_multibody/*.json
+
+# generated synthetic demo outputs
+public_demo/out/
+public_demo/.venv-timesfm/
+
+# real research-session recordings must never enter this repo
+multimodal_demo_next/examples/six_take*.csv
+**/six_take*.csv

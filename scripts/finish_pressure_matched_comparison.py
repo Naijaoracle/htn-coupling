@@ -27,7 +27,7 @@ RESULTS = ROOT / "results/pressure_matched_routes"
 COUPLED = RESULTS / "coupled_openbf"
 CASES = RESULTS / "private/cases"
 NOISE = ROOT / "results/stage5/metric_noise_floors.csv"
-PULSE = Path(os.environ.get("PULSE_ROOT", "/tmp/pulse-htn-a04"))
+PULSE = Path(os.environ.get("PULSE_ROOT", ROOT.parent / "pulse-physiology-engine"))
 OPENBF_RUNNER = ROOT / "scripts/run_stage4_openbf.jl"
 PRIMARY = {
     "direct": "direct_inlet_direct_resistance",

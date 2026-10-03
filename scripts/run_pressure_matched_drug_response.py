@@ -10,8 +10,8 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-PULSE = Path(os.environ.get('PULSE_ROOT', '/tmp/pulse-checkpoint-restart'))
-BIN = Path(os.environ.get('PULSE_BIN', '/tmp/pulse-checkpoint-install/bin'))
+PULSE = Path(os.environ.get('PULSE_ROOT', ROOT.parent / 'pulse-physiology-engine'))
+BIN = Path(os.environ.get('PULSE_BIN', PULSE / 'build/install/bin'))
 OUT = ROOT / 'results/pressure_matched_drug_response/private/paired_runs_v1'
 BASES = ROOT / 'results/pressure_matched_routes_v2/private/cases'
 STATE = ROOT / 'results/stage2/private/cache/StandardMale_stage2_baseline.json'
@@ -145,7 +145,7 @@ def run_child(target, route, phase):
 def launch(target,route,phase):
     cmd=[sys.executable,str(Path(__file__).resolve()),'--child','--target',target,'--route',route,'--phase',phase]
     env=os.environ.copy(); env['PULSE_ROOT']=str(PULSE); env['PULSE_BIN']=str(BIN)
-    pyroots=['/tmp/pulse-checkpoint-install/python','/tmp/pulse-checkpoint-install/bin']
+    pyroots=[str(PULSE / 'build/install/python'),str(BIN)]
     env['PYTHONPATH']=os.pathsep.join(pyroots + ([env['PYTHONPATH']] if env.get('PYTHONPATH') else []))
     env['LD_LIBRARY_PATH']=str(BIN) + (os.pathsep + env['LD_LIBRARY_PATH'] if env.get('LD_LIBRARY_PATH') else '')
     p=subprocess.run(cmd,text=True,capture_output=True,env=env)

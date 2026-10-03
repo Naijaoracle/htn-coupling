@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "htn-multimodal-demo"
+version = "0.1.0"
+description = "Offline research dashboard for multimodal patient observations"
+requires-python = ">=3.12"
+dependencies = [
+  "numpy>=1.26.4",
+  "pandas>=2.2",
+  "scipy>=1.13",
+  "plotly>=5.24",
+  "streamlit>=1.49",
+]
+
+[project.optional-dependencies]
+cuda = [
+  "timesfm[torch]>=3.0.2",
+]
+
+[tool.setuptools]
+py-modules = ["data_contract", "pulse_state_adapter", "timesfm_adapter", "bridged_cycle_export", "session_timeline_export"]

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{color-scheme:dark;--bg:#0b0f1b;--panel:#141a2c;--line:#293452;--ink:#e7ecfb;--muted:#a0abc7;--cyan:#5ad1ff;--red:#ff666e;--green:#51e395;--blue:#76a9ff;--orange:#ffb648}
+  *{box-sizing:border-box} body{margin:0;padding:14px;background:var(--bg);color:var(--ink);font:13px/1.4 system-ui,-apple-system,Segoe UI,sans-serif}
+  h2{margin:0 0 4px;font-size:17px} h3{margin:0 0 9px;font-size:13px;color:#dbe5ff} .muted{color:var(--muted);font-size:11px}
+  .head{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:12px}.badge{border:1px solid #375273;border-radius:20px;padding:4px 9px;color:var(--cyan);font-size:11px;white-space:nowrap}
+  .top{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,3fr) minmax(0,3fr);gap:10px;margin-bottom:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+  .scene{height:180px;display:flex;align-items:center;justify-content:center;background:linear-gradient(110deg,#10172b,#111321);border-radius:8px;overflow:hidden}
+  svg{width:100%;height:100%}.readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.value{font-size:14px;font-weight:650}.channel{border:1px solid var(--line);border-radius:8px;padding:8px}.channel.r .value{color:var(--red)}.channel.g .value{color:var(--green)}.channel.b .value{color:var(--blue)}
+  .input-note{font-size:11px;color:var(--muted);line-height:1.45;margin:2px 0 10px}.input-table{width:100%;border-collapse:collapse;font:10px ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}.input-table th,.input-table td{padding:6px 4px;text-align:right;border-bottom:1px solid #293452;white-space:nowrap}.input-table th:first-child,.input-table td:first-child{text-align:left;color:#dce5fa}.input-table th{color:var(--muted);font-weight:600}.input-table .r{color:var(--red)}.input-table .g{color:var(--green)}.input-table .b{color:var(--blue)}
+  .plot{height:220px;background:#0e1423;border:1px solid var(--line);border-radius:9px;margin:8px 0;padding:4px}.plot canvas{width:100%;height:100%;display:block}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 8px}.legend span{font-size:11px;color:var(--muted)}.swatch{display:inline-block;width:15px;height:3px;margin:0 5px 3px 0;vertical-align:middle}
+  .foot{padding:9px;background:#11192a;border-radius:8px;color:var(--muted);font-size:11px}.status{color:var(--orange)}
+  @media(max-width:900px){.top{grid-template-columns:1fr}.head{display:block}.badge{display:inline-block;margin-top:8px}.plot{height:190px}}
+</style>
+</head>
+<body>
+<script>const D=/*__RPPG_STATE__*/;</script>
+<div class="head"><div><h2>Remote optical observation</h2><div class="muted" id="summary"></div></div><div class="badge">REAL DATA · NO SYNTHETIC SKIN MODEL</div></div>
+<div class="top">
+  <section class="card"><h3>Observation path (schematic)</h3>
+    <div class="scene"><svg viewBox="0 0 560 180" role="img" aria-label="Schematic of vertical RGB illumination entering tissue, scattering near a full-width vessel, and returning upward to a camera above the skin">
+      <defs>
+        <linearGradient id="tissue" x2="0" y2="1"><stop stop-color="#b97961"/><stop offset="1" stop-color="#53374c"/></linearGradient>
+        <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ff666e"/></marker>
+        <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#51e395"/></marker>
+        <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#76a9ff"/></marker>
+        <marker id="arrowReturn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#d6e3ff"/></marker>
+      </defs>
+      <rect x="35" y="47" width="490" height="109" rx="8" fill="url(#tissue)" stroke="#d5a087" stroke-width="2"/>
+      <rect x="35" y="47" width="490" height="14" fill="#e7bd9d" opacity=".85"/>
+      <text x="18" y="100" text-anchor="middle" transform="rotate(-90 18 100)" fill="#cbd5e1" font-size="10">tissue layers — schematic only</text>
+      <rect x="45" y="119" width="470" height="25" rx="12" fill="#9a3d58" stroke="#eb7181"/>
+      <text x="223" y="135" fill="#fff" font-size="10">blood vessel (schematic)</text>
+      <rect x="102" y="5" width="118" height="20" rx="6" fill="#202a40" stroke="#65769a"/>
+      <text x="133" y="19" fill="#e3eafa" font-size="10">Light source</text>
+      <text x="368" y="14" fill="#cbd5e1" font-size="9">iPad RGB camera / sensor</text>
+      <rect x="392" y="19" width="72" height="25" rx="7" fill="#27314b" stroke="#aebde0" stroke-width="2"/>
+      <circle cx="428" cy="31" r="8" fill="#080c16" stroke="#8296c4" stroke-width="3"/>
+      <g id="incident">
+        <path d="M132 25 V46" fill="none" stroke="#ff666e" stroke-width="3" marker-end="url(#arrowR)"/>
+        <path d="M166 25 V46" fill="none" stroke="#51e395" stroke-width="3" marker-end="url(#arrowG)"/>
+        <path d="M200 25 V46" fill="none" stroke="#76a9ff" stroke-width="3" marker-end="url(#arrowB)"/>
+      </g>
+      <g transform="translate(0 0)"><path d="M132 69 V82" fill="none" stroke="#ff666e" stroke-width="2" marker-end="url(#arrowR)"/><animateTransform attributeName="transform" type="translate" values="0 0;0 30;0 0" dur="1.1s" repeatCount="indefinite"/></g>
+      <g transform="translate(0 0)"><path d="M166 69 V82" fill="none" stroke="#51e395" stroke-width="2" marker-end="url(#arrowG)"/><animateTransform attributeName="transform" type="translate" values="0 0;0 30;0 0" dur="1.3s" repeatCount="indefinite"/></g>
+      <g transform="translate(0 0)"><path d="M200 69 V82" fill="none" stroke="#76a9ff" stroke-width="2" marker-end="url(#arrowB)"/><animateTransform attributeName="transform" type="translate" values="0 0;0 30;0 0" dur="1.5s" repeatCount="indefinite"/></g>
+      <path d="M216 118 Q232 96 257 77 T337 49 T415 40" fill="none" stroke="#ff8b91" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrowReturn)"/>
+      <path d="M222 118 Q240 99 269 80 T344 51 T415 40" fill="none" stroke="#77e9ad" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrowReturn)"/>
+      <path d="M228 118 Q248 102 280 83 T351 53 T415 40" fill="none" stroke="#8eb6ff" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrowReturn)"/>
+      <text x="282" y="71" fill="#e3eafa" font-size="9">scattered return exits above skin</text>
+      <text x="287" y="174" fill="#9eabc6" font-size="9">Measured RGB means drive the traces; optical paths are schematic, not ray-traced.</text>
+    </svg></div>
+    <div class="muted">No skin-tone slider, fabricated pulsation, or assumed melanin-specific attenuation is used.</div>
+  </section>
+  <section class="card"><h3>Numerical camera input</h3>
+    <div class="input-note">Example timestamped RGB values derived from each video frame’s selected skin ROI. The rPPG processing uses these numbers; this viewer does not forward image frames.</div>
+    <table class="input-table"><thead><tr><th>t (s)</th><th class="r">R mean</th><th class="g">G mean</th><th class="b">B mean</th></tr></thead><tbody id="inputRows"><!--__INPUT_ROWS__--></tbody></table>
+    <div class="input-note" style="margin-top:10px">Numeric stream → Y / POS / CHROM → stored rate estimates below.</div>
+  </section>
+  <section class="card"><h3>Measured iPad ROI channel means at inspection time</h3><div class="muted">Raw channel values in the source export’s camera units.</div>
+    <div class="readouts" id="rgbValues"></div>
+    <div class="muted" style="margin-top:10px">Camera colour changes (%)</div><div class="muted">Per channel: 100 × (ROI mean / selected-take mean − 1).</div>
+    <div class="legend"><span><i class="swatch" style="background:var(--red)"></i>Red</span><span><i class="swatch" style="background:var(--green)"></i>Green</span><span><i class="swatch" style="background:var(--blue)"></i>Blue</span><span id="cursorLegend"></span></div>
+  </section>
+</div>
+<section class="card"><h3>Recorded RGB modulation</h3><div class="plot"><!--__RGB_PLOT_SVG__--></div>
+  <div class="muted">Processed observation: per-channel mean-normalized camera ROI means. Vertical marker is the shared dashboard cursor when it falls inside this take.</div>
+</section>
+<section class="card" style="margin-top:10px"><h3>Reference and estimator rate series</h3><div class="legend"><!--__RATE_LEGEND__--></div><div class="plot"><!--__RATE_PLOT_SVG__--></div>
+  <div class="muted">Rate traces are the stored H10 reference and blind camera estimator outputs. A reference-informed candidate, if present in this export, is dashed and explicitly diagnostic.</div>
+</section>
+<div class="foot" id="provenance" style="margin-top:10px"></div>
+<script>
+const C={red:'#ff666e',green:'#51e395',blue:'#76a9ff',h10:'#f2f4ff',chrom:'#ffb648',pos:'#b68cff',y:'#57d9e6',candidate:'#ff8fbd'};
+const labels={red:'Red',green:'Green',blue:'Blue'};
+document.getElementById('summary').textContent=`${D.scenario} · ${D.take_id} · episode ${D.episode_id} · ${D.local_duration_s.toFixed(1)} s`;
+const displayT=D.display_local_time_s;
+document.getElementById('cursorLegend').textContent=D.cursor_inside_take?`Cursor ${displayT.toFixed(2)} s`:`Cursor outside this take; showing final available sample at ${displayT.toFixed(2)} s`;
+document.getElementById('rgbValues').innerHTML=Object.entries(D.rgb).map(([key,v])=>`<div class="channel ${key}"><div class="muted">${labels[key]}</div><div class="value">${v.nearest_raw.toPrecision(5)}</div><div class="muted">${v.nearest_fractional_change_pct>=0?'+':''}${v.nearest_fractional_change_pct.toFixed(3)}%</div></div>`).join('');
+document.getElementById('inputRows').innerHTML=D.input_samples.map(row=>`<tr><td>${row.time_s.toFixed(3)}</td><td class="r">${row.red.toFixed(4)}</td><td class="g">${row.green.toFixed(4)}</td><td class="b">${row.blue.toFixed(4)}</td></tr>`).join('');
+document.getElementById('provenance').textContent=`RGB source: iPad8_RGB · clock: ${Object.values(D.rgb).map(x=>x.clock_provenance).filter((x,i,a)=>a.indexOf(x)===i).join(', ')} · alignment: ${Object.values(D.rgb).map(x=>x.alignment_status).filter((x,i,a)=>a.indexOf(x)===i).join(', ')}. ${D.candidate_warning}`;
+</script>
+</body>
+</html>

@@ -23,7 +23,7 @@ On disk the labels stay honest: every row has `data_class=synthetic`, sources ca
 
 ## Website bundle (TimesFM-3 and Pulse on the synthetic input)
 
-`build_site_bundle.py` writes the static `demo.json` and `manifest.json` used by the multimodal demo page on daviddasa.com. It refuses any session CSV that is not entirely `data_class=synthetic`, then actually runs, on the synthetic 30 s context:
+`build_site_bundle.py` writes the static `demo.json` and `manifest.json` used by the [multimodal demo](https://www.daviddasa.com/multimodal-demo). It refuses any session CSV that is not entirely `data_class=synthetic`, then actually runs, on the synthetic 30 s context:
 
 - **TimesFM-3**, through `multimodal_demo_next/timesfm_adapter.py` (needs a GPU and the optional `timesfm` dependency; use a separate venv, e.g. `python -m venv public_demo/.venv-timesfm && pip install "timesfm[torch]>=3.0.2" numpy pandas scipy`);
 - the repository's **Pulse ensemble conditioning**, over 72 real Pulse trajectories generated from the frozen StandardMale baseline (`multimodal_demo_next/generate_exercise_recovery_ensemble.py`; no participant data is involved).

@@ -29,7 +29,7 @@ In cohort summary tables and their JSON mirrors (`results/stage1`, `results/stag
 
 ## 3. Residual limitations
 
-- **History.** Earlier commits on the public remote still contain the exact panel values and the unsuppressed tables. Removing them requires rewriting history and force-pushing, which has not been done.
+- **History.** The repository history was rewritten to replace affected file versions containing individual-level and small-cell values with corrected versions.
 - **Cross-output disclosure.** Tables and percentages must be reviewed together: totals or rounded percentages can imply suppressed cell values by subtraction. Sparse counts are not enumerated in this note.
 - **Manuscript.** The paper removes sparse-cell counts and coarsens values that would imply them; its cohort-density figure uses a minimum of 10 participants per displayed bin.
 - **Threshold.** The threshold of 10 is a conservative convention, not a figure taken from the HAALSI or ELSA terms.

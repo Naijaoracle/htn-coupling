@@ -66,17 +66,11 @@ STATE + SUBSYSTEM OUTPUTS + OBSERVATIONS  ->  dashboard and animation renderers
 
 Never overlay different `episode_id` values as though their equal `time_s` values identify the same physiological moment. A comparison between independent simulations and recordings may be scientifically useful, but it must remain labelled as a scenario comparison unless a protocol, state, initial condition, and time mapping justify same-episode interpretation.
 
-## State inference is a later layer
+## Individual state inference is not implemented
 
-The current artefact replays observations, model outputs, estimates, and forecasts. It does not yet estimate an individual latent state from measurements. That future function is explicitly separate:
+The current artefact replays observations, model outputs, estimates, and forecasts. It does not estimate an individual's latent physiological state or parameters from measurements. Any future implementation would require a separately validated inference method.
 
-```text
-observations y[0:t]
-        -> state/parameter inference p(x_t, theta | y[0:t])
-        -> mechanistic projection, observation prediction, animation
-```
-
-Until that inference layer exists, the dashboard must not imply that a generic Pulse run is the recorded participant's hidden state.
+The dashboard must not imply that a generic Pulse run is the recorded participant's hidden state.
 
 ## Renderer state interface, first version
 

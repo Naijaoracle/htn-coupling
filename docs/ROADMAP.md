@@ -43,13 +43,10 @@ inlet-noise floor at both sites. See [the original gate report](STAGE4_PULSE_OPE
 
 ## Stage 5 — Hypertension through both models
 
-Ready. First repeat the 2x-E response from an approximately 31 mmHg
-age-45-matched aortic-PP baseline and compare it with the depressed 20.45 mmHg
-coupled baseline; do not assume response scaling.
-
-Apply the Tier 0 phenotype, propagate it through the bridge, and map stiffness
-and peripheral resistance to openBF E and R2. Check pulse-pressure widening and
-augmentation direction against the Charlton virtual-ageing reference.
+Completed. Hypertension phenotypes were propagated through the coupled models
+and evaluated for arterial waveform effects. See the
+[Stage 5 report](STAGE5_HYPERTENSION_COUPLED_PIPELINE.md) and
+[follow-up results](STAGE5_FOLLOWUP.md) for completed analyses and limitations.
 
 ## Stage 6 — Minimal Pulse fork
 
@@ -60,12 +57,14 @@ two non-monotonic tuning failures and direct patients are not physiologically
 equivalent to modifier-created patients at matched pressure. See
 [the Stage 6 report](STAGE6_BOUNDS_PARAMETERISATION.md).
 
-## Stage 7 — Baroreflex
+## Stage 7 — Autonomic control
 
-If physiology review supports it, expose setpoint and gain with a partial
-accommodation mode.
+Further model investigation is documented in the
+[Stage 7 status report](STAGE7_IMPLEMENTATION_STATUS.md). No individual
+physiological inference or clinical validation is claimed.
 
-## Stage 8 — Optical link
+## Stage 8 — Optical observation boundary
 
-Perturb stiffness through the coupled pipeline and quantify waveform changes at
-the Stage 3 facial or nearest-usable site.
+A validated link from arterial haemodynamics to facial optical measurement
+remains unavailable. See the [Stage 3 report](STAGE3_OPTICAL_SITE_REACHABILITY.md)
+for the established anatomical boundary.

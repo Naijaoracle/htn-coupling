@@ -166,6 +166,6 @@ The first forecast control operates on user-selected `bpm` channels only. It ali
 - Three.js renderer has separate Pulse-state and observed-HR-cadence inputs; neither mode performs hidden state inference or substitutes one branch for the other.
 - Optional joint TimesFM forecast for selected `bpm` channels.
 - PCG observation panel for exported stereo one-second band-RMS features, with separately labelled H10 reference context and explicit approximate-alignment/temporal-resolution caveats.
-- The retained example CSV contains real physiological measurements and is not anonymized. It contains no raw WAV or video; review the measurements separately before any public distribution.
+- No real-session example CSV is tracked in this repository. This tooling does not anonymize real-session CSVs; keep them outside version control and public bundles.
 - Pulse and saved OpenBF outputs can be exported together as a phase-aligned cardiac-cycle replay. The dashboard still does not execute either model.
 - MCX-derived optical outputs and synthetic ECG/PPG/rPPG/PCG remain future forward-model integrations; no synthetic observation is fabricated by the viewer.

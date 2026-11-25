@@ -120,3 +120,6 @@ public_demo/.venv-timesfm/
 # real research-session recordings must never enter this repo
 multimodal_demo_next/examples/six_take*.csv
 **/six_take*.csv
+
+# Local working notes; keep all contents out of version control
+/notes/
